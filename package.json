@@ -1,0 +1,20 @@
+{
+  "name": "sokoban",
+  "version": "0.0.1",
+  "description": "Sokoban game implemented in js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NikodemMarek/Sokoban.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NikodemMarek/Sokoban/issues"
+  },
+  "homepage": "https://github.com/NikodemMarek/Sokoban#readme"
+}
