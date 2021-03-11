@@ -1,19 +1,19 @@
+import { OBJECT_SIZE } from '/src/constants.js'
+
 export default class CanvasImage {
-    constructor(context, boardSize, objectsSize) {
+    constructor(context) {
         this.context = context;
-        this.boardSize = boardSize;
-        this.objectsSize = objectsSize;
 
         // get images of game objects
         this.workerImage = document.getElementById('workerImage');
     }
 
-    // draw image
+    // draw worker image in the right spot on the board
     drawWorker(position) {
         this.context.drawImage(
             this.workerImage,
-            position.x * this.objectsSize, position.y * this.objectsSize,
-            this.objectsSize, this.objectsSize
+            position.x * OBJECT_SIZE, position.y * OBJECT_SIZE,
+            OBJECT_SIZE, OBJECT_SIZE
         );
     }
 };

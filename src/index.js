@@ -1,16 +1,14 @@
 import InputHandler from './input/input-handler.js'
 import Worker from './worker/worker.js'
 import CanvasImage from './canvas/canvas-image.js'
+import { BOARD_SIZE } from './constants.js'
 
 let canvas = document.getElementById('gameScreen');
 let context = canvas.getContext('2d');
 
-const BOARD_SIZE = { x: 900, y: 600 }
-const OBJECT_SIZE = 30;
-
 let worker = new Worker({ x: 15, y: 10 });
 
-let canvasImage = new CanvasImage(context, BOARD_SIZE, OBJECT_SIZE);
+let canvasImage = new CanvasImage(context);
 
 // update game state
 const update = function() {
