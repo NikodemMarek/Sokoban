@@ -4,8 +4,8 @@ export default class Worker {
     }
 
     // draw worker
-    draw(context) {
-        // TODO draw worker on to the board
+    draw(canvasImage) {
+        canvasImage.drawWorker(this.position);
     }
 
     // change worker by x and y
