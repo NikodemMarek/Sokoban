@@ -1,5 +1,10 @@
 export default class InputHandler {
-    constructor(update, draw, worker) {
+    constructor(game) {
+        this.game = game;
+    }
+
+    // start / unpause the game
+    start() {
         document.addEventListener('keydown', (event) => {
             let workerMovement = { x: 0, y: 0 }
 
@@ -27,8 +32,13 @@ export default class InputHandler {
             }
 
             // update and draw all objects
-            update(workerMovement);
-            draw();
+            this.game.update(workerMovement);
+            this.game.draw();
         });
+    }
+
+    // pause the game
+    stop() {
+        document.removeEventListener();
     }
 };

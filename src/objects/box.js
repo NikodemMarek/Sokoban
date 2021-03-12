@@ -1,7 +1,7 @@
 import { BOARD_DIMENSIONS } from '/src/constants.js'
 
 export default class Box {
-    constructor(position, inPlace) {
+    constructor(position, inPlace = false) {
         this.position = position
         this.inPlace = inPlace
     }
