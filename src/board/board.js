@@ -1,3 +1,5 @@
+import { BOARD_DIMENSIONS } from "/src/constants.js";
+
 // board with obstacles and targets
 // e - empty tile, t - target tile, w - wall tile
 const BOARD = [
@@ -41,5 +43,20 @@ export default class className {
     }
 
     // check if wall is in given position
-    isWall = position => BOARD[position.y][position.x] == 'w';
+    isWall(position) {
+        if(
+            position.x >= 0 && position.x < BOARD_DIMENSIONS.x &&
+            position.y >= 0 && position.y < BOARD_DIMENSIONS.y 
+        ) return BOARD[position.y][position.x] == 'w';
+        else return true;
+    }
+
+    // check if target tile is in given position
+    isTarget(position) {
+        if(
+            position.x >= 0 && position.x < BOARD_DIMENSIONS.x &&
+            position.y >= 0 && position.y < BOARD_DIMENSIONS.y 
+        ) return BOARD[position.y][position.x] == 't';
+        else return true;
+    } 
 };
