@@ -1,4 +1,5 @@
 import { BOARD_DIMENSIONS } from '/src/constants.js'
+
 export default class Worker {
     constructor(position) {
         this.position = position;
