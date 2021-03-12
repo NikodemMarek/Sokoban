@@ -3,10 +3,12 @@ import Worker from './objects/worker.js'
 import CanvasImage from './canvas/canvas-image.js'
 import { BOARD_SIZE } from './constants.js'
 import Box from './objects/box.js';
+import Board from './board/board.js';
 
 let canvas = document.getElementById('gameScreen');
 let context = canvas.getContext('2d');
 
+let board = new Board();
 let worker = new Worker({ x: 15, y: 10 });
 
 let boxes = [
@@ -31,7 +33,8 @@ const update = function(workerMovement) {
             boxes.forEach(boxBehind => {
                 if(
                     boxBehind.position.x == worker.position.x + workerMovement.x * 2 &&
-                    boxBehind.position.y == worker.position.y + workerMovement.y * 2
+                    boxBehind.position.y == worker.position.y + workerMovement.y * 2 ||
+                    board.isWall({ x: worker.position.x + workerMovement.x * 2, y: worker.position.y + workerMovement.y * 2 })
                 ) canMove = false;
             });
 
@@ -40,12 +43,18 @@ const update = function(workerMovement) {
     });
 
     // update worker position
-    if(canMove) worker.move(workerMovement);
+    if(
+        canMove &&
+        !board.isWall({ x: worker.position.x + workerMovement.x, y: worker.position.y + workerMovement.y})
+    ) worker.move(workerMovement);
 }
 // draw objects on the board
 const draw = function() {
     // clear the board
     context.clearRect(0, 0, BOARD_SIZE.x, BOARD_SIZE.y);
+
+    // draw board
+    board.draw(canvasImage);
 
     // draw boxes
     boxes.forEach(box => box.draw(canvasImage));
