@@ -14,10 +14,8 @@ export default class Game {
         this.worker = new Worker({ x: 15, y: 10 });
         this.boxes = new Boxes(
             [
-                new Box({ x: 10, y: 10 }),
-                new Box({ x: 15, y: 5 }),
-                new Box({ x: 15, y: 15 }),
-                new Box({ x: 20, y: 10 })
+                new Box({ x: 10, y: 5 }),
+                new Box({ x: 10, y: 10 })
             ]
         );
 
@@ -30,47 +28,71 @@ export default class Game {
     
     // update game state
     update = function(workerMovement) {
-        let canMove = true;
+        if(!this.isPaused) {
+            let canMove = true;
 
-        // check for worker collision with a box
-        canMove = this.boxes.move(
-            {
-                x: this.worker.position.x + workerMovement.x,
-                y: this.worker.position.y + workerMovement.y
-            },
-            workerMovement
-        );
+            // check for worker collision with a box
+            canMove = this.boxes.move(
+                {
+                    x: this.worker.position.x + workerMovement.x,
+                    y: this.worker.position.y + workerMovement.y
+                },
+                workerMovement
+            );
 
-        // update worker position
-        if(
-            canMove &&
-            !isWall({ x: this.worker.position.x + workerMovement.x, y: this.worker.position.y + workerMovement.y})
-        ) this.worker.move(workerMovement);
+            // update worker position
+            if(
+                canMove &&
+                !isWall({ x: this.worker.position.x + workerMovement.x, y: this.worker.position.y + workerMovement.y})
+            ) this.worker.move(workerMovement);
 
-        // check for victory
-        this.boxes.isVictory();
+            // check for victory
+            if(this.boxes.isVictory()) {
+                this.draw();
+                this.victory();
+            }
+        }
     }
     // draw objects on the board
     draw = function() {
-        // clear the board
-        this.context.clearRect(0, 0, BOARD_SIZE.x, BOARD_SIZE.y);
+        if(!this.isPaused) {
+            // clear the board
+            this.context.clearRect(0, 0, BOARD_SIZE.x, BOARD_SIZE.y);
 
-        // draw board
-        drawBoard(this.canvasImage);
+            // draw board
+            drawBoard(this.canvasImage);
 
-        // draw boxes
-        this.boxes.draw(this.canvasImage);
-        
-        // draw worker on to the board
-        this.worker.draw(this.canvasImage);
+            // draw boxes
+            this.boxes.draw(this.canvasImage);
+            
+            // draw worker on to the board
+            this.worker.draw(this.canvasImage);
+        }
+       
+    }
+
+    // handle win
+    victory() {
+        this.isPaused = true;
+
+        // show victory message
+        this.context.fillStyle = 'rgba(0, 255, 0, 0.5)'
+        this.context.fillRect(0, 0, BOARD_SIZE.x, BOARD_SIZE.y);
+
+        this.context.fillStyle = 'rgba(0, 0, 0, 0.9)'
+        this.context.font = '72px sans-serif';
+        this.context.textAlign = 'center';
+        this.context.fillText('Victory', BOARD_SIZE.x / 2, BOARD_SIZE.y / 2);
     }
 
     // unpause the game
     start() {
-        this.inputHandler.start();
+        this.isPaused = false;
+        this.inputHandler.isPaused = false;
     }
     // pause the game
     stop() {
-        this.inputHandler.stop();
+        this.isPaused = true;
+        this.inputHandler.isPaused = true;
     }
 };
