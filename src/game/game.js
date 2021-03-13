@@ -59,6 +59,9 @@ export default class Game {
             // clear the board
             this.context.clearRect(0, 0, BOARD_SIZE.x, BOARD_SIZE.y);
 
+            // draw game background
+            this.canvasImage.drawBackground();
+
             // draw board
             drawBoard(this.canvasImage);
 

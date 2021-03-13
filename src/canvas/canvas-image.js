@@ -1,8 +1,11 @@
-import { OBJECT_SIZE } from '/src/constants.js'
+import { OBJECT_SIZE, BOARD_SIZE } from '/src/constants.js'
 
 export default class CanvasImage {
     constructor(context) {
         this.context = context;
+
+        // get background image
+        this.backgroundImage = document.getElementById('backgroundImage');
 
         // get images of game objects
         this.workerImage = document.getElementById('workerImage');
@@ -11,6 +14,15 @@ export default class CanvasImage {
         // get image of elements on the board
         this.wallImage = document.getElementById('wallImage');
         this.targetImage = document.getElementById('targetImage');
+    }
+
+    // draw background image in the background
+    drawBackground(position) {
+        this.context.drawImage(
+            this.backgroundImage,
+            0, 0,
+            BOARD_SIZE.x, BOARD_SIZE.y
+        );
     }
 
     // draw worker image in the right spot on the board
