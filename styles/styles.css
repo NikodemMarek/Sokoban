@@ -1,0 +1,56 @@
+#gameScreen {
+    float: left;
+}
+
+#menu {
+    width: 200px;
+    height: 600px;
+    background-color: gray;
+    float: right;
+}
+#game {
+    width: 1100px;
+    height: 600px;
+}
+
+#workerImage {
+    visibility: hidden;
+    display: none;
+}
+#boxImage {
+    visibility: hidden;
+    display: none;
+}
+
+#wallImage {
+    visibility: hidden;
+    display: none;
+}
+#targetImage {
+    visibility: hidden;
+    display: none;
+}
+
+#backgroundImage {
+    visibility: hidden;
+    display: none;
+}
+
+.menuButton {
+    height: 50px;
+    width: 200px;
+    background-color: gray;
+    border: none;
+
+    text-align: left;
+    font-size: 15px;
+}
+.menuButton:hover {
+    height: 50px;
+    width: 200px;
+    background-color: gainsboro;
+    border: none;
+
+    text-align: left;
+    font-size: 15px;
+}

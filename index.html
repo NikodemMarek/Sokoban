@@ -6,37 +6,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sokoban</title>
 
-        <style>
-            #gameScreen {
-                border: 1px solid black;
-            }
-
-            #workerImage {
-                visibility: hidden;
-                display: none;
-            }
-            #boxImage {
-                visibility: hidden;
-                display: none;
-            }
-
-            #wallImage {
-                visibility: hidden;
-                display: none;
-            }
-            #targetImage {
-                visibility: hidden;
-                display: none;
-            }
-
-            #backgroundImage {
-                visibility: hidden;
-                display: none;
-            }
-        </style>
+        <link rel="stylesheet" href="styles/styles.css">
     </head>
     <body>
-        <canvas id="gameScreen" width="900" height="600"></canvas>
+        <div id="game">
+            <canvas id="gameScreen" width="900" height="600"></canvas>
+
+            <div id="menu">
+                <button id="resetLevel" class="menuButton">Zresetuj poziom</button>
+            </div>
+        </div>
 
         <img id="workerImage" src="assets/images/worker.png">
         <img id="boxImage" src="assets/images/box.png">
