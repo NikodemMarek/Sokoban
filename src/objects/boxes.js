@@ -2,11 +2,14 @@ import { isWall, isTarget } from '/src/board/board.js';
 
 export default class Boxes {
     constructor(boxes) {
-        this.boxes = boxes
+        boxes == null ? this.boxes = []: this.boxes = boxes
     }
 
     // draw all boxes to the board
     draw = canvasImage => this.boxes.forEach(box => box.draw(canvasImage));
+
+    // add box to boxes list
+    addBox = box => this.boxes.push(box);
 
     // is there a box in given position
     isBox(position) {

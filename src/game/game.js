@@ -4,20 +4,18 @@ import CanvasImage from '/src/canvas/canvas-image.js'
 import { BOARD_SIZE } from '/src/constants.js'
 import Box from '/src/objects/box.js'
 import Boxes from '/src/objects/boxes.js'
-import { isWall, draw as drawBoard } from '/src/board/board.js'
+import { isWall, draw as drawBoard, setBoard } from '/src/board/board.js'
 
 export default class Game {
-    constructor(context) {
+    constructor(context, board) {
         this.context = context;
         this.canvasImage = new CanvasImage(context);
 
-        this.worker = new Worker({ x: 15, y: 10 });
-        this.boxes = new Boxes(
-            [
-                new Box({ x: 10, y: 5 }),
-                new Box({ x: 10, y: 10 })
-            ]
-        );
+        // set the board for the level
+        setBoard(board['board']);
+
+        this.worker = board['worker'];
+        this.boxes = board['boxes'];
 
         // draw objects on the board, and the worker in their initial localizations
         this.draw();
