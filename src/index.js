@@ -5,35 +5,44 @@ let canvas = document.getElementById('gameScreen');
 let context = canvas.getContext('2d');
 
 new LevelProvider(() => {
-    let level = getLevelByDifficulty('easy')['level'];
+    let selectedDifficulty = 'easy';
+
+    let level = getLevelByDifficulty(selectedDifficulty)['level'];
     let game = new Game(context, JSON.parse(JSON.stringify(level)));
 
-    let resetLevel = function() {
+    let resetGame = function() {
         game = new Game(context, JSON.parse(JSON.stringify(level)));
         game.start();
     }
 
     // reset level button click listener
-    document.getElementById('resetLevel').addEventListener('click', resetLevel);
-
+    document.getElementById('resetLevel').addEventListener('click', resetGame);
     // undo move button click listener
     document.getElementById('undoMove').addEventListener('click', () => {
         game.undoMove();
     });
+    // get new random level
+    document.getElementById('randomLevel').addEventListener('click', () => {
+        level = getLevelByDifficulty(selectedDifficulty)['level'];
+        resetGame();
+    });
 
     // change difficulty level click listeners
     document.getElementById('easyLevel').addEventListener('click', () => {
+        selectedDifficulty = 'easy';
         level = getLevelByDifficulty('easy')['level'];
-        resetLevel();
+        resetGame();
     });
     document.getElementById('intermediateLevel').addEventListener('click', () => {
+        selectedDifficulty = 'intermediate';
         level = getLevelByDifficulty('intermediate')['level'];
-        resetLevel();
+        resetGame();
     });
     document.getElementById('hardLevel').addEventListener('click', () => {
+        selectedDifficulty = 'hard';
         level = getLevelByDifficulty('hard')['level'];
-        resetLevel();
+        resetGame();
     });
 
-    resetLevel();
+    resetGame();
 });
