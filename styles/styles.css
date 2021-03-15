@@ -11,6 +11,12 @@ body {
     background-color: gainsboro;
 }
 
+#game {
+    width: 1100px;
+    height: 650px;
+}
+
+
 #gameScreen {
     float: left;
 }
@@ -21,9 +27,60 @@ body {
     background-color: gray;
     float: right;
 }
-#game {
-    width: 1100px;
-    height: 600px;
+
+.menuButton {
+    height: 50px;
+    width: 200px;
+    background-color: gray;
+    border: none;
+
+    text-align: left;
+    font-size: 15px;
+}
+.menuButton:hover {
+    height: 50px;
+    width: 200px;
+    background-color: gainsboro;
+    border: none;
+
+    text-align: left;
+    font-size: 15px;
+}
+
+#levelsMenu {
+    width: 900px;
+    height: 50px;
+    background-color: gray;
+}
+
+.difficultyLevel {
+    width: 300px;
+    height: 50px;
+    border: none;
+
+    text-align: left;
+    font-size: 15px;
+}
+
+#easyLevel {
+    background-color: green;
+}
+#easyLevel:hover {
+    background-color: springgreen;
+}
+
+#intermediateLevel {
+    background-color: yellow;
+}
+#intermediateLevel:hover {
+    background-color: khaki;
+}
+
+#hardLevel {
+    background-color: red;
+}
+#hardLevel:hover {
+    background-color: tomato;
 }
 
 #workerImage {
@@ -47,23 +104,4 @@ body {
 #backgroundImage {
     visibility: hidden;
     display: none;
-}
-
-.menuButton {
-    height: 50px;
-    width: 200px;
-    background-color: gray;
-    border: none;
-
-    text-align: left;
-    font-size: 15px;
-}
-.menuButton:hover {
-    height: 50px;
-    width: 200px;
-    background-color: gainsboro;
-    border: none;
-
-    text-align: left;
-    font-size: 15px;
 }

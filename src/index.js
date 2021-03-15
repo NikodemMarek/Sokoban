@@ -13,7 +13,22 @@ new LevelProvider(() => {
         game.start();
     }
 
+    // reset level button click listener
     document.getElementById('resetLevel').addEventListener('click', resetLevel);
+
+    // change difficulty level click listeners
+    document.getElementById('easyLevel').addEventListener('click', () => {
+        level = getLevelByDifficulty('easy')['level'];
+        resetLevel();
+    });
+    document.getElementById('intermediateLevel').addEventListener('click', () => {
+        level = getLevelByDifficulty('intermediate')['level'];
+        resetLevel();
+    });
+    document.getElementById('hardLevel').addEventListener('click', () => {
+        level = getLevelByDifficulty('hard')['level'];
+        resetLevel();
+    });
 
     resetLevel();
 });
