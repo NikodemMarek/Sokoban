@@ -4,6 +4,7 @@ import CanvasImage from '/src/canvas/canvas-image.js'
 import { BOARD_SIZE } from '/src/constants.js'
 import { draw as drawBoxes, move as moveBoxes, isVictory } from '/src/objects/boxes.js'
 import { isWall, draw as drawBoard, setBoard } from '/src/board/board.js'
+import GameHistory, { addMove } from './gameHistory.js'
 
 export default class Game {
     constructor(context, board) {
@@ -15,6 +16,9 @@ export default class Game {
 
         this.worker = board['worker'];
         this.boxes = board['boxes'];
+
+        // start saving the moves
+        this.gameHistory = new GameHistory(this.worker, this.boxes);
 
         // draw objects on the board, and the worker in their initial localizations
         this.draw();
@@ -42,7 +46,11 @@ export default class Game {
             if(
                 canMove &&
                 !isWall({ x: this.worker.position.x + workerMovement.x, y: this.worker.position.y + workerMovement.y})
-            ) moveWorker(this.worker, workerMovement);
+            ) {
+                moveWorker(this.worker, workerMovement);
+
+                addMove(this.gameHistory, this.worker, this.boxes);
+            }
 
             // check for victory
             if(isVictory(this.boxes)) {
@@ -69,7 +77,6 @@ export default class Game {
             // draw worker on to the board
             drawWorker(this.worker, this.canvasImage);
         }
-       
     }
 
     // handle win
