@@ -5,8 +5,8 @@ let canvas = document.getElementById('gameScreen');
 let context = canvas.getContext('2d');
 
 new LevelProvider(() => {
-    let game
     let level = getLevelByDifficulty('easy')['level'];
+    let game = new Game(context, JSON.parse(JSON.stringify(level)));
 
     let resetLevel = function() {
         game = new Game(context, JSON.parse(JSON.stringify(level)));
@@ -15,6 +15,11 @@ new LevelProvider(() => {
 
     // reset level button click listener
     document.getElementById('resetLevel').addEventListener('click', resetLevel);
+
+    // undo move button click listener
+    document.getElementById('undoMove').addEventListener('click', () => {
+        game.undoMove();
+    });
 
     // change difficulty level click listeners
     document.getElementById('easyLevel').addEventListener('click', () => {

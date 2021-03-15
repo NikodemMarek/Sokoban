@@ -21,3 +21,8 @@ export function addMove(gameHistory, worker, boxes) {
         })
     );
 }
+
+export function undoMove(gameHistory) {
+    if(gameHistory.movesHistory.length > 1) return JSON.parse(gameHistory.movesHistory.pop());
+    else return JSON.parse(gameHistory.movesHistory[0]);
+}

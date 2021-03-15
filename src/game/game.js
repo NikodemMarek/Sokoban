@@ -4,7 +4,7 @@ import CanvasImage from '/src/canvas/canvas-image.js'
 import { BOARD_SIZE } from '/src/constants.js'
 import { draw as drawBoxes, move as moveBoxes, isVictory } from '/src/objects/boxes.js'
 import { isWall, draw as drawBoard, setBoard } from '/src/board/board.js'
-import GameHistory, { addMove } from './gameHistory.js'
+import GameHistory, { addMove, undoMove } from './gameHistory.js'
 
 export default class Game {
     constructor(context, board) {
@@ -77,6 +77,16 @@ export default class Game {
             // draw worker on to the board
             drawWorker(this.worker, this.canvasImage);
         }
+    }
+
+    undoMove = function() {
+        // undo move
+        undoMove(this.gameHistory);
+        ({ 'worker': this.worker, 'boxes': this.boxes } = undoMove(this.gameHistory));
+        addMove(this.gameHistory, this.worker, this.boxes);
+
+        // draw changes
+        this.draw();
     }
 
     // handle win
