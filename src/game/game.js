@@ -1,9 +1,8 @@
 import InputHandler from '/src/input/input-handler.js'
-import Worker from '/src/objects/worker.js'
+import { draw as drawWorker, move as moveWorker } from '/src/objects/worker.js'
 import CanvasImage from '/src/canvas/canvas-image.js'
 import { BOARD_SIZE } from '/src/constants.js'
-import Box from '/src/objects/box.js'
-import Boxes from '/src/objects/boxes.js'
+import { draw as drawBoxes, move as moveBoxes, isVictory } from '/src/objects/boxes.js'
 import { isWall, draw as drawBoard, setBoard } from '/src/board/board.js'
 
 export default class Game {
@@ -30,7 +29,8 @@ export default class Game {
             let canMove = true;
 
             // check for worker collision with a box
-            canMove = this.boxes.move(
+            canMove = moveBoxes(
+                this.boxes,
                 {
                     x: this.worker.position.x + workerMovement.x,
                     y: this.worker.position.y + workerMovement.y
@@ -42,10 +42,10 @@ export default class Game {
             if(
                 canMove &&
                 !isWall({ x: this.worker.position.x + workerMovement.x, y: this.worker.position.y + workerMovement.y})
-            ) this.worker.move(workerMovement);
+            ) moveWorker(this.worker, workerMovement);
 
             // check for victory
-            if(this.boxes.isVictory()) {
+            if(isVictory(this.boxes)) {
                 this.draw();
                 this.victory();
             }
@@ -64,10 +64,10 @@ export default class Game {
             drawBoard(this.canvasImage);
 
             // draw boxes
-            this.boxes.draw(this.canvasImage);
+            drawBoxes(this.boxes, this.canvasImage);
             
             // draw worker on to the board
-            this.worker.draw(this.canvasImage);
+            drawWorker(this.worker, this.canvasImage);
         }
        
     }

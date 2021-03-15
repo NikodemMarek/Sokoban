@@ -4,15 +4,13 @@ export default class Worker {
     constructor(position) {
         this.position = position;
     }
-
-    // draw worker
-    draw(canvasImage) {
-        canvasImage.drawWorker(this.position);
-    }
-
-    // change worker by x and y
-    move({ x = 0, y = 0 } = {}) {
-        if(this.position.x + x >= 0 && this.position.x + x < BOARD_DIMENSIONS.x) this.position.x += x;
-        if(this.position.y + y >= 0 && this.position.y + y < BOARD_DIMENSIONS.y) this.position.y += y;
-    }
 };
+
+// draw worker
+export function draw(worker, canvasImage) { canvasImage.drawWorker(worker.position) }
+
+// change worker by x and y
+export function move(worker, { x = 0, y = 0 } = {}) {
+    if(worker.position.x + x >= 0 && worker.position.x + x < BOARD_DIMENSIONS.x) worker.position.x += x;
+    if(worker.position.y + y >= 0 && worker.position.y + y < BOARD_DIMENSIONS.y) worker.position.y += y;
+}

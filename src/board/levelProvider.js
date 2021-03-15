@@ -1,10 +1,26 @@
 import Worker from '/src/objects/worker.js'
-import Boxes from '/src/objects/boxes.js'
+import Boxes, { addBox } from '/src/objects/boxes.js'
 import Box from '/src/objects/box.js'
 
+let byDifficultyLevels = {
+    easy: [],
+    intermediate: [],
+    hard: []
+}
 export default class BoardProvider {
-    constructor() {
-        // load levels
+    constructor(_callback) {
+        // load levels from 'by difficulty' mode
+        fetch('/assets/levels/levels_difficulty.json')
+        .then(response => response.json())
+        .then(levels => {
+            Object.keys(byDifficultyLevels).forEach(difficulty => {
+                Object.keys(levels[difficulty]).forEach(key => {
+                    byDifficultyLevels[difficulty].push({ name: key, level: convertToLevel(levels[difficulty][key]) })
+                });
+            });
+
+            _callback();
+        });
     }
 };
 
@@ -49,7 +65,7 @@ function convertToLevel(rawLevel) {
                 board[row][column] = 'e'
                 break;
             case 'b':
-                boxes.addBox(new Box({ x: column, y: row }, board[row][column] == 't'));
+                addBox(boxes, new Box({ x: column, y: row }, board[row][column] == 't'));
                 board[row][column] = board[row][column] == 't' ? 't': 'e'
                 break;
             default:
@@ -68,5 +84,11 @@ function convertToLevel(rawLevel) {
 
 // get random level from specified difficulty
 export function getLevelByDifficulty(difficulty) {
-    return convertToLevel('eeeeeeeeeeeeeeeeeeeeeeeeeeeeee;eeeeeeeeeeeeeeeeeeeeeeeeeeeeee;eeeeeeeeeeeeeeeeeeeeeeeeeeeeee;eeeeeeeeeeeeeeeeeeeeeeeeeeeeee;eeeeeeeeeeeeeeeeeeeeeeeeeeeeee;eeeeeeeeeeeeeeeeeeeeeeeeeeeeee;eeeewwwwwwwwwwwwwwwwweeeeeeeee;eeeewteeeeeebeeeeeetweeeeeeeee;eeeeweeeeeeebeeeeeeeweeeeeeeee;eeeeweeeeeeeeeeeeeeeeeepeeeeee;eeeeweeeeeeebeeeeeeeweeeeeeeee;eeeewteeeeeebeeeeeetweeeeeeeee;eeeewwwwwwwwwwwwwwwwweeeeeeeee;eeeeeeeeeeeeeeeeeeeeeeeeeeeeee;eeeeeeeeeeeeeeeeeeeeeeeeeeeeee;eeeeeeeeeeeeeeeeeeeeeeeeeeeeee;eeeeeeeeeeeeeeeeeeeeeeeeeeeeee;eeeeeeeeeeeeeeeeeeeeeeeeeeeeee;eeeeeeeeeeeeeeeeeeeeeeeeeeeeee;eeeeeeeeeeeeeeeeeeeeeeeeeeeeee;');
+    return byDifficultyLevels[difficulty][Math.floor(Math.random() * byDifficultyLevels[difficulty].length)];
+    let level
+    byDifficultyLevels[difficulty].forEach(lvl => {
+        if(lvl['name'] == name) level = lvl['level'];
+    });
+
+    return level;
 }
