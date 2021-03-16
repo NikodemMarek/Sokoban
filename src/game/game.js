@@ -100,7 +100,7 @@ export default class Game {
 
     // handle win
     victory() {
-        this.isPaused = true;
+        this.stop()
 
         // show victory message
         this.context.fillStyle = 'rgba(0, 255, 0, 0.5)'
