@@ -1,23 +1,25 @@
 import { MOVES_HISTORY } from "/src/constants.js"
 
 export default class GameHistory {
-    constructor(worker, boxes) {
+    constructor(worker, boxes, movesNumber) {
         this.movesHistory = [
             JSON.stringify({
                 'worker': worker,
-                'boxes': boxes
+                'boxes': boxes,
+                'moves': movesNumber
             })
         ];
     }
 };
 
-export function addMove(gameHistory, worker, boxes) {
+export function addMove(gameHistory, worker, boxes, movesNumber) {
     if(gameHistory.movesHistory.length > MOVES_HISTORY) gameHistory.movesHistory.shift();
 
     gameHistory.movesHistory.push(
         JSON.stringify({
             'worker': worker,
-            'boxes': boxes
+            'boxes': boxes,
+            'moves': movesNumber
         })
     );
 }

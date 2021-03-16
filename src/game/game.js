@@ -16,9 +16,12 @@ export default class Game {
 
         this.worker = board['worker'];
         this.boxes = board['boxes'];
+        
+        this.movesNumber = 0;
+        document.getElementById('movesNumber').innerText = this.movesNumber;
 
         // start saving the moves
-        this.gameHistory = new GameHistory(this.worker, this.boxes);
+        this.gameHistory = new GameHistory(this.worker, this.boxes, this.movesNumber);
 
         // draw objects on the board, and the worker in their initial localizations
         this.draw();
@@ -49,7 +52,12 @@ export default class Game {
             ) {
                 moveWorker(this.worker, workerMovement);
 
-                addMove(this.gameHistory, this.worker, this.boxes);
+                if(workerMovement.x != 0 || workerMovement.y != 0) {
+                    // update number of moves
+                    document.getElementById('movesNumber').innerText = ++ this.movesNumber;
+
+                    addMove(this.gameHistory, this.worker, this.boxes, this.movesNumber);
+                }
             }
 
             // check for victory
@@ -82,11 +90,12 @@ export default class Game {
     undoMove = function() {
         // undo move
         undoMove(this.gameHistory);
-        ({ 'worker': this.worker, 'boxes': this.boxes } = undoMove(this.gameHistory));
-        addMove(this.gameHistory, this.worker, this.boxes);
+        ({ 'worker': this.worker, 'boxes': this.boxes, 'moves': this.movesNumber } = undoMove(this.gameHistory));
+        addMove(this.gameHistory, this.worker, this.boxes, this.movesNumber);
 
         // draw changes
         this.draw();
+        document.getElementById('movesNumber').innerText = this.movesNumber;
     }
 
     // handle win

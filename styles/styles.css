@@ -11,6 +11,12 @@ body {
     background-color: gainsboro;
 }
 
+strong {
+    padding-left: 5px;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 #game {
     width: 1100px;
     height: 650px;
