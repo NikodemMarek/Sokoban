@@ -9,30 +9,37 @@
         <link rel="stylesheet" href="styles/styles.css">
     </head>
     <body>
-        <div id="game">
-            <canvas id="gameScreen" width="900" height="600"></canvas>
+        <div id="d_game">
+            <canvas id="c_game_screen" width="900" height="600"></canvas>
 
             <div id="menu">
-                <button id="resetLevel" class="menuButton">Zresetuj poziom</button>
-                <button id="undoMove" class="menuButton">Cofnij</button>
-                <button id="randomLevel" class="menuButton">Inny poziom</button>
+                <button id="b_reset_level" class="menu_button">Zresetuj poziom</button>
+                <button id="b_undo_move" class="menu_button">Cofnij</button>
+                <button id="b_random_level" class="menu_button">Inny poziom</button>
+                
+                <div style="margin-top: 50px;"></div>
+                <button id="b_change_gamemode" class="menu_button">Zmień tryb gry</button>
 
                 <div style="margin-top: 50px;"></div>
                 <strong>Liczba ruchów: </strong><strong id="movesNumber">0</strong>
             </div>
 
-            <div id="levelsMenu">
-                <button class="difficultyLevel" id="easyLevel">Łatwy</button><button class="difficultyLevel" id="intermediateLevel">Średnio zaawansowany</button><button class="difficultyLevel" id="hardLevel">Trudny</button>
+            <div id="levels_menu">
+                <div id="by_difficulty_mode">
+                    <button class="difficulty_level" id="easy_level">Łatwy</button><button class="difficulty_level" id="intermediate_level">Średnio zaawansowany</button><button class="difficulty_level" id="hard_level">Trudny</button>
+                </div>
+
+                <div id="levels_mode"></div>
             </div>
         </div>
 
-        <img id="workerImage" src="assets/images/worker.png">
-        <img id="boxImage" src="assets/images/box.png">
+        <img id="worker_image" src="assets/images/worker.png">
+        <img id="box_image" src="assets/images/box.png">
 
-        <img id="wallImage" src="assets/images/wall.png">
-        <img id="targetImage" src="assets/images/target.png">
+        <img id="wall_image" src="assets/images/wall.png">
+        <img id="target_image" src="assets/images/target.png">
 
-        <img id="backgroundImage" src="assets/images/background.png">
+        <img id="background_image" src="assets/images/background.png">
         
         <script type="module" src="src/index.js"></script>
     </body>

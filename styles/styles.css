@@ -17,13 +17,13 @@ strong {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-#game {
+#d_game {
     width: 1100px;
     height: 650px;
 }
 
 
-#gameScreen {
+#c_game_screen {
     float: left;
 }
 
@@ -34,7 +34,7 @@ strong {
     float: right;
 }
 
-.menuButton {
+.menu_button {
     height: 50px;
     width: 200px;
     background-color: gray;
@@ -43,7 +43,7 @@ strong {
     text-align: left;
     font-size: 15px;
 }
-.menuButton:hover {
+.menu_button:hover {
     height: 50px;
     width: 200px;
     background-color: gainsboro;
@@ -53,13 +53,13 @@ strong {
     font-size: 15px;
 }
 
-#levelsMenu {
+#levels_menu {
     width: 900px;
     height: 50px;
     background-color: gray;
 }
 
-.difficultyLevel {
+.difficulty_level {
     width: 300px;
     height: 50px;
     border: none;
@@ -68,46 +68,52 @@ strong {
     font-size: 15px;
 }
 
-#easyLevel {
+#easy_level {
     background-color: green;
 }
-#easyLevel:hover {
+#easy_level:hover {
     background-color: springgreen;
 }
 
-#intermediateLevel {
+#intermediate_level {
     background-color: yellow;
 }
-#intermediateLevel:hover {
+#intermediate_level:hover {
     background-color: khaki;
 }
 
-#hardLevel {
+#hard_level {
     background-color: red;
 }
-#hardLevel:hover {
+#hard_level:hover {
     background-color: tomato;
 }
 
-#workerImage {
+#levels_mode {
+    width: 900px;
+    height: 50px;
+    display: none;
+}
+
+#worker_image {
     visibility: hidden;
     display: none;
 }
-#boxImage {
+#box_image {
     visibility: hidden;
     display: none;
 }
 
-#wallImage {
+#wall_image {
     visibility: hidden;
     display: none;
 }
-#targetImage {
+#target_image {
     visibility: hidden;
     display: none;
 }
 
-#backgroundImage {
+#background_image {
     visibility: hidden;
     display: none;
 }

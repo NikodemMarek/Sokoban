@@ -5,15 +5,15 @@ export default class CanvasImage {
         this.context = context;
 
         // get background image
-        this.backgroundImage = document.getElementById('backgroundImage');
+        this.backgroundImage = document.getElementById('background_image');
 
         // get images of game objects
-        this.workerImage = document.getElementById('workerImage');
-        this.boxImage = document.getElementById('boxImage');
+        this.workerImage = document.getElementById('worker_image');
+        this.boxImage = document.getElementById('box_image');
 
         // get image of elements on the board
-        this.wallImage = document.getElementById('wallImage');
-        this.targetImage = document.getElementById('targetImage');
+        this.wallImage = document.getElementById('wall_image');
+        this.targetImage = document.getElementById('target_image');
     }
 
     // draw background image in the background
