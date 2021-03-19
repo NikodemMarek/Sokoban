@@ -1,5 +1,5 @@
 import Game from './game/game.js';
-import LevelProvider, { getLevelByDifficulty } from './board/levelProvider.js'
+import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber } from './board/levelProvider.js'
 
 const gamemodes = Object.freeze({
     BY_DIFFICULTY: 0,
@@ -56,6 +56,9 @@ new LevelProvider(() => {
             gamemode = gamemodes.LEVELS;
             document.getElementById('by_difficulty_mode').style.display = 'none';
             document.getElementById('levels_mode').style.display = 'inline';
+
+            level = getLevelByLevelNumber(0)['level'];
+            resetGame();
         } else {
             gamemode = gamemodes.BY_DIFFICULTY;
             document.getElementById('by_difficulty_mode').style.display = 'inline';

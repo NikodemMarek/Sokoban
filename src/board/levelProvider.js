@@ -2,25 +2,35 @@ import Worker from '/src/objects/worker.js'
 import Boxes, { addBox } from '/src/objects/boxes.js'
 import Box from '/src/objects/box.js'
 
-let byDifficultyLevels = {
+let byDifficultyMode = {
     easy: [],
     intermediate: [],
     hard: []
 }
+let levelsMode = []
+
 export default class BoardProvider {
     constructor(_callback) {
         // load levels from 'by difficulty' mode
         fetch('/assets/levels/levels_difficulty.json')
-        .then(response => response.json())
-        .then(levels => {
-            Object.keys(byDifficultyLevels).forEach(difficulty => {
-                Object.keys(levels[difficulty]).forEach(key => {
-                    byDifficultyLevels[difficulty].push({ name: key, level: convertToLevel(levels[difficulty][key]) })
+            .then(response => response.json())
+            .then(levels => {
+                Object.keys(byDifficultyMode).forEach(difficulty => {
+                    Object.keys(levels[difficulty]).forEach(key => {
+                        byDifficultyMode[difficulty].push({ name: key, level: convertToLevel(levels[difficulty][key]) })
+                    });
+                });
+
+                fetch('/assets/levels/levels_levels_mode.json')
+                    .then(response => response.json())
+                    .then(levels => {
+                        Object.keys(levels).forEach(key => {
+                            levelsMode.push({ name: key, level: convertToLevel(levels[key]) });
+                        });
+
+                        _callback();
                 });
             });
-
-            _callback();
-        });
     }
 };
 
@@ -84,11 +94,9 @@ function convertToLevel(rawLevel) {
 
 // get random level from specified difficulty
 export function getLevelByDifficulty(difficulty) {
-    return byDifficultyLevels[difficulty][Math.floor(Math.random() * byDifficultyLevels[difficulty].length)];
-    let level
-    byDifficultyLevels[difficulty].forEach(lvl => {
-        if(lvl['name'] == name) level = lvl['level'];
-    });
-
-    return level;
+    return byDifficultyMode[difficulty][Math.floor(Math.random() * byDifficultyMode[difficulty].length)];
+}
+// get specified level from levels mode
+export function getLevelByLevelNumber(levelNumber) {
+    return levelsMode[levelNumber];
 }
