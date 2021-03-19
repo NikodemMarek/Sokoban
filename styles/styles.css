@@ -34,6 +34,10 @@ strong {
     float: right;
 }
 
+#b_next_level {
+    display: none;
+}
+
 .menu_button {
     height: 50px;
     width: 200px;

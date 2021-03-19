@@ -13,10 +13,12 @@ let context = canvas.getContext('2d');
 
 new LevelProvider(() => {
     let selectedDifficulty = 'easy';
+    let currentLevel = 0;
 
     let movesUndone = 0;
 
     function onVictory(movesMade) {
+        document.getElementById('b_next_level').style.display = 'inline';
         return calculateScore(1, movesMade, movesUndone);
     }
 
@@ -61,6 +63,11 @@ new LevelProvider(() => {
         level = getLevelByDifficulty(selectedDifficulty)['level'];
         resetGame();
     });
+    document.getElementById('b_next_level').addEventListener('click', () => {
+        level = getLevelByLevelNumber(++ currentLevel)['level'];
+        resetGame();
+        document.getElementById('b_next_level').style.display = 'none';
+    });
 
     // switch game mode, BY_DIFFICULTY -> LEVELS -> BY_DIFFICULTY
     document.getElementById('b_change_gamemode').addEventListener('click', () => {
@@ -69,12 +76,17 @@ new LevelProvider(() => {
             document.getElementById('by_difficulty_mode').style.display = 'none';
             document.getElementById('levels_mode').style.display = 'inline';
 
+            document.getElementById('b_random_level').style.display = 'none';
+
             level = getLevelByLevelNumber(0)['level'];
             resetGame();
         } else {
             gamemode = gamemodes.BY_DIFFICULTY;
             document.getElementById('by_difficulty_mode').style.display = 'inline';
             document.getElementById('levels_mode').style.display = 'none';
+
+            document.getElementById('b_random_level').style.display = 'inline';
+            document.getElementById('b_next_level').style.display = 'none';
         }
     });
 

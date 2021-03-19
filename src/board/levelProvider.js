@@ -98,5 +98,5 @@ export function getLevelByDifficulty(difficulty) {
 }
 // get specified level from levels mode
 export function getLevelByLevelNumber(levelNumber) {
-    return levelsMode[levelNumber];
+    return levelsMode.length > levelNumber ? levelsMode[levelNumber]: levelsMode[levelsMode.length - 1];
 }
