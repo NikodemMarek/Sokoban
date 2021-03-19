@@ -69,24 +69,24 @@ strong {
 }
 
 #easy_level {
-    background-color: green;
+    background: linear-gradient(to right, #339933 0%, #99ff33 100%);
 }
 #easy_level:hover {
-    background-color: springgreen;
+    background: linear-gradient(to right, #006600 0%, #66ff33 100%);
 }
 
 #intermediate_level {
-    background-color: yellow;
+    background: linear-gradient(to right, #ffff66 0%, #ff9900 100%);
 }
 #intermediate_level:hover {
-    background-color: khaki;
+    background: linear-gradient(to right, #ffff00 0%, #ff6600 100%);
 }
 
 #hard_level {
-    background-color: red;
+    background: linear-gradient(to right, #ff3300 0%, #990033 100%);
 }
 #hard_level:hover {
-    background-color: tomato;
+    background: linear-gradient(to right, #ff0000 0%, #660033 100%);
 }
 
 #levels_mode {

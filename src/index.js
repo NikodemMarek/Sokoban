@@ -22,8 +22,9 @@ new LevelProvider(() => {
     }
 
     let levelsColors = [
-        'darkgreen', 'green', 'forestgreen', 'limegreen', 'lime', 'lawngreen', 'greenyellow', 'yellowgreen', 'lightgreen',
-        'khaki', 'yellow', 'orange', 'darkorange', 'orangered', 'lightsalmon', 'salmon', 'tomato', 'red', 'darkred', 'dimgray'
+        '#59b300', '#66cc00', '#73e600', '#80ec13', '#99f042', '#a6f655', '#d7fb6a', 
+        '#f0f986', '#ffff4d', '#ffff00', '#f2f20d', '#ffd11a', '#ffbf00', '#ff8000',
+         '#ff4000', '#ff0000', '#e60000', '#cc0000', '#b30000', '#990000'
     ];
 
     let levelsMode = document.getElementById('levels_mode');
