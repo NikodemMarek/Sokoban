@@ -5,8 +5,8 @@ export default class InputHandler {
         document.addEventListener('keydown', (event) => {
             let workerMovement = { x: 0, y: 0 }
 
-            if(!this.isPaused) {
-                switch(event.key) {
+            if (!this.isPaused) {
+                switch (event.key) {
                     case 'ArrowLeft':
                     case 'a':
                         // move left

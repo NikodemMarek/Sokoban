@@ -36,6 +36,39 @@ strong {
     float: right;
 }
 
+#save_menu {
+    width: 200px;
+    height: 600px;
+    background-color: gray;
+    float: right;
+    display: none;
+}
+
+#name_save {
+    width: 200px;
+    height: 600px;
+    background-color: gray;
+    float: right;
+}
+
+#b_cancel_save {
+    width: 100px;
+}
+
+#b_confirm_save {
+    width: 100px;
+    float: right;
+}
+
+#i_save_name {
+    width: 180px;
+    height: 40px;
+    font-size: 20px;
+    margin: 10px;
+    border: none;
+    background-color: silver;
+}
+
 #b_next_level {
     display: none;
 }

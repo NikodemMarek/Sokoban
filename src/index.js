@@ -78,9 +78,37 @@ new LevelProvider(() => {
         document.getElementById('b_next_level').style.display = 'none';
     });
     document.getElementById('b_save_game').addEventListener('click', () => {
-        saveGame(gameSaver, 'whatever2', currentLevel, game.worker, game.boxes, game.movesMade, movesUndone, scoreHolder.totalScore);
-        resetGame();
-        document.getElementById('b_next_level').style.display = 'none';
+        game.stop();
+
+        document.getElementById('menu').style.display = 'none';
+        document.getElementById('save_menu').style.display = 'inline';
+    });
+
+    // set save name and save game
+    document.getElementById('b_confirm_save').addEventListener('click', () => {
+        saveGame(
+            gameSaver,
+            document.getElementById('i_save_name').value,
+            currentLevel,
+            game.worker,
+            game.boxes,
+            game.movesMade,
+            movesUndone,
+            scoreHolder.totalScore
+        );
+
+        document.getElementById('i_save_name').value = '';
+        document.getElementById('menu').style.display = 'inline';
+        document.getElementById('save_menu').style.display = 'none';
+
+        game.start();
+    });
+    document.getElementById('b_cancel_save').addEventListener('click', () => {
+        document.getElementById('i_save_name').value = '';
+        document.getElementById('menu').style.display = 'inline';
+        document.getElementById('save_menu').style.display = 'none';
+
+        game.start();
     });
 
     // switch game mode, BY_DIFFICULTY -> LEVELS -> BY_DIFFICULTY
