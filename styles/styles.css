@@ -117,3 +117,8 @@ strong {
     visibility: hidden;
     display: none;
 }
+
+#victory_image {
+    visibility: hidden;
+    display: none;
+}

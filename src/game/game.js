@@ -104,15 +104,10 @@ export default class Game {
         this.stop()
 
         // show victory message
-        this.context.fillStyle = 'rgba(0, 255, 0, 0.5)'
-        this.context.fillRect(0, 0, BOARD_SIZE.x, BOARD_SIZE.y);
-
-        this.context.fillStyle = 'rgba(0, 0, 0, 0.9)'
-        this.context.font = '72px sans-serif';
-        this.context.textAlign = 'center';
-        this.context.fillText('Wygrałeś', BOARD_SIZE.x / 2, BOARD_SIZE.y / 2 - 31);
+        this.canvasImage.drawVictoryScreen();
 
         // show score
+        this.context.fillStyle = 'rgba(0, 0, 0, 0.9)'
         this.context.font = '64px sans-serif';
         this.context.textAlign = 'center';
         this.context.fillText('Twój wynik: ' + this.onVictory(this.movesNumber), BOARD_SIZE.x / 2, BOARD_SIZE.y / 2 + 31);

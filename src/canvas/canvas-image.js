@@ -14,10 +14,12 @@ export default class CanvasImage {
         // get image of elements on the board
         this.wallImage = document.getElementById('wall_image');
         this.targetImage = document.getElementById('target_image');
+
+        this.victoryImage = document.getElementById('victory_image');
     }
 
     // draw background image in the background
-    drawBackground(position) {
+    drawBackground() {
         this.context.drawImage(
             this.backgroundImage,
             0, 0,
@@ -56,6 +58,14 @@ export default class CanvasImage {
             this.targetImage,
             position.x * OBJECT_SIZE, position.y * OBJECT_SIZE,
             OBJECT_SIZE, OBJECT_SIZE
+        );
+    }
+
+    drawVictoryScreen() {
+        this.context.drawImage(
+            this.victoryImage,
+            0, 0,
+            BOARD_SIZE.x, BOARD_SIZE.y
         );
     }
 };
