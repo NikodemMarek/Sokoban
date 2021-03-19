@@ -7,9 +7,10 @@ import { isWall, draw as drawBoard, setBoard } from '/src/board/board.js'
 import GameHistory, { addMove, undoMove } from './gameHistory.js'
 
 export default class Game {
-    constructor(context, board) {
+    constructor(context, board, onVictory) {
         this.context = context;
         this.canvasImage = new CanvasImage(context);
+        this.onVictory = onVictory;
 
         // set the board for the level
         setBoard(board['board']);
@@ -109,7 +110,12 @@ export default class Game {
         this.context.fillStyle = 'rgba(0, 0, 0, 0.9)'
         this.context.font = '72px sans-serif';
         this.context.textAlign = 'center';
-        this.context.fillText('Victory', BOARD_SIZE.x / 2, BOARD_SIZE.y / 2);
+        this.context.fillText('Wygrałeś', BOARD_SIZE.x / 2, BOARD_SIZE.y / 2 - 31);
+
+        // show score
+        this.context.font = '64px sans-serif';
+        this.context.textAlign = 'center';
+        this.context.fillText('Twój wynik: ' + this.onVictory(this.movesNumber), BOARD_SIZE.x / 2, BOARD_SIZE.y / 2 + 31);
     }
 
     // unpause the game

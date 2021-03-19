@@ -1,5 +1,6 @@
-import Game from './game/game.js';
+import Game from './game/game.js'
 import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber } from './board/levelProvider.js'
+import { calculateScore } from './game/scoreCounter.js'
 
 const gamemodes = Object.freeze({
     BY_DIFFICULTY: 0,
@@ -13,11 +14,18 @@ let context = canvas.getContext('2d');
 new LevelProvider(() => {
     let selectedDifficulty = 'easy';
 
-    let level = getLevelByDifficulty(selectedDifficulty)['level'];
-    let game = new Game(context, JSON.parse(JSON.stringify(level)));
+    let movesUndone = 0;
 
-    let resetGame = function() {
-        game = new Game(context, JSON.parse(JSON.stringify(level)));
+    function onVictory(movesMade) {
+        return calculateScore(1, movesMade, movesUndone);
+    }
+
+    let level = getLevelByDifficulty(selectedDifficulty)['level'];
+    let game = new Game(context, JSON.parse(JSON.stringify(level)), onVictory);
+
+    function resetGame() {
+        movesUndone = 0;
+        game = new Game(context, JSON.parse(JSON.stringify(level)), onVictory);
         game.start();
     }
 
@@ -40,10 +48,13 @@ new LevelProvider(() => {
     }
 
     // reset level button click listener
-    document.getElementById('b_reset_level').addEventListener('click', resetGame);
+    document.getElementById('b_reset_level').addEventListener('click', () => {
+        resetGame();
+    });
     // undo move button click listener
     document.getElementById('b_undo_move').addEventListener('click', () => {
         game.undoMove();
+        movesUndone ++;
     });
     // get new random level
     document.getElementById('b_random_level').addEventListener('click', () => {
@@ -84,5 +95,5 @@ new LevelProvider(() => {
         resetGame();
     });
 
-    resetGame();
+    game.start();
 });
