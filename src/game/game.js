@@ -17,9 +17,9 @@ export default class Game {
 
         this.worker = board['worker'];
         this.boxes = board['boxes'];
-        
+
         this.movesNumber = 0;
-        document.getElementById('movesNumber').innerText = this.movesNumber;
+        document.getElementById('s_moves_number').innerText = this.movesNumber;
 
         // start saving the moves
         this.gameHistory = new GameHistory(this.worker, this.boxes, this.movesNumber);
@@ -30,47 +30,46 @@ export default class Game {
         // initialize user input handler
         this.inputHandler = new InputHandler(this);
     }
-    
+
     // update game state
     update = function(workerMovement) {
-        if(!this.isPaused) {
-            let canMove = true;
+            if (!this.isPaused) {
+                let canMove = true;
 
-            // check for worker collision with a box
-            canMove = moveBoxes(
-                this.boxes,
-                {
-                    x: this.worker.position.x + workerMovement.x,
-                    y: this.worker.position.y + workerMovement.y
-                },
-                workerMovement
-            );
+                // check for worker collision with a box
+                canMove = moveBoxes(
+                    this.boxes, {
+                        x: this.worker.position.x + workerMovement.x,
+                        y: this.worker.position.y + workerMovement.y
+                    },
+                    workerMovement
+                );
 
-            // update worker position
-            if(
-                canMove &&
-                !isWall({ x: this.worker.position.x + workerMovement.x, y: this.worker.position.y + workerMovement.y})
-            ) {
-                moveWorker(this.worker, workerMovement);
+                // update worker position
+                if (
+                    canMove &&
+                    !isWall({ x: this.worker.position.x + workerMovement.x, y: this.worker.position.y + workerMovement.y })
+                ) {
+                    moveWorker(this.worker, workerMovement);
 
-                if(workerMovement.x != 0 || workerMovement.y != 0) {
-                    // update number of moves
-                    document.getElementById('movesNumber').innerText = ++ this.movesNumber;
+                    if (workerMovement.x != 0 || workerMovement.y != 0) {
+                        // update number of moves
+                        document.getElementById('s_moves_number').innerText = ++this.movesNumber;
 
-                    addMove(this.gameHistory, this.worker, this.boxes, this.movesNumber);
+                        addMove(this.gameHistory, this.worker, this.boxes, this.movesNumber);
+                    }
+                }
+
+                // check for victory
+                if (isVictory(this.boxes)) {
+                    this.draw();
+                    this.victory();
                 }
             }
-
-            // check for victory
-            if(isVictory(this.boxes)) {
-                this.draw();
-                this.victory();
-            }
         }
-    }
-    // draw objects on the board
+        // draw objects on the board
     draw = function() {
-        if(!this.isPaused) {
+        if (!this.isPaused) {
             // clear the board
             this.context.clearRect(0, 0, BOARD_SIZE.x, BOARD_SIZE.y);
 
@@ -82,7 +81,7 @@ export default class Game {
 
             // draw boxes
             drawBoxes(this.boxes, this.canvasImage);
-            
+
             // draw worker on to the board
             drawWorker(this.worker, this.canvasImage);
         }
@@ -96,7 +95,7 @@ export default class Game {
 
         // draw changes
         this.draw();
-        document.getElementById('movesNumber').innerText = this.movesNumber;
+        document.getElementById('s_moves_number').innerText = this.movesNumber;
     }
 
     // handle win
@@ -115,10 +114,10 @@ export default class Game {
 
     // unpause the game
     start() {
-        this.isPaused = false;
-        this.inputHandler.isPaused = false;
-    }
-    // pause the game
+            this.isPaused = false;
+            this.inputHandler.isPaused = false;
+        }
+        // pause the game
     stop() {
         this.isPaused = true;
         this.inputHandler.isPaused = true;

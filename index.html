@@ -1,49 +1,54 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sokoban</title>
 
-        <link rel="stylesheet" href="styles/styles.css">
-    </head>
-    <body>
-        <div id="d_game">
-            <canvas id="c_game_screen" width="900" height="600"></canvas>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sokoban</title>
 
-            <div id="menu">
-                <button id="b_reset_level" class="menu_button">Zresetuj poziom</button>
-                <button id="b_undo_move" class="menu_button">Cofnij</button>
-                <button id="b_random_level" class="menu_button">Inny poziom</button>
-                <button id="b_next_level" class="menu_button">Następny poziom</button>
-                
-                <div style="margin-top: 50px;"></div>
-                <button id="b_change_gamemode" class="menu_button">Zmień tryb gry</button>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
 
-                <div style="margin-top: 50px;"></div>
-                <strong>Liczba ruchów: </strong><strong id="movesNumber">0</strong>
-            </div>
+<body>
+    <div id="d_game">
+        <canvas id="c_game_screen" width="900" height="600"></canvas>
 
-            <div id="levels_menu">
-                <div id="by_difficulty_mode">
-                    <button class="difficulty_level" id="easy_level">Łatwy</button><button class="difficulty_level" id="intermediate_level">Średnio zaawansowany</button><button class="difficulty_level" id="hard_level">Trudny</button>
-                </div>
+        <div id="menu">
+            <button id="b_reset_level" class="menu_button">Zresetuj poziom</button>
+            <button id="b_undo_move" class="menu_button">Cofnij</button>
+            <button id="b_random_level" class="menu_button">Inny poziom</button>
+            <button id="b_next_level" class="menu_button">Następny poziom</button>
 
-                <div id="levels_mode"></div>
-            </div>
+            <div style="margin-top: 50px;"></div>
+            <button id="b_change_gamemode" class="menu_button">Zmień tryb gry</button>
+
+            <div style="margin-top: 50px;"></div>
+            <strong>Liczba ruchów: </strong><strong id="s_moves_number">0</strong>
+            <div style="margin-top: 10px;"></div>
+            <strong id="s_total_score_label">Obecny wynik: </strong><strong id="s_total_score">0</strong>
         </div>
 
-        <img id="worker_image" src="assets/images/worker.png">
-        <img id="box_image" src="assets/images/box.png">
+        <div id="levels_menu">
+            <div id="by_difficulty_mode">
+                <button class="difficulty_level" id="easy_level">Łatwy</button><button class="difficulty_level" id="intermediate_level">Średnio zaawansowany</button><button class="difficulty_level" id="hard_level">Trudny</button>
+            </div>
 
-        <img id="wall_image" src="assets/images/wall.png">
-        <img id="target_image" src="assets/images/target.png">
+            <div id="levels_mode"></div>
+        </div>
+    </div>
 
-        <img id="background_image" src="assets/images/background.png">
+    <img id="worker_image" src="assets/images/worker.png">
+    <img id="box_image" src="assets/images/box.png">
 
-        <img id="victory_image" src="assets/images/victory.png">
-        
-        <script type="module" src="src/index.js"></script>
-    </body>
+    <img id="wall_image" src="assets/images/wall.png">
+    <img id="target_image" src="assets/images/target.png">
+
+    <img id="background_image" src="assets/images/background.png">
+
+    <img id="victory_image" src="assets/images/victory.png">
+
+    <script type="module" src="src/index.js"></script>
+</body>
+
 </html>

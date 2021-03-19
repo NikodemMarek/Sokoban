@@ -1,6 +1,7 @@
 import Game from './game/game.js'
 import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber } from './board/levelProvider.js'
 import { calculateScore } from './game/scoreCounter.js'
+import ScoreHolder, { pushScore } from './board/scoreHolder.js'
 
 const gamemodes = Object.freeze({
     BY_DIFFICULTY: 0,
@@ -15,11 +16,17 @@ new LevelProvider(() => {
     let selectedDifficulty = 'easy';
     let currentLevel = 0;
 
+    let scoreHolder = new ScoreHolder();
+
     let movesUndone = 0;
 
     function onVictory(movesMade) {
         document.getElementById('b_next_level').style.display = 'inline';
-        return calculateScore(1, movesMade, movesUndone);
+
+        let score = calculateScore(1, movesMade, movesUndone);
+        document.getElementById('s_total_score').innerText = pushScore(scoreHolder, currentLevel, score);
+
+        return score;
     }
 
     let level = getLevelByDifficulty(selectedDifficulty)['level'];
@@ -32,13 +39,13 @@ new LevelProvider(() => {
     }
 
     let levelsColors = [
-        '#59b300', '#66cc00', '#73e600', '#80ec13', '#99f042', '#a6f655', '#d7fb6a', 
+        '#59b300', '#66cc00', '#73e600', '#80ec13', '#99f042', '#a6f655', '#d7fb6a',
         '#f0f986', '#ffff4d', '#ffff00', '#f2f20d', '#ffd11a', '#ffbf00', '#ff8000',
-         '#ff4000', '#ff0000', '#e60000', '#cc0000', '#b30000', '#990000'
+        '#ff4000', '#ff0000', '#e60000', '#cc0000', '#b30000', '#990000'
     ];
 
     let levelsMode = document.getElementById('levels_mode');
-    for(let i = 1; i <= 20; i ++) {
+    for (let i = 1; i <= 20; i++) {
         let levelButton = document.createElement('button');
         levelButton.innerText = i;
         levelButton.style.width = '45px';
@@ -56,7 +63,7 @@ new LevelProvider(() => {
     // undo move button click listener
     document.getElementById('b_undo_move').addEventListener('click', () => {
         game.undoMove();
-        movesUndone ++;
+        movesUndone++;
     });
     // get new random level
     document.getElementById('b_random_level').addEventListener('click', () => {
@@ -64,19 +71,22 @@ new LevelProvider(() => {
         resetGame();
     });
     document.getElementById('b_next_level').addEventListener('click', () => {
-        level = getLevelByLevelNumber(++ currentLevel)['level'];
+        level = getLevelByLevelNumber(++currentLevel)['level'];
         resetGame();
         document.getElementById('b_next_level').style.display = 'none';
     });
 
     // switch game mode, BY_DIFFICULTY -> LEVELS -> BY_DIFFICULTY
     document.getElementById('b_change_gamemode').addEventListener('click', () => {
-        if(gamemode == gamemodes.BY_DIFFICULTY) {
+        if (gamemode == gamemodes.BY_DIFFICULTY) {
             gamemode = gamemodes.LEVELS;
             document.getElementById('by_difficulty_mode').style.display = 'none';
             document.getElementById('levels_mode').style.display = 'inline';
 
             document.getElementById('b_random_level').style.display = 'none';
+
+            document.getElementById('s_total_score').style.display = 'inline';
+            document.getElementById('s_total_score_label').style.display = 'inline';
 
             level = getLevelByLevelNumber(0)['level'];
             resetGame();
@@ -87,6 +97,9 @@ new LevelProvider(() => {
 
             document.getElementById('b_random_level').style.display = 'inline';
             document.getElementById('b_next_level').style.display = 'none';
+
+            document.getElementById('s_total_score').style.display = 'none';
+            document.getElementById('s_total_score_label').style.display = 'none';
         }
     });
 
