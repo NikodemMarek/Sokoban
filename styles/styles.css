@@ -110,6 +110,10 @@ strong {
     display: none;
 }
 
+#b_save_game {
+    display: none;
+}
+
 #worker_image {
     visibility: hidden;
     display: none;

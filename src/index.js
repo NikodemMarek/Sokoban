@@ -2,6 +2,7 @@ import Game from './game/game.js'
 import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber } from './board/levelProvider.js'
 import { calculateScore } from './game/scoreCounter.js'
 import ScoreHolder, { pushScore } from './board/scoreHolder.js'
+import GameSaver, { saveGame } from './board/gameSaver.js';
 
 const gamemodes = Object.freeze({
     BY_DIFFICULTY: 0,
@@ -17,6 +18,7 @@ new LevelProvider(() => {
     let currentLevel = 0;
 
     let scoreHolder = new ScoreHolder();
+    let gameSaver = new GameSaver();
 
     let movesUndone = 0;
 
@@ -75,6 +77,11 @@ new LevelProvider(() => {
         resetGame();
         document.getElementById('b_next_level').style.display = 'none';
     });
+    document.getElementById('b_save_game').addEventListener('click', () => {
+        saveGame(gameSaver, 'whatever2', currentLevel, game.worker, game.boxes, game.movesMade, movesUndone, scoreHolder.totalScore);
+        resetGame();
+        document.getElementById('b_next_level').style.display = 'none';
+    });
 
     // switch game mode, BY_DIFFICULTY -> LEVELS -> BY_DIFFICULTY
     document.getElementById('b_change_gamemode').addEventListener('click', () => {
@@ -88,6 +95,8 @@ new LevelProvider(() => {
             document.getElementById('s_total_score').style.display = 'inline';
             document.getElementById('s_total_score_label').style.display = 'inline';
 
+            document.getElementById('b_save_game').style.display = 'inline';
+
             level = getLevelByLevelNumber(0)['level'];
             resetGame();
         } else {
@@ -100,6 +109,8 @@ new LevelProvider(() => {
 
             document.getElementById('s_total_score').style.display = 'none';
             document.getElementById('s_total_score_label').style.display = 'none';
+
+            document.getElementById('b_save_game').style.display = 'none';
         }
     });
 
