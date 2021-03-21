@@ -1,4 +1,4 @@
-import { MOVES_HISTORY } from "/src/constants.js"
+import { MOVES_HISTORY } from '/src/constants.js'
 
 export default class GameHistory {
     constructor(worker, boxes, movesNumber) {

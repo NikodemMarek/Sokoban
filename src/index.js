@@ -1,22 +1,22 @@
-import Game, { start as startGame, stop as stopGame, undoMove } from './game/game.js'
-import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber } from './board/levelProvider.js'
-import { calculateScore } from './game/scoreCounter.js'
-import ScoreHolder, { pushScore } from './board/scoreHolder.js'
-import GameSaver, { saveGame } from './board/gameSaver.js'
-import CanvasImage from './canvas/canvas-image.js'
-
-const gamemodes = Object.freeze({
-    BY_DIFFICULTY: 0,
-    LEVELS: 1
-});
-let gamemode = gamemodes.BY_DIFFICULTY;
-
-let canvas = document.getElementById('c_game_screen');
-let context = canvas.getContext('2d');
-
-let canvasImage = new CanvasImage(context);
+import Game, { start as startGame, stop as stopGame, undoMove } from '/src/game/game.js'
+import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber } from '/src/board/levelProvider.js'
+import { calculateScore } from '/src/game/scoreCounter.js'
+import ScoreHolder, { pushScore } from '/src/board/scoreHolder.js'
+import GameSaver, { saveGame } from '/src/board/gameSaver.js'
+import CanvasImage from '/src/canvas/canvasImage.js'
 
 new LevelProvider(() => {
+    const gamemodes = Object.freeze({
+        BY_DIFFICULTY: 0,
+        LEVELS: 1
+    });
+    let gamemode = gamemodes.BY_DIFFICULTY;
+    
+    let canvas = document.getElementById('c_game_screen');
+    let context = canvas.getContext('2d');
+    
+    let canvasImage = new CanvasImage(context);
+
     let selectedDifficulty = 'easy';
     let currentLevel = 0;
 
@@ -25,7 +25,7 @@ new LevelProvider(() => {
 
     let movesUndone = 0;
 
-    function onVictory(movesMade) {
+    function onVictory(movesMade, movesUndone) {
         if(gamemode == gamemodes.LEVELS) document.getElementById('b_next_level').style.display = 'inline';
 
         let score = calculateScore(1, movesMade, movesUndone);
@@ -38,8 +38,6 @@ new LevelProvider(() => {
     let game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level)), onVictory);
 
     function resetGame() {
-        movesUndone = 0;
-        
         stopGame(game);
         game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level)), onVictory);
         startGame(game);
@@ -70,7 +68,6 @@ new LevelProvider(() => {
     // undo move button click listener
     document.getElementById('b_undo_move').addEventListener('click', () => {
         undoMove(game);
-        movesUndone++;
     });
     // get new random level
     document.getElementById('b_random_level').addEventListener('click', () => {
@@ -83,7 +80,7 @@ new LevelProvider(() => {
         document.getElementById('b_next_level').style.display = 'none';
     });
     document.getElementById('b_save_game').addEventListener('click', () => {
-        game.stop();
+        stopGame(game);
 
         document.getElementById('menu').style.display = 'none';
         document.getElementById('save_menu').style.display = 'inline';
@@ -106,14 +103,14 @@ new LevelProvider(() => {
         document.getElementById('menu').style.display = 'inline';
         document.getElementById('save_menu').style.display = 'none';
 
-        game.start();
+        startGame(game);
     });
     document.getElementById('b_cancel_save').addEventListener('click', () => {
         document.getElementById('i_save_name').value = '';
         document.getElementById('menu').style.display = 'inline';
         document.getElementById('save_menu').style.display = 'none';
 
-        game.start();
+        startGame(game);
     });
 
     // switch game mode, BY_DIFFICULTY -> LEVELS -> BY_DIFFICULTY

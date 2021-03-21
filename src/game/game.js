@@ -1,10 +1,10 @@
-import InputHandler from '/src/input/input-handler.js'
+import InputHandler from '/src/input/inputHandler.js'
 import { draw as drawWorker, move as moveWorker } from '/src/objects/worker.js'
 import { BOARD_SIZE } from '/src/constants.js'
 import { draw as drawBoxes, move as moveBoxes, isVictory } from '/src/objects/boxes.js'
 import { isWall, draw as drawBoard } from '/src/board/board.js'
 import GameHistory, { addMove, undoMove as undoMoveInHistory } from './gameHistory.js'
-import Board from '../board/board.js'
+import Board from '/src/board/board.js'
 
 export default class Game {
     constructor(context, canvasImage, board, onVictory) {
@@ -19,6 +19,7 @@ export default class Game {
         this.boxes = board['boxes'];
 
         this.movesNumber = 0;
+        this.movesUndone = 0;
         document.getElementById('s_moves_number').innerText = this.movesNumber;
 
         // start saving the moves
@@ -89,6 +90,8 @@ export function draw(game) {
 
 // undo last move
 export function undoMove(game) {
+    game.movesUndone ++;
+
     // undo move
     undoMoveInHistory(game.gameHistory);
     ({ 'worker': game.worker, 'boxes': game.boxes, 'moves': game.movesNumber } = undoMoveInHistory(game.gameHistory));
@@ -110,7 +113,7 @@ function victory(game) {
     game.context.fillStyle = 'rgba(0, 0, 0, 0.9)'
     game.context.font = '64px sans-serif';
     game.context.textAlign = 'center';
-    game.context.fillText('Twój wynik: ' + game.onVictory(game.movesNumber), BOARD_SIZE.x / 2, BOARD_SIZE.y / 2 + 31);
+    game.context.fillText('Twój wynik: ' + game.onVictory(game.movesNumber, game.movesUndone), BOARD_SIZE.x / 2, BOARD_SIZE.y / 2 + 31);
 }
 
 // unpause the game
