@@ -1,14 +1,6 @@
 import { SAVED_GAME_PREFIX } from '/src/constants.js'
 
-export default class GameSaver {
-    constructor() {
-        this.savedGames = [];
-        readGames(this);
-    }
-};
-
-
-export function saveGame(gameSaver, gameName, currentLevel, worker, boxes, movesMade, movesUndone, score) {
+export function saveGame(gameName, currentLevel, worker, boxes, movesMade, movesUndone, score) {
     let gameJson = JSON.stringify({
         'currentLevel': currentLevel,
         'worker': worker,
@@ -18,14 +10,20 @@ export function saveGame(gameSaver, gameName, currentLevel, worker, boxes, moves
         'score': score
     });
 
-    gameSaver.savedGames.push(gameJson);
     localStorage.setItem(SAVED_GAME_PREFIX + gameName, gameJson);
 };
 
-export function readGames(gameSaver) {
+export function readGames() {
+    let savedGames = [];
+
     Object.keys(localStorage)
         .filter(key => key.startsWith(SAVED_GAME_PREFIX))
         .forEach(key => {
-            gameSaver.savedGames.push(localStorage.getItem(key));
+            savedGames.push({
+                'name': key.replace(SAVED_GAME_PREFIX, ''),
+                'data': localStorage.getItem(key)
+            });
         });
+
+    return savedGames;
 };

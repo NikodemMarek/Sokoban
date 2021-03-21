@@ -2,7 +2,7 @@ import Game, { start as startGame, stop as stopGame, undoMove } from '/src/game/
 import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber } from '/src/board/levelProvider.js'
 import { calculateScore } from '/src/game/scoreCounter.js'
 import ScoreHolder, { pushScore } from '/src/board/scoreHolder.js'
-import GameSaver, { saveGame } from '/src/board/gameSaver.js'
+import { saveGame, readGames } from '/src/board/gameSaver.js'
 import CanvasImage from '/src/canvas/canvasImage.js'
 
 new LevelProvider(() => {
@@ -21,9 +21,28 @@ new LevelProvider(() => {
     let currentLevel = 0;
 
     let scoreHolder = new ScoreHolder();
-    let gameSaver = new GameSaver();
 
     let movesUndone = 0;
+    
+    let levelsColors = [
+        '#59b300', '#66cc00', '#73e600', '#80ec13', '#99f042', '#a6f655', '#d7fb6a',
+        '#f0f986', '#ffff4d', '#ffff00', '#f2f20d', '#ffd11a', '#ffbf00', '#ff8000',
+        '#ff4000', '#ff0000', '#e60000', '#cc0000', '#b30000', '#990000'
+    ];
+
+    let levelsMode = document.getElementById('levels_mode');
+    for(let i = 1; i <= 20; i++) {
+        let levelButton = document.createElement('button');
+        levelButton.innerText = i;
+        levelButton.style.width = '45px';
+        levelButton.style.height = '45px';
+        levelButton.style.border = 'none';
+        levelButton.style.backgroundColor = levelsColors[i - 1];
+
+        levelsMode.appendChild(levelButton);
+    }
+
+    let savesList = document.getElementById('saves_list');
 
     function onVictory(movesMade, movesUndone) {
         if(gamemode == gamemodes.LEVELS) document.getElementById('b_next_level').style.display = 'inline';
@@ -41,24 +60,6 @@ new LevelProvider(() => {
         stopGame(game);
         game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level)), onVictory);
         startGame(game);
-    }
-
-    let levelsColors = [
-        '#59b300', '#66cc00', '#73e600', '#80ec13', '#99f042', '#a6f655', '#d7fb6a',
-        '#f0f986', '#ffff4d', '#ffff00', '#f2f20d', '#ffd11a', '#ffbf00', '#ff8000',
-        '#ff4000', '#ff0000', '#e60000', '#cc0000', '#b30000', '#990000'
-    ];
-
-    let levelsMode = document.getElementById('levels_mode');
-    for (let i = 1; i <= 20; i++) {
-        let levelButton = document.createElement('button');
-        levelButton.innerText = i;
-        levelButton.style.width = '45px';
-        levelButton.style.height = '45px';
-        levelButton.style.border = 'none';
-        levelButton.style.backgroundColor = levelsColors[i - 1];
-
-        levelsMode.appendChild(levelButton);
     }
 
     // reset level button click listener
@@ -84,12 +85,35 @@ new LevelProvider(() => {
 
         document.getElementById('menu').style.display = 'none';
         document.getElementById('save_menu').style.display = 'inline';
+
+        while(savesList.firstChild) savesList.removeChild(savesList.firstChild);
+
+        readGames().forEach(save => {
+            let saveButton = document.createElement('button');
+            saveButton.innerText = save['name'];
+            saveButton.style.width = '200px';
+            saveButton.style.height = '50px';
+            saveButton.style.border = 'none';
+            saveButton.style.backgroundColor = 'gray';
+
+            saveButton.addEventListener('mouseenter', () => {
+                saveButton.style.backgroundColor = 'gainsboro';
+            });
+            saveButton.addEventListener('mouseleave', () => {
+                saveButton.style.backgroundColor = 'gray';
+            });
+
+            saveButton.addEventListener('click', () => {
+                document.getElementById('i_save_name').value = save['name'];
+            });
+    
+            savesList.appendChild(saveButton);
+        });
     });
 
     // set save name and save game
     document.getElementById('b_confirm_save').addEventListener('click', () => {
         saveGame(
-            gameSaver,
             document.getElementById('i_save_name').value,
             currentLevel,
             game.worker,

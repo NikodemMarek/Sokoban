@@ -46,9 +46,16 @@ strong {
 
 #name_save {
     width: 200px;
-    height: 600px;
+    height: 150px;
     background-color: gray;
     float: right;
+}
+
+#saves_list {
+    width: 200px;
+    height: 450px;
+    overflow-y: scroll;
+    overflow: overlay;
 }
 
 #b_cancel_save {
