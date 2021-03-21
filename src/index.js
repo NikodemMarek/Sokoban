@@ -1,4 +1,4 @@
-import Game, { start as startGame, undoMove } from './game/game.js'
+import Game, { start as startGame, stop as stopGame, undoMove } from './game/game.js'
 import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber } from './board/levelProvider.js'
 import { calculateScore } from './game/scoreCounter.js'
 import ScoreHolder, { pushScore } from './board/scoreHolder.js'
@@ -39,6 +39,8 @@ new LevelProvider(() => {
 
     function resetGame() {
         movesUndone = 0;
+        
+        stopGame(game);
         game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level)), onVictory);
         startGame(game);
     }
