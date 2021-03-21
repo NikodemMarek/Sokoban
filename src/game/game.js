@@ -1,19 +1,19 @@
 import InputHandler from '/src/input/input-handler.js'
 import { draw as drawWorker, move as moveWorker } from '/src/objects/worker.js'
-import CanvasImage from '/src/canvas/canvas-image.js'
 import { BOARD_SIZE } from '/src/constants.js'
 import { draw as drawBoxes, move as moveBoxes, isVictory } from '/src/objects/boxes.js'
-import { isWall, draw as drawBoard, setBoard } from '/src/board/board.js'
-import GameHistory, { addMove, undoMove } from './gameHistory.js'
+import { isWall, draw as drawBoard } from '/src/board/board.js'
+import GameHistory, { addMove, undoMove as undoMoveInHistory } from './gameHistory.js'
+import Board from '../board/board.js'
 
 export default class Game {
-    constructor(context, board, onVictory) {
+    constructor(context, canvasImage, board, onVictory) {
         this.context = context;
-        this.canvasImage = new CanvasImage(context);
+        this.canvasImage = canvasImage;
         this.onVictory = onVictory;
 
         // set the board for the level
-        setBoard(board['board']);
+        this.board = new Board(canvasImage, board['board']);
 
         this.worker = board['worker'];
         this.boxes = board['boxes'];
@@ -25,101 +25,101 @@ export default class Game {
         this.gameHistory = new GameHistory(this.worker, this.boxes, this.movesNumber);
 
         // draw objects on the board, and the worker in their initial localizations
-        this.draw();
+        draw(this);
 
         // initialize user input handler
         this.inputHandler = new InputHandler(this);
     }
+}
 
-    // update game state
-    update = function(workerMovement) {
-            if (!this.isPaused) {
-                let canMove = true;
+// update game state
+export function update(game, workerMovement) {
+    if (!game.isPaused) {
+        let canMove = true;
 
-                // check for worker collision with a box
-                canMove = moveBoxes(
-                    this.boxes, {
-                        x: this.worker.position.x + workerMovement.x,
-                        y: this.worker.position.y + workerMovement.y
-                    },
-                    workerMovement
-                );
+        // check for worker collision with a box
+        canMove = moveBoxes(
+            game.board,
+            game.boxes, {
+                x: game.worker.position.x + workerMovement.x,
+                y: game.worker.position.y + workerMovement.y
+            },
+            workerMovement
+        );
 
-                // update worker position
-                if (
-                    canMove &&
-                    !isWall({ x: this.worker.position.x + workerMovement.x, y: this.worker.position.y + workerMovement.y })
-                ) {
-                    moveWorker(this.worker, workerMovement);
+        // update worker position
+        if (
+            canMove &&
+            !isWall(game.board, { x: game.worker.position.x + workerMovement.x, y: game.worker.position.y + workerMovement.y })
+        ) {
+            moveWorker(game.worker, workerMovement);
 
-                    if (workerMovement.x != 0 || workerMovement.y != 0) {
-                        // update number of moves
-                        document.getElementById('s_moves_number').innerText = ++this.movesNumber;
+            if (workerMovement.x != 0 || workerMovement.y != 0) {
+                // update number of moves
+                document.getElementById('s_moves_number').innerText = ++ game.movesNumber;
 
-                        addMove(this.gameHistory, this.worker, this.boxes, this.movesNumber);
-                    }
-                }
-
-                // check for victory
-                if (isVictory(this.boxes)) {
-                    this.draw();
-                    this.victory();
-                }
+                addMove(game.gameHistory, game.worker, game.boxes, game.movesNumber);
             }
         }
-        // draw objects on the board
-    draw = function() {
-        if (!this.isPaused) {
-            // clear the board
-            this.context.clearRect(0, 0, BOARD_SIZE.x, BOARD_SIZE.y);
 
-            // draw game background
-            this.canvasImage.drawBackground();
-
-            // draw board
-            drawBoard(this.canvasImage);
-
-            // draw boxes
-            drawBoxes(this.boxes, this.canvasImage);
-
-            // draw worker on to the board
-            drawWorker(this.worker, this.canvasImage);
+        // check for victory
+        if(isVictory(game.boxes)) {
+            draw(game);
+            victory(game);
         }
     }
+}
 
-    undoMove = function() {
-        // undo move
-        undoMove(this.gameHistory);
-        ({ 'worker': this.worker, 'boxes': this.boxes, 'moves': this.movesNumber } = undoMove(this.gameHistory));
-        addMove(this.gameHistory, this.worker, this.boxes, this.movesNumber);
+// draw objects on the board
+export function draw(game) {
+    if(!game.isPaused) {
+        // draw game background
+        game.canvasImage.drawBackground();
 
-        // draw changes
-        this.draw();
-        document.getElementById('s_moves_number').innerText = this.movesNumber;
+        // draw board
+        drawBoard(game.board, game.canvasImage);
+
+        // draw boxes
+        drawBoxes(game.boxes, game.canvasImage);
+
+        // draw worker on to the board
+        drawWorker(game.worker, game.canvasImage);
     }
+}
 
-    // handle win
-    victory() {
-        this.stop()
+// undo last move
+export function undoMove(game) {
+    // undo move
+    undoMoveInHistory(game.gameHistory);
+    ({ 'worker': game.worker, 'boxes': game.boxes, 'moves': game.movesNumber } = undoMoveInHistory(game.gameHistory));
+    addMove(game.gameHistory, game.worker, game.boxes, game.movesNumber);
 
-        // show victory message
-        this.canvasImage.drawVictoryScreen();
+    // draw changes
+    draw(game);
+    document.getElementById('s_moves_number').innerText = game.movesNumber;
+}
 
-        // show score
-        this.context.fillStyle = 'rgba(0, 0, 0, 0.9)'
-        this.context.font = '64px sans-serif';
-        this.context.textAlign = 'center';
-        this.context.fillText('Twój wynik: ' + this.onVictory(this.movesNumber), BOARD_SIZE.x / 2, BOARD_SIZE.y / 2 + 31);
-    }
+// handle win
+function victory(game) {
+    stop(game);
 
-    // unpause the game
-    start() {
-            this.isPaused = false;
-            this.inputHandler.isPaused = false;
-        }
-        // pause the game
-    stop() {
-        this.isPaused = true;
-        this.inputHandler.isPaused = true;
-    }
-};
+    // show victory message
+    game.canvasImage.drawVictoryScreen();
+
+    // show score
+    game.context.fillStyle = 'rgba(0, 0, 0, 0.9)'
+    game.context.font = '64px sans-serif';
+    game.context.textAlign = 'center';
+    game.context.fillText('Twój wynik: ' + game.onVictory(game.movesNumber), BOARD_SIZE.x / 2, BOARD_SIZE.y / 2 + 31);
+}
+
+// unpause the game
+export function start(game) {
+    game.isPaused = false;
+    game.inputHandler.isPaused = false;
+}
+// pause the game
+export function stop(game) {
+    game.isPaused = true;
+    game.inputHandler.isPaused = true;
+}

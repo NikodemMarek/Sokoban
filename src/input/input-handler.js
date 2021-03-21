@@ -1,3 +1,5 @@
+import { update, draw } from '/src/game/game.js'
+
 export default class InputHandler {
     constructor(game) {
         this.isPaused = true;
@@ -30,8 +32,8 @@ export default class InputHandler {
                 }
 
                 // update and draw all objects
-                game.update(workerMovement);
-                game.draw();
+                update(game, workerMovement);
+                draw(game);
             }
         });
     }

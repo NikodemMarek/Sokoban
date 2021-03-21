@@ -1,8 +1,9 @@
-import Game from './game/game.js'
+import Game, { start as startGame, undoMove } from './game/game.js'
 import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber } from './board/levelProvider.js'
 import { calculateScore } from './game/scoreCounter.js'
 import ScoreHolder, { pushScore } from './board/scoreHolder.js'
-import GameSaver, { saveGame } from './board/gameSaver.js';
+import GameSaver, { saveGame } from './board/gameSaver.js'
+import CanvasImage from './canvas/canvas-image.js'
 
 const gamemodes = Object.freeze({
     BY_DIFFICULTY: 0,
@@ -12,6 +13,8 @@ let gamemode = gamemodes.BY_DIFFICULTY;
 
 let canvas = document.getElementById('c_game_screen');
 let context = canvas.getContext('2d');
+
+let canvasImage = new CanvasImage(context);
 
 new LevelProvider(() => {
     let selectedDifficulty = 'easy';
@@ -23,7 +26,7 @@ new LevelProvider(() => {
     let movesUndone = 0;
 
     function onVictory(movesMade) {
-        document.getElementById('b_next_level').style.display = 'inline';
+        if(gamemode == gamemodes.LEVELS) document.getElementById('b_next_level').style.display = 'inline';
 
         let score = calculateScore(1, movesMade, movesUndone);
         document.getElementById('s_total_score').innerText = pushScore(scoreHolder, currentLevel, score);
@@ -32,12 +35,12 @@ new LevelProvider(() => {
     }
 
     let level = getLevelByDifficulty(selectedDifficulty)['level'];
-    let game = new Game(context, JSON.parse(JSON.stringify(level)), onVictory);
+    let game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level)), onVictory);
 
     function resetGame() {
         movesUndone = 0;
-        game = new Game(context, JSON.parse(JSON.stringify(level)), onVictory);
-        game.start();
+        game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level)), onVictory);
+        startGame(game);
     }
 
     let levelsColors = [
@@ -64,7 +67,7 @@ new LevelProvider(() => {
     });
     // undo move button click listener
     document.getElementById('b_undo_move').addEventListener('click', () => {
-        game.undoMove();
+        undoMove(game);
         movesUndone++;
     });
     // get new random level
@@ -139,6 +142,9 @@ new LevelProvider(() => {
             document.getElementById('s_total_score_label').style.display = 'none';
 
             document.getElementById('b_save_game').style.display = 'none';
+
+            level = getLevelByDifficulty(selectedDifficulty)['level'];
+            resetGame();
         }
     });
 
@@ -159,5 +165,5 @@ new LevelProvider(() => {
         resetGame();
     });
 
-    game.start();
+    startGame(game);
 });

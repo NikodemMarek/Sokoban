@@ -28,7 +28,7 @@ export function isBox(boxes, position) {
 }
 
 // move boxes
-export function move(boxes, startPosition, direction) {
+export function move(board, boxes, startPosition, direction) {
     if(isBox(boxes, startPosition)) {
         let behindBox = {
             x: startPosition.x + direction.x,
@@ -37,15 +37,15 @@ export function move(boxes, startPosition, direction) {
 
         if(
             !isBox(boxes, behindBox) &&
-            !isWall(behindBox)
-        ) return moveTo(boxes, startPosition, direction);
+            !isWall(board, behindBox)
+        ) return moveTo(board, boxes, startPosition, direction);
         else return false;
     }
 
     // return true if move was successful
     return true;
 }
-export function moveTo(boxes, startPosition, direction) {
+export function moveTo(board, boxes, startPosition, direction) {
     let canMove = true;
 
     boxes.boxes.forEach(box => {
@@ -53,7 +53,7 @@ export function moveTo(boxes, startPosition, direction) {
             box.position.x == startPosition.x &&
             box.position.y == startPosition.y
         ) if(!moveBox(box, direction)) canMove = false;
-        else box.inPlace = isTarget(box.position);
+        else box.inPlace = isTarget(board, box.position);
     });
 
     return canMove;
