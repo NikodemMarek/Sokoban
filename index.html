@@ -17,11 +17,15 @@
         <div id="menu">
             <button id="b_reset_level" class="menu_button">Zresetuj poziom</button>
             <button id="b_undo_move" class="menu_button">Cofnij</button>
+
             <button id="b_random_level" class="menu_button">Inny poziom</button>
+
             <button id="b_next_level" class="menu_button invisible">Następny poziom</button>
             <button id="b_save_game" class="menu_button invisible">Zapisz grę</button>
             <button id="b_read_game" class="menu_button invisible">Wczytaj grę</button>
             <button id="b_open_scoreboard" class="menu_button invisible">Ranking</button>
+
+            <button id="b_create_level" class="menu_button invisible">Stwórz poziom</button>
 
             <div style="margin-top: 50px;"></div>
             <button id="b_change_gamemode" class="menu_button">Zmień tryb gry</button>
@@ -44,11 +48,8 @@
         </div>
 
         <div id="scoreboard_menu" class="invisible">
-            <div id="name_score">
-                <input id="i_score_name" type="text">
-
-                <button id="b_submit_score" class="menu_button">Dodaj wynik</button>
-            </div>
+            <input id="i_score_name" type="text">
+            <button id="b_submit_score" class="menu_button">Dodaj wynik</button>
 
             <div id="scores_list"></div>
             <button id="b_close_scoreboard" class="menu_button">Zamknij</button>
