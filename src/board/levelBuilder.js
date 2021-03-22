@@ -1,6 +1,6 @@
 import BoardClickListener from '/src/input/boardClickListener.js'
-import Board, { draw as drawBoard, setElement, isWall } from '/src/board/board.js'
-import Boxes, { draw as drawBoxes, addBox, removeBox } from '/src/objects/boxes.js'
+import Board, { draw as drawBoard, setElement, isWall, isTarget } from '/src/board/board.js'
+import Boxes, { draw as drawBoxes, addBox, removeBox, isBox } from '/src/objects/boxes.js'
 import Box from '/src/objects/box.js'
 import Worker, { draw as drawWorker } from '/src/objects/worker.js'
 
@@ -58,16 +58,15 @@ export function update(levelBuilder, clickPosition) {
     switch(levelBuilder.object) {
         case 'e':
             removeBox(levelBuilder.boxes, clickPosition);
-            if(
-                typeof levelBuilder.worker != 'undefined' &&
-                levelBuilder.worker.position.x == clickPosition.x &&
-                levelBuilder.worker.position.y == clickPosition.y
-            ) levelBuilder.worker = undefined;
+            if(isWorker(levelBuilder.worker, clickPosition)) levelBuilder.worker = undefined;
 
             setElement(levelBuilder.board, clickPosition, levelBuilder.object);
             break;
         case 'w':
-            setElement(levelBuilder.board, clickPosition, levelBuilder.object);
+            if(
+                !isWorker(levelBuilder.worker, clickPosition) &&
+                !isBox(levelBuilder.boxes, clickPosition)
+            ) setElement(levelBuilder.board, clickPosition, levelBuilder.object);
             break;
         case 't':
             setElement(levelBuilder.board, clickPosition, levelBuilder.object);
@@ -75,17 +74,31 @@ export function update(levelBuilder, clickPosition) {
             levelBuilder.targetsNumber ++;
             break;
         case 'b':
-            addBox(
-                levelBuilder.boxes,
-                new Box(
-                    clickPosition,
-                    isWall(levelBuilder.board, clickPosition)
-                )
-            );
+            if(
+                !isWall(levelBuilder.board, clickPosition) &&
+                !isWorker(levelBuilder.worker, clickPosition)
+            ) {
+                addBox(
+                    levelBuilder.boxes,
+                    new Box(
+                        clickPosition,
+                        isTarget(levelBuilder.board, clickPosition)
+                    )
+                );
+            }
             
             levelBuilder.boxesNumber ++;
             break;
         case 'p':
-            levelBuilder.worker = new Worker(clickPosition);
+            if(
+                !isWall(levelBuilder.board, clickPosition) &&
+                !isBox(levelBuilder.boxes, clickPosition)
+            ) levelBuilder.worker = new Worker(clickPosition);
+            break;
     }
+}
+
+function isWorker(worker, position) {
+    if(typeof worker == 'undefined') return false;
+    else return worker.position.x == position.x && worker.position.y == position.y;
 }
