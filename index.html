@@ -21,6 +21,7 @@
             <button id="b_next_level" class="menu_button invisible">Następny poziom</button>
             <button id="b_save_game" class="menu_button invisible">Zapisz grę</button>
             <button id="b_read_game" class="menu_button invisible">Wczytaj grę</button>
+            <button id="b_open_scoreboard" class="menu_button invisible">Ranking</button>
 
             <div style="margin-top: 50px;"></div>
             <button id="b_change_gamemode" class="menu_button">Zmień tryb gry</button>
@@ -31,7 +32,7 @@
             <strong id="s_total_score_label" class="invisible">Obecny wynik: </strong><strong id="s_total_score" class="invisible">0</strong>
         </div>
 
-        <div id="save_menu">
+        <div id="save_menu" class="invisible">
             <div id="name_save" class="invisible">
                 <input id="i_save_name" type="text">
 
@@ -40,6 +41,17 @@
 
             <div id="saves_list"></div>
             <button id="b_cancel_save" class="menu_button">Anuluj</button>
+        </div>
+
+        <div id="scoreboard_menu" class="invisible">
+            <div id="name_score">
+                <input id="i_score_name" type="text">
+
+                <button id="b_submit_score" class="menu_button">Dodaj wynik</button>
+            </div>
+
+            <div id="scores_list"></div>
+            <button id="b_close_scoreboard" class="menu_button">Zamknij</button>
         </div>
 
         <div id="levels_menu">

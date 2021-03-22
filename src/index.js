@@ -1,9 +1,10 @@
 import Game, { start as startGame, stop as stopGame, undoMove } from '/src/game/game.js'
 import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber } from '/src/board/levelProvider.js'
 import { calculateScore } from '/src/game/scoreCounter.js'
-import ScoreHolder, { pushScore } from '/src/board/scoreHolder.js'
+import ScoreHolder, { pushScore, removeScore } from '/src/board/scoreHolder.js'
 import { saveGame, readGames } from '/src/board/gameSaver.js'
 import CanvasImage from '/src/canvas/canvasImage.js'
+import { readScoreboard, updateScoreboard } from '/src/scoreboard.js'
 
 new LevelProvider(() => {
     const gamemodes = Object.freeze({
@@ -14,17 +15,20 @@ new LevelProvider(() => {
     
     // html elements
     let canvas = document.getElementById('c_game_screen');
-    
+
     let savesList = document.getElementById('saves_list');
     let menu = document.getElementById('menu');
     let saveMenu = document.getElementById('save_menu');
     let nameSaveForm = document.getElementById('name_save');
+    let nameScoreForm = document.getElementById('name_score');
+    let scoreboardMenu = document.getElementById('scoreboard_menu');
+    let scoresList = document.getElementById('scores_list');
 
     let byDifficultyModeMenu = document.getElementById('by_difficulty_mode');
-    let levelsModeMenu = document.getElementById('levels_mode')
+    let levelsModeMenu = document.getElementById('levels_mode');
 
     let sTotalScore = document.getElementById('s_total_score');
-    let sTotalScoreLabel = document.getElementById('s_total_score_label')
+    let sTotalScoreLabel = document.getElementById('s_total_score_label');
 
     let bNextLevel = document.getElementById('b_next_level');
     let bResetLevel = document.getElementById('b_reset_level');
@@ -38,8 +42,12 @@ new LevelProvider(() => {
     let bEasyLevel = document.getElementById('easy_level');
     let bIntermediateLevel = document.getElementById('intermediate_level');
     let bHardLevel = document.getElementById('hard_level');
+    let bOpenScoreboard = document.getElementById('b_open_scoreboard');
+    let bCloseScoreboard = document.getElementById('b_close_scoreboard');
+    let bSubmitScore = document.getElementById('b_submit_score');
 
     let iSaveName = document.getElementById('i_save_name');
+    let iScoreName = document.getElementById('i_score_name');
 
     let context = canvas.getContext('2d');
     
@@ -89,6 +97,10 @@ new LevelProvider(() => {
 
     // reset level button click listener
     bResetLevel.addEventListener('click', () => {
+        if(gamemode == gamemodes.LEVELS) {
+            removeScore(scoreHolder, currentLevel);
+            sTotalScore.innerText = scoreHolder.totalScore;
+        }
         resetGame();
     });
     // undo move button click listener
@@ -135,34 +147,34 @@ new LevelProvider(() => {
     
             savesList.appendChild(saveButton);
         });
-    });
 
-    // set save name and save game
-    bConfirmSave.addEventListener('click', () => {
-        saveGame(
-            iSaveName.value,
-            currentLevel,
-            game.worker,
-            game.boxes,
-            game.movesMade,
-            movesUndone,
-            scoreHolder.totalScore
-        );
-
-        iSaveName.value = '';
-        menu.style.display = 'inline';
-        saveMenu.style.display = 'none';
-        nameSaveForm.style.display = 'none';
-
-        startGame(game);
-    });
-    bCancelSave.addEventListener('click', () => {
-        iSaveName.value = '';
-        menu.style.display = 'inline';
-        saveMenu.style.display = 'none';
-        nameSaveForm.style.display = 'none';
-
-        startGame(game);
+        // set save name and save game
+        bConfirmSave.addEventListener('click', () => {
+            if(iSaveName.value != '') saveGame(
+                iSaveName.value,
+                currentLevel,
+                game.worker,
+                game.boxes,
+                game.movesMade,
+                movesUndone,
+                scoreHolder.totalScore
+            );
+    
+            iSaveName.value = '';
+            menu.style.display = 'inline';
+            saveMenu.style.display = 'none';
+            nameSaveForm.style.display = 'none';
+    
+            startGame(game);
+        });
+        bCancelSave.addEventListener('click', () => {
+            iSaveName.value = '';
+            menu.style.display = 'inline';
+            saveMenu.style.display = 'none';
+            nameSaveForm.style.display = 'none';
+    
+            startGame(game);
+        });
     });
 
     bReadGame.addEventListener('click', () => {
@@ -217,6 +229,41 @@ new LevelProvider(() => {
             savesList.appendChild(saveButton);
         });
     });
+    bOpenScoreboard.addEventListener('click', () => {
+        stopGame(game);
+
+        menu.style.display = 'none';
+        scoreboardMenu.style.display = 'inline';
+
+        while(scoresList.firstChild) scoresList.removeChild(scoresList.firstChild);
+
+        readScoreboard().forEach((score, index) => {
+            let scoreButton = document.createElement('button');
+            scoreButton.innerText = index + 1 + '. ' + score['name'] + ' - ' + score['score'];
+            scoreButton.style.width = '200px';
+            scoreButton.style.height = '50px';
+            scoreButton.style.border = 'none';
+            scoreButton.style.backgroundColor = 'gray';
+    
+            scoresList.appendChild(scoreButton);
+        });
+
+        bSubmitScore.addEventListener('click', () => {
+            if(iScoreName.value != '') updateScoreboard(iScoreName.value, scoreHolder.totalScore);
+            menu.style.display = 'inline';
+            scoreboardMenu.style.display = 'none';
+            iScoreName.value = '';
+
+            startGame(game);
+        });
+        bCloseScoreboard.addEventListener('click', () => {
+            menu.style.display = 'inline';
+            scoreboardMenu.style.display = 'none';
+            iScoreName.value = '';
+    
+            startGame(game);
+        });
+    });
 
     // switch game mode, BY_DIFFICULTY -> LEVELS -> BY_DIFFICULTY
     bChangeGamemode.addEventListener('click', () => {
@@ -232,6 +279,7 @@ new LevelProvider(() => {
 
             bSaveGame.style.display = 'inline';
             bReadGame.style.display = 'inline';
+            bOpenScoreboard.style.display = 'inline';
 
             level = getLevelByLevelNumber(0)['level'];
             resetGame();
@@ -248,6 +296,7 @@ new LevelProvider(() => {
 
             bSaveGame.style.display = 'none';
             bReadGame.style.display = 'none';
+            bOpenScoreboard.style.display = 'none';
 
             level = getLevelByDifficulty(selectedDifficulty)['level'];
             resetGame();

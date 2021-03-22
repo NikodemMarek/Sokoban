@@ -45,7 +45,6 @@ strong {
     height: 600px;
     background-color: gray;
     float: right;
-    display: none;
 }
 
 #name_save {
@@ -69,6 +68,36 @@ strong {
     margin: 10px;
     border: none;
     background-color: silver;
+}
+
+#scores_list {
+    width: 200px;
+    height: 450px;
+    overflow-y: scroll;
+    overflow: overlay;
+}
+
+#name_score {
+    width: 200px;
+    height: 150px;
+    background-color: gray;
+    float: right;
+}
+
+#i_score_name {
+    width: 180px;
+    height: 40px;
+    font-size: 20px;
+    margin: 10px;
+    border: none;
+    background-color: silver;
+}
+
+#scoreboard_menu {
+    width: 200px;
+    height: 600px;
+    background-color: gray;
+    float: right;
 }
 
 .menu_button {
