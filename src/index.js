@@ -12,7 +12,35 @@ new LevelProvider(() => {
     });
     let gamemode = gamemodes.BY_DIFFICULTY;
     
+    // html elements
     let canvas = document.getElementById('c_game_screen');
+    
+    let savesList = document.getElementById('saves_list');
+    let menu = document.getElementById('menu');
+    let saveMenu = document.getElementById('save_menu');
+    let nameSaveForm = document.getElementById('name_save');
+
+    let byDifficultyModeMenu = document.getElementById('by_difficulty_mode');
+    let levelsModeMenu = document.getElementById('levels_mode')
+
+    let sTotalScore = document.getElementById('s_total_score');
+    let sTotalScoreLabel = document.getElementById('s_total_score_label')
+
+    let bNextLevel = document.getElementById('b_next_level');
+    let bResetLevel = document.getElementById('b_reset_level');
+    let bUndoMove = document.getElementById('b_undo_move');
+    let bRandomLevel = document.getElementById('b_random_level');
+    let bSaveGame = document.getElementById('b_save_game');
+    let bConfirmSave = document.getElementById('b_confirm_save');
+    let bCancelSave = document.getElementById('b_cancel_save');
+    let bReadGame = document.getElementById('b_read_game')
+    let bChangeGamemode = document.getElementById('b_change_gamemode');
+    let bEasyLevel = document.getElementById('easy_level');
+    let bIntermediateLevel = document.getElementById('intermediate_level');
+    let bHardLevel = document.getElementById('hard_level');
+
+    let iSaveName = document.getElementById('i_save_name');
+
     let context = canvas.getContext('2d');
     
     let canvasImage = new CanvasImage(context);
@@ -30,7 +58,6 @@ new LevelProvider(() => {
         '#ff4000', '#ff0000', '#e60000', '#cc0000', '#b30000', '#990000'
     ];
 
-    let levelsMode = document.getElementById('levels_mode');
     for(let i = 1; i <= 20; i++) {
         let levelButton = document.createElement('button');
         levelButton.innerText = i;
@@ -39,16 +66,14 @@ new LevelProvider(() => {
         levelButton.style.border = 'none';
         levelButton.style.backgroundColor = levelsColors[i - 1];
 
-        levelsMode.appendChild(levelButton);
+        levelsModeMenu.appendChild(levelButton);
     }
 
-    let savesList = document.getElementById('saves_list');
-
     function onVictory(movesMade, movesUndone) {
-        if(gamemode == gamemodes.LEVELS) document.getElementById('b_next_level').style.display = 'inline';
+        if(gamemode == gamemodes.LEVELS) bNextLevel.style.display = 'inline';
 
         let score = calculateScore(1, movesMade, movesUndone);
-        document.getElementById('s_total_score').innerText = pushScore(scoreHolder, currentLevel, score);
+        sTotalScore.innerText = pushScore(scoreHolder, currentLevel, score);
 
         return score;
     }
@@ -63,29 +88,29 @@ new LevelProvider(() => {
     }
 
     // reset level button click listener
-    document.getElementById('b_reset_level').addEventListener('click', () => {
+    bResetLevel.addEventListener('click', () => {
         resetGame();
     });
     // undo move button click listener
-    document.getElementById('b_undo_move').addEventListener('click', () => {
+    bUndoMove.addEventListener('click', () => {
         undoMove(game);
     });
     // get new random level
-    document.getElementById('b_random_level').addEventListener('click', () => {
+    bRandomLevel.addEventListener('click', () => {
         level = getLevelByDifficulty(selectedDifficulty)['level'];
         resetGame();
     });
-    document.getElementById('b_next_level').addEventListener('click', () => {
+    bNextLevel.addEventListener('click', () => {
         level = getLevelByLevelNumber(++ currentLevel)['level'];
         resetGame();
-        document.getElementById('b_next_level').style.display = 'none';
+        bNextLevel.style.display = 'none';
     });
-    document.getElementById('b_save_game').addEventListener('click', () => {
+    bSaveGame.addEventListener('click', () => {
         stopGame(game);
 
-        document.getElementById('menu').style.display = 'none';
-        document.getElementById('save_menu').style.display = 'inline';
-        document.getElementById('name_save').style.display = 'inline';
+        menu.style.display = 'none';
+        saveMenu.style.display = 'inline';
+        nameSaveForm.style.display = 'inline';
 
         while(savesList.firstChild) savesList.removeChild(savesList.firstChild);
 
@@ -105,7 +130,7 @@ new LevelProvider(() => {
             });
 
             saveButton.addEventListener('click', () => {
-                document.getElementById('i_save_name').value = save['name'];
+                iSaveName.value = save['name'];
             });
     
             savesList.appendChild(saveButton);
@@ -113,9 +138,9 @@ new LevelProvider(() => {
     });
 
     // set save name and save game
-    document.getElementById('b_confirm_save').addEventListener('click', () => {
+    bConfirmSave.addEventListener('click', () => {
         saveGame(
-            document.getElementById('i_save_name').value,
+            iSaveName.value,
             currentLevel,
             game.worker,
             game.boxes,
@@ -124,27 +149,27 @@ new LevelProvider(() => {
             scoreHolder.totalScore
         );
 
-        document.getElementById('i_save_name').value = '';
-        document.getElementById('menu').style.display = 'inline';
-        document.getElementById('save_menu').style.display = 'none';
-        document.getElementById('name_save').style.display = 'none';
+        iSaveName.value = '';
+        menu.style.display = 'inline';
+        saveMenu.style.display = 'none';
+        nameSaveForm.style.display = 'none';
 
         startGame(game);
     });
-    document.getElementById('b_cancel_save').addEventListener('click', () => {
-        document.getElementById('i_save_name').value = '';
-        document.getElementById('menu').style.display = 'inline';
-        document.getElementById('save_menu').style.display = 'none';
-        document.getElementById('name_save').style.display = 'none';
+    bCancelSave.addEventListener('click', () => {
+        iSaveName.value = '';
+        menu.style.display = 'inline';
+        saveMenu.style.display = 'none';
+        nameSaveForm.style.display = 'none';
 
         startGame(game);
     });
 
-    document.getElementById('b_read_game').addEventListener('click', () => {
+    bReadGame.addEventListener('click', () => {
         stopGame(game);
 
-        document.getElementById('menu').style.display = 'none';
-        document.getElementById('save_menu').style.display = 'inline';
+        menu.style.display = 'none';
+        saveMenu.style.display = 'inline';
 
         while(savesList.firstChild) savesList.removeChild(savesList.firstChild);
 
@@ -164,8 +189,8 @@ new LevelProvider(() => {
             });
 
             saveButton.addEventListener('click', () => {
-                document.getElementById('menu').style.display = 'inline';
-                document.getElementById('save_menu').style.display = 'none';
+                menu.style.display = 'inline';
+                saveMenu.style.display = 'none';
 
                 let saveData = JSON.parse(save['data']);
                 
@@ -184,7 +209,7 @@ new LevelProvider(() => {
                     saveData['movesMade'],
                     saveData['movesUndone']
                 );
-                document.getElementById('s_total_score').innerText = scoreHolder.score;
+                sTotalScore.innerText = scoreHolder.score;
 
                 startGame(game);
             });
@@ -194,35 +219,35 @@ new LevelProvider(() => {
     });
 
     // switch game mode, BY_DIFFICULTY -> LEVELS -> BY_DIFFICULTY
-    document.getElementById('b_change_gamemode').addEventListener('click', () => {
+    bChangeGamemode.addEventListener('click', () => {
         if (gamemode == gamemodes.BY_DIFFICULTY) {
             gamemode = gamemodes.LEVELS;
-            document.getElementById('by_difficulty_mode').style.display = 'none';
-            document.getElementById('levels_mode').style.display = 'inline';
+            byDifficultyModeMenu.style.display = 'none';
+            levelsModeMenu.style.display = 'inline';
 
-            document.getElementById('b_random_level').style.display = 'none';
+            bRandomLevel.style.display = 'none';
 
-            document.getElementById('s_total_score').style.display = 'inline';
-            document.getElementById('s_total_score_label').style.display = 'inline';
+            sTotalScore.style.display = 'inline';
+            sTotalScoreLabel.style.display = 'inline';
 
-            document.getElementById('b_save_game').style.display = 'inline';
-            document.getElementById('b_read_game').style.display = 'inline';
+            bSaveGame.style.display = 'inline';
+            bReadGame.style.display = 'inline';
 
             level = getLevelByLevelNumber(0)['level'];
             resetGame();
         } else {
             gamemode = gamemodes.BY_DIFFICULTY;
-            document.getElementById('by_difficulty_mode').style.display = 'inline';
-            document.getElementById('levels_mode').style.display = 'none';
+            byDifficultyModeMenu.style.display = 'inline';
+            levelsModeMenu.style.display = 'none';
 
-            document.getElementById('b_random_level').style.display = 'inline';
-            document.getElementById('b_next_level').style.display = 'none';
+            bRandomLevel.style.display = 'inline';
+            bNextLevel.style.display = 'none';
 
-            document.getElementById('s_total_score').style.display = 'none';
-            document.getElementById('s_total_score_label').style.display = 'none';
+            sTotalScore.style.display = 'none';
+            sTotalScoreLabel.style.display = 'none';
 
-            document.getElementById('b_save_game').style.display = 'none';
-            document.getElementById('b_read_game').style.display = 'none';
+            bSaveGame.style.display = 'none';
+            bReadGame.style.display = 'none';
 
             level = getLevelByDifficulty(selectedDifficulty)['level'];
             resetGame();
@@ -230,17 +255,17 @@ new LevelProvider(() => {
     });
 
     // change difficulty level click listeners
-    document.getElementById('easy_level').addEventListener('click', () => {
+    bEasyLevel.addEventListener('click', () => {
         selectedDifficulty = 'easy';
         level = getLevelByDifficulty('easy')['level'];
         resetGame();
     });
-    document.getElementById('intermediate_level').addEventListener('click', () => {
+    bIntermediateLevel.addEventListener('click', () => {
         selectedDifficulty = 'intermediate';
         level = getLevelByDifficulty('intermediate')['level'];
         resetGame();
     });
-    document.getElementById('hard_level').addEventListener('click', () => {
+    bHardLevel.addEventListener('click', () => {
         selectedDifficulty = 'hard';
         level = getLevelByDifficulty('hard')['level'];
         resetGame();
