@@ -5,6 +5,7 @@ import ScoreHolder, { pushScore, removeScore } from '/src/board/scoreHolder.js'
 import { saveGame, readGames } from '/src/board/gameSaver.js'
 import CanvasImage from '/src/canvas/canvasImage.js'
 import { readScoreboard, updateScoreboard } from '/src/scoreboard.js'
+import LevelBuilder from '/src/board/levelBuilder.js'
 
 new LevelProvider(() => {
     const gamemodes = Object.freeze({
@@ -33,8 +34,18 @@ new LevelProvider(() => {
     let bSubmitScore = document.getElementById('b_submit_score');
     let bCloseScoreboard = document.getElementById('b_close_scoreboard');
 
+    let gameObjects = document.getElementById('game_objects');
+
+    let iEmpty = document.getElementById('i_empty');
+    let iWall = document.getElementById('i_wall');
+    let iTarget = document.getElementById('i_target');
+    let iBox = document.getElementById('i_box');
+    let iWorker = document.getElementById('i_worker');
+
     let sTotalScore = document.getElementById('s_total_score');
     let sTotalScoreLabel = document.getElementById('s_total_score_label');
+    let sMovesNumber = document.getElementById('s_moves_number');
+    let sMovesNumberLabel = document.getElementById('s_moves_number_label');
 
     let bResetLevel = document.getElementById('b_reset_level');
     let bUndoMove = document.getElementById('b_undo_move');
@@ -69,6 +80,8 @@ new LevelProvider(() => {
 
     let level
     let game
+
+    let levelBuilder
     
     let levelsColors = [
         '#59b300', '#66cc00', '#73e600', '#80ec13', '#99f042',
@@ -95,6 +108,11 @@ new LevelProvider(() => {
                 bOpenScoreboard.style.display = 'none';
                 break;
             case gamemodes.CUSTOM:
+                bCreateLevel.style.display = 'none';
+                gameObjects.style.display = 'none';
+
+                sMovesNumber.style.display = 'inline';
+                sMovesNumberLabel.style.display = 'inline';
                 break;
         }
 
@@ -122,6 +140,7 @@ new LevelProvider(() => {
                 resetGame();
                 break;
             case gamemodes.CUSTOM:
+                bCreateLevel.style.display = 'inline';
                 break;
         }
     }
@@ -204,9 +223,22 @@ new LevelProvider(() => {
         resetGame();
     });
     // undo move button click listener
-    bUndoMove.addEventListener('click', () => {
-        undoMove(game);
+    bUndoMove.addEventListener('click', () => { undoMove(game); });
+    // switch game mode, BY_DIFFICULTY -> LEVELS -> CUSTOM -> BY_DIFFICULTY
+    bChangeGamemode.addEventListener('click', () => {
+        switch(gamemode) {
+            case gamemodes.BY_DIFFICULTY:
+                setGamemode(gamemodes.LEVELS);
+                break;
+            case gamemodes.LEVELS:
+                setGamemode(gamemodes.CUSTOM);
+                break;
+            case gamemodes.CUSTOM:
+                setGamemode(gamemodes.BY_DIFFICULTY);
+                break;
+        }
     });
+
     // get new random level
     bRandomLevel.addEventListener('click', () => {
         level = getLevelByDifficulty(selectedDifficulty)['level'];
@@ -337,19 +369,21 @@ new LevelProvider(() => {
     });
     bOpenScoreboard.addEventListener('click', openScoreboard);
 
-    // switch game mode, BY_DIFFICULTY -> LEVELS -> CUSTOM -> BY_DIFFICULTY
-    bChangeGamemode.addEventListener('click', () => {
-        switch(gamemode) {
-            case gamemodes.BY_DIFFICULTY:
-                setGamemode(gamemodes.LEVELS);
-                break;
-            case gamemodes.LEVELS:
-                setGamemode(gamemodes.CUSTOM);
-                break;
-            case gamemodes.CUSTOM:
-                setGamemode(gamemodes.BY_DIFFICULTY);
-                break;
-        }
+    bCreateLevel.addEventListener('click', () => {
+        stopGame(game);
+
+        gameObjects.style.display = 'inline';
+
+        sMovesNumber.style.display = 'none';
+        sMovesNumberLabel.style.display = 'none';
+
+        levelBuilder = new LevelBuilder(context, canvasImage);
+
+        iEmpty.addEventListener('click', () => levelBuilder.object = 'e');
+        iWall.addEventListener('click', () => levelBuilder.object = 'w');
+        iTarget.addEventListener('click', () => levelBuilder.object = 't');
+        iBox.addEventListener('click', () => levelBuilder.object = 'b');
+        iWorker.addEventListener('click', () => levelBuilder.object = 'p');
     });
 
     // change difficulty level click listeners

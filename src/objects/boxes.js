@@ -12,6 +12,11 @@ export function draw(boxes, canvasImage) { boxes.boxes.forEach(box => drawBox(bo
 
 // add box to boxes list
 export function addBox(boxes, box) { boxes.boxes.push(box) }
+export function removeBox(boxes, position) {
+    boxes.boxes.forEach((box, index) => {
+        if(box.position.x == position.x && box.position.y == position.y) boxes.boxes.splice(index, 1);
+    });
+}
 
 // is there a box in given position
 export function isBox(boxes, position) {

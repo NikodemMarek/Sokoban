@@ -8,6 +8,13 @@ export default class Board {
     }
 };
 
+export function setElement(board, position, element) {
+    if(
+        position.x >= 0 && position.x < BOARD_DIMENSIONS.x &&
+        position.y >= 0 && position.y < BOARD_DIMENSIONS.y 
+    ) board.board[position.y][position.x] = element;
+}
+
 // draw elements on the board
 export function draw(board) {
     for(const [y, row] of board.board.entries()) {

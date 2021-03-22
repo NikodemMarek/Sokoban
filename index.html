@@ -31,7 +31,7 @@
             <button id="b_change_gamemode" class="menu_button">Zmień tryb gry</button>
 
             <div style="margin-top: 50px;"></div>
-            <strong>Liczba ruchów: </strong><strong id="s_moves_number">0</strong>
+            <strong id="s_moves_number_label">Liczba ruchów: </strong><strong id="s_moves_number">0</strong>
             <div style="margin-top: 10px;"></div>
             <strong id="s_total_score_label" class="invisible">Obecny wynik: </strong><strong id="s_total_score" class="invisible">0</strong>
         </div>
@@ -61,6 +61,14 @@
             </div>
 
             <div id="levels_mode" class="invisible"></div>
+
+            <div id="game_objects" class="invisible">
+                <img id="i_empty" src="assets/images/wall.png">
+                <img id="i_wall" src="assets/images/wall.png">
+                <img id="i_target" src="assets/images/target.png">
+                <img id="i_box" src="assets/images/box.png">
+                <img id="i_worker" src="assets/images/worker.png">
+            </div>
         </div>
     </div>
 
