@@ -1,4 +1,4 @@
 export function calculateScore(scoreMultiplier, movesMade, movesUndone) {
-    let score = scoreMultiplier * movesMade - movesUndone * scoreMultiplier * 4;
+    let score =  1000 - (movesMade + movesUndone * movesUndone) * scoreMultiplier;
     return score >= 0 ? score: 0;
 }
