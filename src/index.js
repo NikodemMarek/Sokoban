@@ -76,7 +76,7 @@ new LevelProvider(() => {
         resetGame();
     });
     document.getElementById('b_next_level').addEventListener('click', () => {
-        level = getLevelByLevelNumber(++currentLevel)['level'];
+        level = getLevelByLevelNumber(++ currentLevel)['level'];
         resetGame();
         document.getElementById('b_next_level').style.display = 'none';
     });
@@ -85,6 +85,7 @@ new LevelProvider(() => {
 
         document.getElementById('menu').style.display = 'none';
         document.getElementById('save_menu').style.display = 'inline';
+        document.getElementById('name_save').style.display = 'inline';
 
         while(savesList.firstChild) savesList.removeChild(savesList.firstChild);
 
@@ -126,6 +127,7 @@ new LevelProvider(() => {
         document.getElementById('i_save_name').value = '';
         document.getElementById('menu').style.display = 'inline';
         document.getElementById('save_menu').style.display = 'none';
+        document.getElementById('name_save').style.display = 'none';
 
         startGame(game);
     });
@@ -133,8 +135,62 @@ new LevelProvider(() => {
         document.getElementById('i_save_name').value = '';
         document.getElementById('menu').style.display = 'inline';
         document.getElementById('save_menu').style.display = 'none';
+        document.getElementById('name_save').style.display = 'none';
 
         startGame(game);
+    });
+
+    document.getElementById('b_read_game').addEventListener('click', () => {
+        stopGame(game);
+
+        document.getElementById('menu').style.display = 'none';
+        document.getElementById('save_menu').style.display = 'inline';
+
+        while(savesList.firstChild) savesList.removeChild(savesList.firstChild);
+
+        readGames().forEach(save => {
+            let saveButton = document.createElement('button');
+            saveButton.innerText = save['name'];
+            saveButton.style.width = '200px';
+            saveButton.style.height = '50px';
+            saveButton.style.border = 'none';
+            saveButton.style.backgroundColor = 'gray';
+
+            saveButton.addEventListener('mouseenter', () => {
+                saveButton.style.backgroundColor = 'gainsboro';
+            });
+            saveButton.addEventListener('mouseleave', () => {
+                saveButton.style.backgroundColor = 'gray';
+            });
+
+            saveButton.addEventListener('click', () => {
+                document.getElementById('menu').style.display = 'inline';
+                document.getElementById('save_menu').style.display = 'none';
+
+                let saveData = JSON.parse(save['data']);
+                
+                scoreHolder.score = saveData['score'];
+
+                level = getLevelByLevelNumber(saveData['currentLevel'])['level'];
+                game = new Game(
+                    context,
+                    canvasImage,
+                    {
+                        'board': level['board'],
+                        'worker': saveData['worker'],
+                        'boxes': saveData['boxes']
+                    },
+                    onVictory,
+                    saveData['movesMade'],
+                    saveData['movesUndone']
+                );
+                document.getElementById('s_total_score').innerText = scoreHolder.score;
+
+                startGame(game);
+            });
+    
+            savesList.appendChild(saveButton);
+        });
     });
 
     // switch game mode, BY_DIFFICULTY -> LEVELS -> BY_DIFFICULTY
@@ -150,6 +206,7 @@ new LevelProvider(() => {
             document.getElementById('s_total_score_label').style.display = 'inline';
 
             document.getElementById('b_save_game').style.display = 'inline';
+            document.getElementById('b_read_game').style.display = 'inline';
 
             level = getLevelByLevelNumber(0)['level'];
             resetGame();
@@ -165,6 +222,7 @@ new LevelProvider(() => {
             document.getElementById('s_total_score_label').style.display = 'none';
 
             document.getElementById('b_save_game').style.display = 'none';
+            document.getElementById('b_read_game').style.display = 'none';
 
             level = getLevelByDifficulty(selectedDifficulty)['level'];
             resetGame();

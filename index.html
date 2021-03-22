@@ -18,8 +18,9 @@
             <button id="b_reset_level" class="menu_button">Zresetuj poziom</button>
             <button id="b_undo_move" class="menu_button">Cofnij</button>
             <button id="b_random_level" class="menu_button">Inny poziom</button>
-            <button id="b_next_level" class="menu_button">Następny poziom</button>
-            <button id="b_save_game" class="menu_button">Zapisz grę</button>
+            <button id="b_next_level" class="menu_button invisible">Następny poziom</button>
+            <button id="b_save_game" class="menu_button invisible">Zapisz grę</button>
+            <button id="b_read_game" class="menu_button invisible">Wczytaj grę</button>
 
             <div style="margin-top: 50px;"></div>
             <button id="b_change_gamemode" class="menu_button">Zmień tryb gry</button>
@@ -27,18 +28,18 @@
             <div style="margin-top: 50px;"></div>
             <strong>Liczba ruchów: </strong><strong id="s_moves_number">0</strong>
             <div style="margin-top: 10px;"></div>
-            <strong id="s_total_score_label">Obecny wynik: </strong><strong id="s_total_score">0</strong>
+            <strong id="s_total_score_label" class="invisible">Obecny wynik: </strong><strong id="s_total_score" class="invisible">0</strong>
         </div>
 
         <div id="save_menu">
-            <div id="name_save">
+            <div id="name_save" class="invisible">
                 <input id="i_save_name" type="text">
 
-                <button id="b_cancel_save" class="menu_button">Anuluj</button>
                 <button id="b_confirm_save" class="menu_button">Zapisz</button>
             </div>
 
             <div id="saves_list"></div>
+            <button id="b_cancel_save" class="menu_button">Anuluj</button>
         </div>
 
         <div id="levels_menu">
@@ -46,19 +47,19 @@
                 <button class="difficulty_level" id="easy_level">Łatwy</button><button class="difficulty_level" id="intermediate_level">Średnio zaawansowany</button><button class="difficulty_level" id="hard_level">Trudny</button>
             </div>
 
-            <div id="levels_mode"></div>
+            <div id="levels_mode" class="invisible"></div>
         </div>
     </div>
 
-    <img id="worker_image" src="assets/images/worker.png">
-    <img id="box_image" src="assets/images/box.png">
+    <img id="worker_image" class="image_asset" src="assets/images/worker.png">
+    <img id="box_image" class="image_asset" src="assets/images/box.png">
 
-    <img id="wall_image" src="assets/images/wall.png">
-    <img id="target_image" src="assets/images/target.png">
+    <img id="wall_image" class="image_asset" src="assets/images/wall.png">
+    <img id="target_image" class="image_asset" src="assets/images/target.png">
 
-    <img id="background_image" src="assets/images/background.png">
+    <img id="background_image" class="image_asset" src="assets/images/background.png">
 
-    <img id="victory_image" src="assets/images/victory.png">
+    <img id="victory_image" class="image_asset" src="assets/images/victory.png">
 
     <script type="module" src="src/index.js"></script>
 </body>

@@ -20,6 +20,10 @@ strong {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.invisible {
+    display: none;
+}
+
 #d_game {
     width: 1100px;
     height: 650px;
@@ -58,15 +62,6 @@ strong {
     overflow: overlay;
 }
 
-#b_cancel_save {
-    width: 100px;
-}
-
-#b_confirm_save {
-    width: 100px;
-    float: right;
-}
-
 #i_save_name {
     width: 180px;
     height: 40px;
@@ -74,10 +69,6 @@ strong {
     margin: 10px;
     border: none;
     background-color: silver;
-}
-
-#b_next_level {
-    display: none;
 }
 
 .menu_button {
@@ -139,47 +130,9 @@ strong {
 #levels_mode {
     width: 900px;
     height: 50px;
-    display: none;
 }
 
-#s_total_score_label {
-    display: none;
-}
-
-#s_total_score {
-    display: none;
-}
-
-#b_save_game {
-    display: none;
-}
-
-#worker_image {
-    visibility: hidden;
-    display: none;
-}
-
-#box_image {
-    visibility: hidden;
-    display: none;
-}
-
-#wall_image {
-    visibility: hidden;
-    display: none;
-}
-
-#target_image {
-    visibility: hidden;
-    display: none;
-}
-
-#background_image {
-    visibility: hidden;
-    display: none;
-}
-
-#victory_image {
+.image_asset {
     visibility: hidden;
     display: none;
 }

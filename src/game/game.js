@@ -7,29 +7,31 @@ import GameHistory, { addMove, undoMove as undoMoveInHistory } from './gameHisto
 import Board from '/src/board/board.js'
 
 export default class Game {
-    constructor(context, canvasImage, board, onVictory) {
+    constructor(context, canvasImage, level, onVictory, movesMade = 0, movesUndone = 0) {
         this.context = context;
         this.canvasImage = canvasImage;
         this.onVictory = onVictory;
 
         // set the board for the level
-        this.board = new Board(canvasImage, board['board']);
+        this.board = new Board(canvasImage, level['board']);
 
-        this.worker = board['worker'];
-        this.boxes = board['boxes'];
+        this.worker = level['worker'];
+        this.boxes = level['boxes'];
 
-        this.movesNumber = 0;
-        this.movesUndone = 0;
-        document.getElementById('s_moves_number').innerText = this.movesNumber;
+        this.movesMade = movesMade;
+        this.movesUndone = movesUndone;
+        document.getElementById('s_moves_number').innerText = this.movesMade;
 
         // start saving the moves
-        this.gameHistory = new GameHistory(this.worker, this.boxes, this.movesNumber);
+        this.gameHistory = new GameHistory(this.worker, this.boxes, this.movesMade);
 
         // draw objects on the board, and the worker in their initial localizations
         draw(this);
 
+        // check if game is already in victory state
         // initialize user input handler
-        this.inputHandler = new InputHandler(this);
+        if(isVictory(this.boxes)) victory(this);
+        else this.inputHandler = new InputHandler(this);
     }
 }
 
@@ -57,9 +59,9 @@ export function update(game, workerMovement) {
 
             if (workerMovement.x != 0 || workerMovement.y != 0) {
                 // update number of moves
-                document.getElementById('s_moves_number').innerText = ++ game.movesNumber;
+                document.getElementById('s_moves_number').innerText = ++ game.movesMade;
 
-                addMove(game.gameHistory, game.worker, game.boxes, game.movesNumber);
+                addMove(game.gameHistory, game.worker, game.boxes, game.movesMade);
             }
         }
 
@@ -94,12 +96,12 @@ export function undoMove(game) {
 
     // undo move
     undoMoveInHistory(game.gameHistory);
-    ({ 'worker': game.worker, 'boxes': game.boxes, 'moves': game.movesNumber } = undoMoveInHistory(game.gameHistory));
-    addMove(game.gameHistory, game.worker, game.boxes, game.movesNumber);
+    ({ 'worker': game.worker, 'boxes': game.boxes, 'moves': game.movesMade } = undoMoveInHistory(game.gameHistory));
+    addMove(game.gameHistory, game.worker, game.boxes, game.movesMade);
 
     // draw changes
     draw(game);
-    document.getElementById('s_moves_number').innerText = game.movesNumber;
+    document.getElementById('s_moves_number').innerText = game.movesMade;
 }
 
 // handle win
@@ -113,16 +115,16 @@ function victory(game) {
     game.context.fillStyle = 'rgba(0, 0, 0, 0.9)'
     game.context.font = '64px sans-serif';
     game.context.textAlign = 'center';
-    game.context.fillText('Twój wynik: ' + game.onVictory(game.movesNumber, game.movesUndone), BOARD_SIZE.x / 2, BOARD_SIZE.y / 2 + 31);
+    game.context.fillText('Twój wynik: ' + game.onVictory(game.movesMade, game.movesUndone), BOARD_SIZE.x / 2, BOARD_SIZE.y / 2 + 31);
 }
 
 // unpause the game
 export function start(game) {
     game.isPaused = false;
-    game.inputHandler.isPaused = false;
+    if(typeof game.inputHandler != 'undefined') game.inputHandler.isPaused = false;
 }
 // pause the game
 export function stop(game) {
     game.isPaused = true;
-    game.inputHandler.isPaused = true;
+    if(typeof game.inputHandler != 'undefined') game.inputHandler.isPaused = true;
 }
