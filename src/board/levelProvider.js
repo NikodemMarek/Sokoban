@@ -1,6 +1,7 @@
 import Worker from '/src/objects/worker.js'
 import Boxes, { addBox } from '/src/objects/boxes.js'
 import Box from '/src/objects/box.js'
+import { BOARD_DIMENSIONS } from '/src/constants.js'
 
 let byDifficultyMode = {
     easy: [],
@@ -65,18 +66,23 @@ function convertToLevel(rawLevel) {
     let boxes = new Boxes();
 
     [...rawLevel].forEach(element => {
+        if(column >= BOARD_DIMENSIONS.x) {
+            column = 0;
+            row ++;
+        }
+
         switch(element) {
-            case ';':
-                column = 0
-                row ++
-                break;
             case 'p':
                 worker = new Worker({ x: column, y: row });
                 board[row][column] = 'e'
                 break;
             case 'b':
-                addBox(boxes, new Box({ x: column, y: row }, board[row][column] == 't'));
-                board[row][column] = board[row][column] == 't' ? 't': 'e'
+                addBox(boxes, new Box({ x: column, y: row }, false));
+                board[row][column] = 'e';
+                break;
+            case 'h':
+                addBox(boxes, new Box({ x: column, y: row }, true));
+                board[row][column] = 't';
                 break;
             default:
                 board[row][column] = element
