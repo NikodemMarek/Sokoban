@@ -9,6 +9,7 @@ export default class LevelBuilder {
         this.context = context;
         this.canvasImage = canvasImage;
 
+        this.isPaused = false;
         this.object = 'e';
         this.targetsNumber = 0;
 
@@ -46,60 +47,73 @@ export default class LevelBuilder {
 };
 
 export function draw(levelBuilder) {
-    levelBuilder.canvasImage.drawBackground();
+    if(!levelBuilder.isPaused) {
+        levelBuilder.canvasImage.drawBackground();
 
-    drawBoard(levelBuilder.board, levelBuilder.canvasImage);
+        drawBoard(levelBuilder.board, levelBuilder.canvasImage);
 
-    drawBoxes(levelBuilder.boxes, levelBuilder.canvasImage);
-    if(typeof levelBuilder.worker != 'undefined') drawWorker(levelBuilder.worker, levelBuilder.canvasImage);
+        drawBoxes(levelBuilder.boxes, levelBuilder.canvasImage);
+        if(typeof levelBuilder.worker != 'undefined') drawWorker(levelBuilder.worker, levelBuilder.canvasImage);
+    }
 }
 export function update(levelBuilder, clickPosition) {
-    switch(levelBuilder.object) {
-        case 'e':
-            removeBox(levelBuilder.boxes, clickPosition);
-            if(isWorker(levelBuilder.worker, clickPosition)) levelBuilder.worker = undefined;
+    if(!levelBuilder.isPaused) {
+        switch(levelBuilder.object) {
+            case 'e':
+                removeBox(levelBuilder.boxes, clickPosition);
+                if(isWorker(levelBuilder.worker, clickPosition)) levelBuilder.worker = undefined;
 
-            if(isTarget(levelBuilder.board, clickPosition)) levelBuilder.targetsNumber --;
-            setElement(levelBuilder.board, clickPosition, levelBuilder.object);
-            break;
-        case 'w':
-            if(
-                !isWorker(levelBuilder.worker, clickPosition) &&
-                !isBox(levelBuilder.boxes, clickPosition)
-            ) setElement(levelBuilder.board, clickPosition, levelBuilder.object);
-            break;
-        case 't':
-            if(!isTarget(levelBuilder.board, clickPosition)) {
+                if(isTarget(levelBuilder.board, clickPosition)) levelBuilder.targetsNumber --;
                 setElement(levelBuilder.board, clickPosition, levelBuilder.object);
+                break;
+            case 'w':
+                if(
+                    !isWorker(levelBuilder.worker, clickPosition) &&
+                    !isBox(levelBuilder.boxes, clickPosition)
+                ) setElement(levelBuilder.board, clickPosition, levelBuilder.object);
+                break;
+            case 't':
+                if(!isTarget(levelBuilder.board, clickPosition)) {
+                    setElement(levelBuilder.board, clickPosition, levelBuilder.object);
 
-                levelBuilder.targetsNumber ++;
-            }
-            break;
-        case 'b':
-            if(
-                !isWall(levelBuilder.board, clickPosition) &&
-                !isWorker(levelBuilder.worker, clickPosition) &&
-                !isBox(levelBuilder.boxes, clickPosition)
-            ) {
-                addBox(
-                    levelBuilder.boxes,
-                    new Box(
-                        clickPosition,
-                        isTarget(levelBuilder.board, clickPosition)
-                    )
-                );
-            }
-            break;
-        case 'p':
-            if(
-                !isWall(levelBuilder.board, clickPosition) &&
-                !isBox(levelBuilder.boxes, clickPosition)
-            ) levelBuilder.worker = new Worker(clickPosition);
-            break;
+                    levelBuilder.targetsNumber ++;
+                }
+                break;
+            case 'b':
+                if(
+                    !isWall(levelBuilder.board, clickPosition) &&
+                    !isWorker(levelBuilder.worker, clickPosition) &&
+                    !isBox(levelBuilder.boxes, clickPosition)
+                ) {
+                    addBox(
+                        levelBuilder.boxes,
+                        new Box(
+                            clickPosition,
+                            isTarget(levelBuilder.board, clickPosition)
+                        )
+                    );
+                }
+                break;
+            case 'p':
+                if(
+                    !isWall(levelBuilder.board, clickPosition) &&
+                    !isBox(levelBuilder.boxes, clickPosition)
+                ) levelBuilder.worker = new Worker(clickPosition);
+                break;
+        }
     }
 }
 
 function isWorker(worker, position) {
     if(typeof worker == 'undefined') return false;
     else return worker.position.x == position.x && worker.position.y == position.y;
+}
+
+export function start(levelBuilder) {
+    levelBuilder.isPaused = false;
+    levelBuilder.boardClickListener.isPaused = false;
+}
+export function stop(levelBuilder) {
+    levelBuilder.isPaused = true;
+    levelBuilder.boardClickListener.isPaused = true;
 }

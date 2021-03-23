@@ -5,7 +5,7 @@ export function saveLevel(levelName, board, boxes, worker) {
 }
 
 function convertToRawLevel(board, boxes, worker) {
-    let rawLevel = 'e'.repeat(600);
+    let rawLevel = 'e'.repeat(BOARD_DIMENSIONS.x * BOARD_DIMENSIONS.y);
 
     board.board.forEach((row, rowIndex) => {
         row.forEach((index, columnIndex) => {

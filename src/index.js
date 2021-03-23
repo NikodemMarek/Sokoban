@@ -5,7 +5,7 @@ import ScoreHolder, { pushScore, removeScore } from '/src/board/scoreHolder.js'
 import { saveGame, readGames } from '/src/storage/gameSaver.js'
 import CanvasImage from '/src/canvas/canvasImage.js'
 import { readScoreboard, updateScoreboard } from '/src/storage/scoreboard.js'
-import LevelBuilder from '/src/board/levelBuilder.js'
+import LevelBuilder, { start as startLevelBuilder, stop as stopLevelBuilder } from '/src/board/levelBuilder.js'
 import { saveLevel } from '/src/storage/levelSaver.js'
 
 new LevelProvider(() => {
@@ -21,24 +21,12 @@ new LevelProvider(() => {
 
     let menu = document.getElementById('menu');
 
-    let saveMenu = document.getElementById('save_menu');
-    let savesList = document.getElementById('saves_list');
-    let nameSaveForm = document.getElementById('name_save');
-    let iSaveName = document.getElementById('i_save_name');
-    let bConfirmSave = document.getElementById('b_confirm_save');
-    let bCancelSave = document.getElementById('b_cancel_save');
-    
-    let scoreboardMenu = document.getElementById('scoreboard_menu');
-    let scoresList = document.getElementById('scores_list');
-    let iScoreName = document.getElementById('i_score_name');
-    let bSubmitScore = document.getElementById('b_submit_score');
-    let bCloseScoreboard = document.getElementById('b_close_scoreboard');
-
-    let customLevelsMenu = document.getElementById('custom_levels_menu');
-    let customLevelsList = document.getElementById('custom_levels_list');
-    let iCustomLevelName = document.getElementById('i_custom_level_name');
-    let bConfirmLevelSave = document.getElementById('b_confirm_level_save');
-    let bCancelLevelSave = document.getElementById('b_cancel_level_save');
+    let sideMenu = document.getElementById('side_menu');
+    let sideMenuForm = document.getElementById('side_menu_form');
+    let iSideMenuInput = document.getElementById('i_side_menu_input');
+    let bSideMenuConfirm = document.getElementById('b_side_menu_confirm');
+    let bSideMenuCancel = document.getElementById('b_side_menu_cancel');
+    let sideMenuList = document.getElementById('side_menu_list');
 
     let gameObjects = document.getElementById('game_objects');
 
@@ -163,55 +151,96 @@ new LevelProvider(() => {
         }
     }
 
-    function openScoreboard() {
-        stopGame(game);
-
-        menu.style.display = 'none';
-        scoreboardMenu.style.display = 'inline';
-
-        while(scoresList.firstChild) scoresList.removeChild(scoresList.firstChild);
-
-        readScoreboard().forEach((score, index) => {
-            let scoreButton = document.createElement('button');
-            scoreButton.innerText = index + 1 + '. ' + score['name'] + ' - ' + score['score'];
-            scoreButton.style.width = '200px';
-            scoreButton.style.height = '50px';
-            scoreButton.style.border = 'none';
-            scoreButton.style.backgroundColor = 'gray';
-    
-            scoresList.appendChild(scoreButton);
-        });
-
-        bSubmitScore.addEventListener('click', () => {
-            if(iScoreName.value != '') updateScoreboard(iScoreName.value, scoreHolder.totalScore);
-            menu.style.display = 'inline';
-            scoreboardMenu.style.display = 'none';
-            iScoreName.value = '';
-
-            startGame(game);
-        });
-        bCloseScoreboard.addEventListener('click', () => {
-            menu.style.display = 'inline';
-            scoreboardMenu.style.display = 'none';
-            iScoreName.value = '';
-    
-            startGame(game);
-        });
-    }
-
     function onVictory(movesMade, movesUndone) {
-        if(gamemode == gamemodes.LEVELS) bNextLevel.style.display = 'inline';
-
         let score = calculateScore(1, movesMade, movesUndone);
-        sTotalScore.innerText = pushScore(scoreHolder, currentLevel, score);
-
+        if(gamemode == gamemodes.LEVELS) {
+            bNextLevel.style.display = 'inline';
+            sTotalScore.innerText = pushScore(scoreHolder, currentLevel, score);
+        }
+        
         return score;
     }
 
     function resetGame() {
         stopGame(game);
         game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level)), onVictory);
+
+        sTotalScore.innerText = scoreHolder.totalScore;
         startGame(game);
+    }
+
+    function createSideMenu(
+        isInput,
+        pauseGame,
+        pauseLevelBuilder,
+        closeOnButtonClick,
+        listData,
+        dataFormat,
+        onButtonClick,
+        confirmButtonLabel,
+        onConfirm
+    ) {
+        if(pauseGame) stopGame(game);
+        if(pauseLevelBuilder) stopLevelBuilder(levelBuilder);
+
+        menu.style.display = 'none';
+        sideMenu.style.display = 'inline';
+        if(isInput) sideMenuForm.style.display = 'inline';
+
+        while(sideMenuList.firstChild) sideMenuList.removeChild(sideMenuList.firstChild);
+
+        listData.forEach((data, index) => {
+            let button = document.createElement('button');
+            button.innerText = dataFormat(data, index);
+            button.style.width = '200px';
+            button.style.height = '50px';
+            button.style.border = 'none';
+            button.style.backgroundColor = 'gray';
+
+            button.addEventListener('mouseenter', () => { button.style.backgroundColor = 'gainsboro'; });
+            button.addEventListener('mouseleave', () => { button.style.backgroundColor = 'gray'; });
+
+            button.addEventListener('click', () => {
+                onButtonClick(data);
+
+                if(closeOnButtonClick) {
+                    iSideMenuInput.value = '';
+                    menu.style.display = 'inline';
+                    sideMenu.style.display = 'none';
+                    sideMenuForm.style.display = 'none';
+
+                    if(pauseGame) startGame(game);
+                    if(pauseLevelBuilder) startLevelBuilder(levelBuilder);
+                }
+            });
+    
+            sideMenuList.appendChild(button);
+        });
+
+        if(isInput) {
+            bSideMenuConfirm.innerText = confirmButtonLabel;
+            bSideMenuConfirm.addEventListener('click', () => {
+                if(iSideMenuInput.value != '') onConfirm(iSideMenuInput.value);
+        
+                iSideMenuInput.value = '';
+                menu.style.display = 'inline';
+                sideMenu.style.display = 'none';
+                sideMenuForm.style.display = 'none';
+
+                if(pauseGame) startGame(game);
+                if(pauseLevelBuilder) startLevelBuilder(levelBuilder);
+            });
+        }
+
+        bSideMenuCancel.addEventListener('click', () => {
+            iSideMenuInput.value = '';
+            menu.style.display = 'inline';
+            sideMenu.style.display = 'none';
+            sideMenuForm.style.display = 'none';
+
+            if(pauseGame) startGame(game);
+            if(pauseLevelBuilder) startLevelBuilder(levelBuilder);
+        });
     }
 
     function init() {
@@ -267,125 +296,66 @@ new LevelProvider(() => {
         resetGame();
         bNextLevel.style.display = 'none';
     });
+
     bSaveGame.addEventListener('click', () => {
-        stopGame(game);
-
-        menu.style.display = 'none';
-        saveMenu.style.display = 'inline';
-        nameSaveForm.style.display = 'inline';
-
-        while(savesList.firstChild) savesList.removeChild(savesList.firstChild);
-
-        readGames().forEach(save => {
-            let saveButton = document.createElement('button');
-            saveButton.innerText = save['name'];
-            saveButton.style.width = '200px';
-            saveButton.style.height = '50px';
-            saveButton.style.border = 'none';
-            saveButton.style.backgroundColor = 'gray';
-
-            saveButton.addEventListener('mouseenter', () => {
-                saveButton.style.backgroundColor = 'gainsboro';
-            });
-            saveButton.addEventListener('mouseleave', () => {
-                saveButton.style.backgroundColor = 'gray';
-            });
-
-            saveButton.addEventListener('click', () => {
-                iSaveName.value = save['name'];
-            });
-    
-            savesList.appendChild(saveButton);
-        });
-
-        // set save name and save game
-        bConfirmSave.addEventListener('click', () => {
-            if(iSaveName.value != '') saveGame(
-                iSaveName.value,
-                currentLevel,
-                game.worker,
-                game.boxes,
-                game.movesMade,
-                movesUndone,
-                scoreHolder.totalScore
-            );
-    
-            iSaveName.value = '';
-            menu.style.display = 'inline';
-            saveMenu.style.display = 'none';
-            nameSaveForm.style.display = 'none';
-    
-            startGame(game);
-        });
-        bCancelSave.addEventListener('click', () => {
-            iSaveName.value = '';
-            menu.style.display = 'inline';
-            saveMenu.style.display = 'none';
-            nameSaveForm.style.display = 'none';
-    
-            startGame(game);
-        });
-    });
+            createSideMenu(
+                true, true, false, false,
+                readGames(),
+                (save, index) => save['name'],
+                (save) => { iSideMenuInput.value = save['name']; },
+                'Zapisz',
+                (inputValue) => {
+                    saveGame(
+                        inputValue,
+                        currentLevel,
+                        game.worker,
+                        game.boxes,
+                        game.movesMade,
+                        movesUndone,
+                        scoreHolder.totalScore
+                    );
+                }
+            )
+        }
+    );
     bReadGame.addEventListener('click', () => {
-        stopGame(game);
+            createSideMenu(
+                false, true, false, true,
+                readGames(),
+                (save, index) => save['name'],
+                (save) => {
+                    let saveData = JSON.parse(save['data']);
+                    scoreHolder.score = saveData['score'];
 
-        menu.style.display = 'none';
-        saveMenu.style.display = 'inline';
-
-        while(savesList.firstChild) savesList.removeChild(savesList.firstChild);
-
-        readGames().forEach(save => {
-            let saveButton = document.createElement('button');
-            saveButton.innerText = save['name'];
-            saveButton.style.width = '200px';
-            saveButton.style.height = '50px';
-            saveButton.style.border = 'none';
-            saveButton.style.backgroundColor = 'gray';
-
-            saveButton.addEventListener('mouseenter', () => {
-                saveButton.style.backgroundColor = 'gainsboro';
-            });
-            saveButton.addEventListener('mouseleave', () => {
-                saveButton.style.backgroundColor = 'gray';
-            });
-
-            saveButton.addEventListener('click', () => {
-                menu.style.display = 'inline';
-                saveMenu.style.display = 'none';
-
-                let saveData = JSON.parse(save['data']);
-                
-                scoreHolder.score = saveData['score'];
-
-                level = getLevelByLevelNumber(saveData['currentLevel'])['level'];
-                game = new Game(
-                    context,
-                    canvasImage,
-                    {
-                        'board': level['board'],
-                        'worker': saveData['worker'],
-                        'boxes': saveData['boxes']
-                    },
-                    onVictory,
-                    saveData['movesMade'],
-                    saveData['movesUndone']
-                );
-                sTotalScore.innerText = scoreHolder.score;
-
-                startGame(game);
-            });
-    
-            savesList.appendChild(saveButton);
-        });
-
-        bCancelSave.addEventListener('click', () => {
-            menu.style.display = 'inline';
-            saveMenu.style.display = 'none';
-    
-            startGame(game);
-        });
-    });
-    bOpenScoreboard.addEventListener('click', openScoreboard);
+                    level = getLevelByLevelNumber(saveData['currentLevel'])['level'];
+                    game = new Game(
+                        context,
+                        canvasImage,
+                        {
+                            'board': level['board'],
+                            'worker': saveData['worker'],
+                            'boxes': saveData['boxes']
+                        },
+                        onVictory,
+                        saveData['movesMade'],
+                        saveData['movesUndone']
+                    );
+                    sTotalScore.innerText = scoreHolder.score;
+                }
+            )
+        }
+    );
+    bOpenScoreboard.addEventListener('click', () => {
+            createSideMenu(
+                true, true, false, false,
+                readScoreboard(),
+                (score, index) => index + 1 + '. ' + score['name'] + ' - ' + score['score'],
+                (data) => {},
+                'Dodaj wynik',
+                (inputValue) => { updateScoreboard(inputValue, scoreHolder.totalScore); }
+            )
+        }
+    );
 
     bCreateLevel.addEventListener('click', () => {
         stopGame(game);
@@ -395,9 +365,6 @@ new LevelProvider(() => {
         sMovesNumber.style.display = 'none';
         sMovesNumberLabel.style.display = 'none';
 
-        menu.style.display = 'none';
-        customLevelsMenu.style.display = 'inline';
-
         levelBuilder = new LevelBuilder(context, canvasImage);
 
         iEmpty.addEventListener('click', () => levelBuilder.object = 'e');
@@ -406,24 +373,25 @@ new LevelProvider(() => {
         iBox.addEventListener('click', () => levelBuilder.object = 'b');
         iWorker.addEventListener('click', () => levelBuilder.object = 'p');
 
-        bConfirmLevelSave.addEventListener('click', () => {
-            if(
-                iCustomLevelName.value != '' &&
-                typeof levelBuilder.worker != 'undefined' &&
-                levelBuilder.targetsNumber >= levelBuilder.boxes.boxes.length
-            ) {
-                saveLevel(iCustomLevelName.value, levelBuilder.board, levelBuilder.boxes, levelBuilder.worker);
-
-                iCustomLevelName.innerText = '';
-                customLevelsMenu.style.display = 'none';
-                menu.style.display = 'inline';
+        createSideMenu(
+            true, false, false, false,
+            ['game1', 'game2'],
+            (game, index) => game,
+            (game) => { iSideMenuInput.value = game; },
+            'Zapisz poziom',
+            (inputValue) => {
+                if(
+                    inputValue != '' &&
+                    typeof levelBuilder.worker != 'undefined' &&
+                    levelBuilder.targetsNumber >= levelBuilder.boxes.boxes.length
+                ) saveLevel(
+                    inputValue,
+                    levelBuilder.board,
+                    levelBuilder.boxes,
+                    levelBuilder.worker
+                );
             }
-        });
-        bCancelLevelSave.addEventListener('click', () => {
-            iCustomLevelName.innerText = '';
-            customLevelsMenu.style.display = 'none';
-            menu.style.display = 'inline';
-        });
+        )
     });
 
     // change difficulty level click listeners

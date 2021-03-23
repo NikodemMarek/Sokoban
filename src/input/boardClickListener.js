@@ -3,6 +3,8 @@ import { OBJECT_SIZE } from '/src/constants.js'
 
 export default class BoardClickListener {
     constructor(levelBuilder) {
+        this.isPaused = false;
+
         let canvas = document.getElementById('c_game_screen');
 
         let clicked = false;
@@ -17,11 +19,13 @@ export default class BoardClickListener {
 };
 
 function onEvent(levelBuilder, event) {
-    let clickPosition = {
-        'x': ~~(event.offsetX / OBJECT_SIZE),
-        'y': ~~(event.offsetY / OBJECT_SIZE)
-    }
+    if(!levelBuilder.isPaused) {
+        let clickPosition = {
+            'x': ~~(event.offsetX / OBJECT_SIZE),
+            'y': ~~(event.offsetY / OBJECT_SIZE)
+        }
 
-    update(levelBuilder, clickPosition);
-    draw(levelBuilder);
+        update(levelBuilder, clickPosition);
+        draw(levelBuilder);
+    }
 }
