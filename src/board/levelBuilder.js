@@ -11,7 +11,6 @@ export default class LevelBuilder {
 
         this.object = 'e';
         this.targetsNumber = 0;
-        this.boxesNumber = 0;
 
         this.boxes = new Boxes();
         this.board = new Board(
@@ -60,6 +59,7 @@ export function update(levelBuilder, clickPosition) {
             removeBox(levelBuilder.boxes, clickPosition);
             if(isWorker(levelBuilder.worker, clickPosition)) levelBuilder.worker = undefined;
 
+            if(isTarget(levelBuilder.board, clickPosition)) levelBuilder.targetsNumber --;
             setElement(levelBuilder.board, clickPosition, levelBuilder.object);
             break;
         case 'w':
@@ -69,14 +69,17 @@ export function update(levelBuilder, clickPosition) {
             ) setElement(levelBuilder.board, clickPosition, levelBuilder.object);
             break;
         case 't':
-            setElement(levelBuilder.board, clickPosition, levelBuilder.object);
+            if(!isTarget(levelBuilder.board, clickPosition)) {
+                setElement(levelBuilder.board, clickPosition, levelBuilder.object);
 
-            levelBuilder.targetsNumber ++;
+                levelBuilder.targetsNumber ++;
+            }
             break;
         case 'b':
             if(
                 !isWall(levelBuilder.board, clickPosition) &&
-                !isWorker(levelBuilder.worker, clickPosition)
+                !isWorker(levelBuilder.worker, clickPosition) &&
+                !isBox(levelBuilder.boxes, clickPosition)
             ) {
                 addBox(
                     levelBuilder.boxes,
@@ -86,8 +89,6 @@ export function update(levelBuilder, clickPosition) {
                     )
                 );
             }
-            
-            levelBuilder.boxesNumber ++;
             break;
         case 'p':
             if(

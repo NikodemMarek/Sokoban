@@ -2,10 +2,11 @@ import Game, { start as startGame, stop as stopGame, undoMove } from '/src/game/
 import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber } from '/src/board/levelProvider.js'
 import { calculateScore } from '/src/game/scoreCounter.js'
 import ScoreHolder, { pushScore, removeScore } from '/src/board/scoreHolder.js'
-import { saveGame, readGames } from '/src/board/gameSaver.js'
+import { saveGame, readGames } from '/src/storage/gameSaver.js'
 import CanvasImage from '/src/canvas/canvasImage.js'
-import { readScoreboard, updateScoreboard } from '/src/scoreboard.js'
+import { readScoreboard, updateScoreboard } from '/src/storage/scoreboard.js'
 import LevelBuilder from '/src/board/levelBuilder.js'
+import { saveLevel } from '/src/storage/levelSaver.js'
 
 new LevelProvider(() => {
     const gamemodes = Object.freeze({
@@ -29,10 +30,15 @@ new LevelProvider(() => {
     
     let scoreboardMenu = document.getElementById('scoreboard_menu');
     let scoresList = document.getElementById('scores_list');
-    let nameScoreForm = document.getElementById('name_score');
     let iScoreName = document.getElementById('i_score_name');
     let bSubmitScore = document.getElementById('b_submit_score');
     let bCloseScoreboard = document.getElementById('b_close_scoreboard');
+
+    let customLevelsMenu = document.getElementById('custom_levels_menu');
+    let customLevelsList = document.getElementById('custom_levels_list');
+    let iCustomLevelName = document.getElementById('i_custom_level_name');
+    let bConfirmLevelSave = document.getElementById('b_confirm_level_save');
+    let bCancelLevelSave = document.getElementById('b_cancel_level_save');
 
     let gameObjects = document.getElementById('game_objects');
 
@@ -121,17 +127,29 @@ new LevelProvider(() => {
             case gamemodes.BY_DIFFICULTY:
                 byDifficultyModeMenu.style.display = 'inline';
                 bRandomLevel.style.display = 'inline';
+
+                bResetLevel.style.display = 'inline';
+                bUndoMove.style.display = 'inline';
+                bChangeGamemode.style.display = 'inline';
+
+                sMovesNumber.style.display = 'inline';
+                sMovesNumberLabel.style.display = 'inline';
                 
                 level = getLevelByDifficulty(selectedDifficulty)['level'];
                 resetGame();
                 break;
             case gamemodes.LEVELS:
                 levelsModeMenu.style.display = 'inline';
+
+                bResetLevel.style.display = 'inline';
+                bUndoMove.style.display = 'inline';
+                bChangeGamemode.style.display = 'inline';
     
                 sTotalScore.style.display = 'inline';
                 sTotalScoreLabel.style.display = 'inline';
+                sMovesNumber.style.display = 'inline';
+                sMovesNumberLabel.style.display = 'inline';
     
-                bRandomLevel.style.display = 'none';
                 bSaveGame.style.display = 'inline';
                 bReadGame.style.display = 'inline';
                 bOpenScoreboard.style.display = 'inline';
@@ -377,6 +395,9 @@ new LevelProvider(() => {
         sMovesNumber.style.display = 'none';
         sMovesNumberLabel.style.display = 'none';
 
+        menu.style.display = 'none';
+        customLevelsMenu.style.display = 'inline';
+
         levelBuilder = new LevelBuilder(context, canvasImage);
 
         iEmpty.addEventListener('click', () => levelBuilder.object = 'e');
@@ -384,6 +405,25 @@ new LevelProvider(() => {
         iTarget.addEventListener('click', () => levelBuilder.object = 't');
         iBox.addEventListener('click', () => levelBuilder.object = 'b');
         iWorker.addEventListener('click', () => levelBuilder.object = 'p');
+
+        bConfirmLevelSave.addEventListener('click', () => {
+            if(
+                iCustomLevelName.value != '' &&
+                typeof levelBuilder.worker != 'undefined' &&
+                levelBuilder.targetsNumber >= levelBuilder.boxes.boxes.length
+            ) {
+                saveLevel(iCustomLevelName.value, levelBuilder.board, levelBuilder.boxes, levelBuilder.worker);
+
+                iCustomLevelName.innerText = '';
+                customLevelsMenu.style.display = 'none';
+                menu.style.display = 'inline';
+            }
+        });
+        bCancelLevelSave.addEventListener('click', () => {
+            iCustomLevelName.innerText = '';
+            customLevelsMenu.style.display = 'none';
+            menu.style.display = 'inline';
+        });
     });
 
     // change difficulty level click listeners
