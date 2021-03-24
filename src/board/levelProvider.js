@@ -2,6 +2,7 @@ import Worker from '/src/objects/worker.js'
 import Boxes, { addBox } from '/src/objects/boxes.js'
 import Box from '/src/objects/box.js'
 import { BOARD_DIMENSIONS } from '/src/constants.js'
+import { readLevels } from '/src/storage/levelSaver.js'
 
 let byDifficultyMode = {
     easy: [],
@@ -9,16 +10,18 @@ let byDifficultyMode = {
     hard: []
 }
 let levelsMode = []
+let customLevels = []
 
 export default class BoardProvider {
     constructor(_callback) {
-        // load levels from 'by difficulty' mode
+        readCustomLevels();
+
         fetch('/assets/levels/levels_difficulty.json')
             .then(response => response.json())
             .then(levels => {
                 Object.keys(byDifficultyMode).forEach(difficulty => {
                     Object.keys(levels[difficulty]).forEach(key => {
-                        byDifficultyMode[difficulty].push({ name: key, level: convertToLevel(levels[difficulty][key]) })
+                        byDifficultyMode[difficulty].push({ 'name': key, 'data': levels[difficulty][key] })
                     });
                 });
 
@@ -26,7 +29,7 @@ export default class BoardProvider {
                     .then(response => response.json())
                     .then(levels => {
                         Object.keys(levels).forEach(key => {
-                            levelsMode.push({ name: key, level: convertToLevel(levels[key]) });
+                            levelsMode.push({ 'name': key, 'data': levels[key] });
                         });
 
                         _callback();
@@ -35,7 +38,8 @@ export default class BoardProvider {
     }
 };
 
-// convert raw level to level acceptable by Game class
+export function readCustomLevels() { customLevels = readLevels() }
+
 function convertToLevel(rawLevel) {
     let row = 0;
     let column = 0;
@@ -77,11 +81,29 @@ function convertToLevel(rawLevel) {
     };
 }
 
-// get random level from specified difficulty
 export function getLevelByDifficulty(difficulty) {
-    return byDifficultyMode[difficulty][Math.floor(Math.random() * byDifficultyMode[difficulty].length)];
+    let level = byDifficultyMode[difficulty][Math.floor(Math.random() * byDifficultyMode[difficulty].length)];
+    
+    return {
+        'name': level['name'],
+        'level': convertToLevel(level['data'])
+    }
 }
-// get specified level from levels mode
 export function getLevelByLevelNumber(levelNumber) {
-    return levelsMode.length > levelNumber ? levelsMode[levelNumber]: levelsMode[levelsMode.length - 1];
+    let level = levelsMode.length > levelNumber ? levelsMode[levelNumber]: levelsMode[levelsMode.length - 1];
+
+    return {
+        'name': level['name'],
+        'level': convertToLevel(level['data'])
+    }
 }
+export function getCustomLevel(levelName) {
+    let level = customLevels.find(level => level['name'] == levelName);
+
+    return {
+        'name': level['name'],
+        'level': convertToLevel(level['data'])
+    }
+}
+
+export function getCustomLevelsNames() { return customLevels.map(level => level['name']) }

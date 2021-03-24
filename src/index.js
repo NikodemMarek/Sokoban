@@ -1,5 +1,5 @@
 import Game, { start as startGame, stop as stopGame, undoMove } from '/src/game/game.js'
-import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber } from '/src/board/levelProvider.js'
+import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber, getCustomLevelsNames, getCustomLevel, readCustomLevels } from '/src/board/levelProvider.js'
 import { calculateScore } from '/src/game/scoreCounter.js'
 import ScoreHolder, { pushScore, removeScore } from '/src/board/scoreHolder.js'
 import { saveGame, readGames } from '/src/storage/gameSaver.js'
@@ -53,6 +53,7 @@ new LevelProvider(() => {
     let bOpenScoreboard = document.getElementById('b_open_scoreboard');
 
     let bCreateLevel = document.getElementById('b_create_level');
+    let bReadLevel = document.getElementById('b_read_level');
 
     let byDifficultyModeMenu = document.getElementById('by_difficulty_mode');
     let bEasyLevel = document.getElementById('easy_level');
@@ -103,10 +104,13 @@ new LevelProvider(() => {
                 break;
             case gamemodes.CUSTOM:
                 bCreateLevel.style.display = 'none';
+                bReadLevel.style.display = 'none';
                 gameObjects.style.display = 'none';
 
                 sMovesNumber.style.display = 'inline';
                 sMovesNumberLabel.style.display = 'inline';
+                
+                if(typeof levelBuilder != 'unknown') stopLevelBuilder(levelBuilder);
                 break;
         }
 
@@ -147,6 +151,7 @@ new LevelProvider(() => {
                 break;
             case gamemodes.CUSTOM:
                 bCreateLevel.style.display = 'inline';
+                bReadLevel.style.display = 'inline';
                 break;
         }
     }
@@ -315,7 +320,7 @@ new LevelProvider(() => {
                         scoreHolder.totalScore
                     );
                 }
-            )
+            );
         }
     );
     bReadGame.addEventListener('click', () => {
@@ -342,7 +347,7 @@ new LevelProvider(() => {
                     );
                     sTotalScore.innerText = scoreHolder.score;
                 }
-            )
+            );
         }
     );
     bOpenScoreboard.addEventListener('click', () => {
@@ -375,23 +380,38 @@ new LevelProvider(() => {
 
         createSideMenu(
             true, false, false, false,
-            ['game1', 'game2'],
-            (game, index) => game,
-            (game) => { iSideMenuInput.value = game; },
+            getCustomLevelsNames(),
+            (levelName, index) => levelName,
+            (levelName) => { iSideMenuInput.value = levelName; },
             'Zapisz poziom',
             (inputValue) => {
                 if(
                     inputValue != '' &&
                     typeof levelBuilder.worker != 'undefined' &&
                     levelBuilder.targetsNumber >= levelBuilder.boxes.boxes.length
-                ) saveLevel(
-                    inputValue,
-                    levelBuilder.board,
-                    levelBuilder.boxes,
-                    levelBuilder.worker
-                );
+                ) {
+                    saveLevel(
+                        inputValue,
+                        levelBuilder.board,
+                        levelBuilder.boxes,
+                        levelBuilder.worker
+                    );
+
+                    readCustomLevels();
+                }
             }
         )
+    });
+    bReadLevel.addEventListener('click', () => {
+        createSideMenu(
+            false, true, false, true,
+            getCustomLevelsNames(),
+            (levelName, index) => levelName,
+            (levelName) => {
+                level = getCustomLevel(levelName)['level'];
+                resetGame();
+            }
+        );
     });
 
     // change difficulty level click listeners

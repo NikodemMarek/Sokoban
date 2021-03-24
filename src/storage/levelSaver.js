@@ -28,3 +28,18 @@ function convertToRawLevel(board, boxes, worker) {
 String.prototype.replaceAt = function(index, replacement) {
     return this.substr(0, index) + replacement + this.substr(index + replacement.length);
 }
+
+export function readLevels() {
+    let savedLevels = [];
+
+    Object.keys(localStorage)
+        .filter(key => key.startsWith(CUSTOM_LEVEL_PREFIX))
+        .forEach(key => {
+            savedLevels.push({
+                'name': key.replace(CUSTOM_LEVEL_PREFIX, ''),
+                'data': localStorage.getItem(key)
+            });
+        });
+
+    return savedLevels;
+};

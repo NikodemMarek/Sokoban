@@ -40,14 +40,14 @@ strong {
     float: right;
 }
 
-#name_save {
+#side_menu_form {
     width: 200px;
     height: 150px;
     background-color: gray;
     float: right;
 }
 
-#saves_list {
+#side_menu_list {
     width: 200px;
     height: 450px;
     overflow-y: scroll;
@@ -61,20 +61,6 @@ strong {
     margin: 10px;
     border: none;
     background-color: silver;
-}
-
-#scores_list {
-    width: 200px;
-    height: 450px;
-    overflow-y: scroll;
-    overflow: overlay;
-}
-
-#name_score {
-    width: 200px;
-    height: 150px;
-    background-color: gray;
-    float: right;
 }
 
 .side_menu {
@@ -100,12 +86,6 @@ strong {
     border: none;
     text-align: left;
     font-size: 15px;
-}
-
-#levels_menu {
-    width: 900px;
-    height: 50px;
-    background-color: gray;
 }
 
 .difficulty_level {
