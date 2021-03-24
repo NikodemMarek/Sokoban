@@ -49,7 +49,7 @@ strong {
 
 #side_menu_list {
     width: 200px;
-    height: 450px;
+    height: 550px;
     overflow-y: scroll;
     overflow: overlay;
 }
@@ -61,6 +61,7 @@ strong {
     margin: 10px;
     border: none;
     background-color: silver;
+    box-sizing: border-box;
 }
 
 .side_menu {

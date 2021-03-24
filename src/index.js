@@ -192,7 +192,7 @@ new LevelProvider(() => {
         sideMenu.style.display = 'inline';
         if(isInput) sideMenuForm.style.display = 'inline';
 
-        while(sideMenuList.firstChild) sideMenuList.removeChild(sideMenuList.firstChild);
+        while(sideMenuList.lastChild.id != 'side_menu_form') sideMenuList.removeChild(sideMenuList.lastChild);
 
         listData.forEach((data, index) => {
             let button = document.createElement('button');
