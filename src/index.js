@@ -6,7 +6,7 @@ import { saveGame, readGames } from '/src/storage/gameSaver.js'
 import CanvasImage from '/src/canvas/canvasImage.js'
 import { readScoreboard, updateScoreboard } from '/src/storage/scoreboard.js'
 import LevelBuilder, { start as startLevelBuilder, stop as stopLevelBuilder } from '/src/board/levelBuilder.js'
-import { saveLevel } from '/src/storage/levelSaver.js'
+import { saveLevel, removeLevel } from '/src/storage/levelSaver.js'
 
 new LevelProvider(() => {
     const gamemodes = Object.freeze({
@@ -49,10 +49,11 @@ new LevelProvider(() => {
 
     let bNextLevel = document.getElementById('b_next_level');
     let bSaveGame = document.getElementById('b_save_game');
-    let bReadGame = document.getElementById('b_read_game')
+    let bReadGame = document.getElementById('b_read_game');
     let bOpenScoreboard = document.getElementById('b_open_scoreboard');
 
     let bCreateLevel = document.getElementById('b_create_level');
+    let bRemoveLevel = document.getElementById('b_remove_level');
     let bReadLevel = document.getElementById('b_read_level');
 
     let byDifficultyModeMenu = document.getElementById('by_difficulty_mode');
@@ -104,13 +105,14 @@ new LevelProvider(() => {
                 break;
             case gamemodes.CUSTOM:
                 bCreateLevel.style.display = 'none';
+                bRemoveLevel.style.display = 'none';
                 bReadLevel.style.display = 'none';
                 gameObjects.style.display = 'none';
 
                 sMovesNumber.style.display = 'inline';
                 sMovesNumberLabel.style.display = 'inline';
                 
-                if(typeof levelBuilder != 'unknown') stopLevelBuilder(levelBuilder);
+                if(typeof levelBuilder != 'undefined') stopLevelBuilder(levelBuilder);
                 break;
         }
 
@@ -151,6 +153,7 @@ new LevelProvider(() => {
                 break;
             case gamemodes.CUSTOM:
                 bCreateLevel.style.display = 'inline';
+                bRemoveLevel.style.display = 'inline';
                 bReadLevel.style.display = 'inline';
                 break;
         }
@@ -231,6 +234,8 @@ new LevelProvider(() => {
                 menu.style.display = 'inline';
                 sideMenu.style.display = 'none';
                 sideMenuForm.style.display = 'none';
+                    
+                gameObjects.style.display = 'none';
 
                 if(pauseGame) startGame(game);
                 if(pauseLevelBuilder) startLevelBuilder(levelBuilder);
@@ -242,6 +247,8 @@ new LevelProvider(() => {
             menu.style.display = 'inline';
             sideMenu.style.display = 'none';
             sideMenuForm.style.display = 'none';
+                    
+            gameObjects.style.display = 'none';
 
             if(pauseGame) startGame(game);
             if(pauseLevelBuilder) startLevelBuilder(levelBuilder);
@@ -401,6 +408,17 @@ new LevelProvider(() => {
                 }
             }
         )
+    });
+    bRemoveLevel.addEventListener('click', () => {
+        createSideMenu(
+            false, true, false, true,
+            getCustomLevelsNames(),
+            (levelName, index) => levelName,
+            (levelName) => {
+                removeLevel(levelName);
+                readCustomLevels();
+            },
+        );
     });
     bReadLevel.addEventListener('click', () => {
         createSideMenu(

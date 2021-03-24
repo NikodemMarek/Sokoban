@@ -3,6 +3,9 @@ import { BOARD_DIMENSIONS, CUSTOM_LEVEL_PREFIX } from '/src/constants.js'
 export function saveLevel(levelName, board, boxes, worker) {
     localStorage.setItem(CUSTOM_LEVEL_PREFIX + levelName, convertToRawLevel(board, boxes, worker));
 }
+export function removeLevel(levelName) {
+    localStorage.removeItem(CUSTOM_LEVEL_PREFIX + levelName);
+}
 
 function convertToRawLevel(board, boxes, worker) {
     let rawLevel = 'e'.repeat(BOARD_DIMENSIONS.x * BOARD_DIMENSIONS.y);
