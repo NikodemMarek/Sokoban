@@ -2,7 +2,7 @@ import Game, { start as startGame, stop as stopGame, undoMove } from '/src/game/
 import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber, getCustomLevelsNames, getCustomLevel, readCustomLevels } from '/src/board/levelProvider.js'
 import { calculateScore } from '/src/game/scoreCounter.js'
 import ScoreHolder, { pushScore, removeScore } from '/src/board/scoreHolder.js'
-import { saveGame, readGames } from '/src/storage/gameSaver.js'
+import { saveGame, readGames, readCustomGames, saveCustomGame } from '/src/storage/gameSaver.js'
 import CanvasImage from '/src/canvas/canvasImage.js'
 import { readScoreboard, updateScoreboard } from '/src/storage/scoreboard.js'
 import LevelBuilder, { start as startLevelBuilder, stop as stopLevelBuilder } from '/src/board/levelBuilder.js'
@@ -104,6 +104,8 @@ new LevelProvider(() => {
                 bOpenScoreboard.style.display = 'none';
                 break;
             case gamemodes.CUSTOM:
+                bSaveGame.style.display = 'none';
+                bReadGame.style.display = 'none';
                 bCreateLevel.style.display = 'none';
                 bRemoveLevel.style.display = 'none';
                 bReadLevel.style.display = 'none';
@@ -129,7 +131,7 @@ new LevelProvider(() => {
                 sMovesNumber.style.display = 'inline';
                 sMovesNumberLabel.style.display = 'inline';
                 
-                level = getLevelByDifficulty(selectedDifficulty)['level'];
+                level = getLevelByDifficulty(selectedDifficulty);
                 resetGame();
                 break;
             case gamemodes.LEVELS:
@@ -148,10 +150,12 @@ new LevelProvider(() => {
                 bReadGame.style.display = 'inline';
                 bOpenScoreboard.style.display = 'inline';
 
-                level = getLevelByLevelNumber(0)['level'];
+                level = getLevelByLevelNumber(0);
                 resetGame();
                 break;
             case gamemodes.CUSTOM:
+                bSaveGame.style.display = 'inline';
+                bReadGame.style.display = 'inline';
                 bCreateLevel.style.display = 'inline';
                 bRemoveLevel.style.display = 'inline';
                 bReadLevel.style.display = 'inline';
@@ -171,7 +175,7 @@ new LevelProvider(() => {
 
     function resetGame() {
         stopGame(game);
-        game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level)), onVictory);
+        game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level['level'])), onVictory);
 
         sTotalScore.innerText = scoreHolder.totalScore;
         startGame(game);
@@ -189,7 +193,6 @@ new LevelProvider(() => {
         onConfirm
     ) {
         if(pauseGame) stopGame(game);
-        if(pauseLevelBuilder) stopLevelBuilder(levelBuilder);
 
         menu.style.display = 'none';
         sideMenu.style.display = 'inline';
@@ -218,7 +221,7 @@ new LevelProvider(() => {
                     sideMenuForm.style.display = 'none';
 
                     if(pauseGame) startGame(game);
-                    if(pauseLevelBuilder) startLevelBuilder(levelBuilder);
+                    if(pauseLevelBuilder) stopLevelBuilder(levelBuilder);
                 }
             });
     
@@ -238,7 +241,7 @@ new LevelProvider(() => {
                 gameObjects.style.display = 'none';
 
                 if(pauseGame) startGame(game);
-                if(pauseLevelBuilder) startLevelBuilder(levelBuilder);
+                if(pauseLevelBuilder) stopLevelBuilder(levelBuilder);
             });
         }
 
@@ -251,13 +254,13 @@ new LevelProvider(() => {
             gameObjects.style.display = 'none';
 
             if(pauseGame) startGame(game);
-            if(pauseLevelBuilder) startLevelBuilder(levelBuilder);
+            if(pauseLevelBuilder) stopLevelBuilder(levelBuilder);
         });
     }
 
     function init() {
-        level = getLevelByDifficulty(selectedDifficulty)['level'];
-        game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level)), onVictory);
+        level = getLevelByDifficulty(selectedDifficulty);
+        game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level['level'])), onVictory);
 
         for(let i = 1; i <= 20; i ++) {
             let levelButton = document.createElement('button');
@@ -300,11 +303,11 @@ new LevelProvider(() => {
 
     // get new random level
     bRandomLevel.addEventListener('click', () => {
-        level = getLevelByDifficulty(selectedDifficulty)['level'];
+        level = getLevelByDifficulty(selectedDifficulty);
         resetGame();
     });
     bNextLevel.addEventListener('click', () => {
-        level = getLevelByLevelNumber(++ currentLevel)['level'];
+        level = getLevelByLevelNumber(++ currentLevel);
         resetGame();
         bNextLevel.style.display = 'none';
     });
@@ -317,44 +320,80 @@ new LevelProvider(() => {
                 (save) => { iSideMenuInput.value = save['name']; },
                 'Zapisz',
                 (inputValue) => {
-                    saveGame(
-                        inputValue,
-                        currentLevel,
-                        game.worker,
-                        game.boxes,
-                        game.movesMade,
-                        movesUndone,
-                        scoreHolder.totalScore
-                    );
+                    if(gamemode == gamemodes.LEVELS) {
+                        saveGame(
+                            inputValue,
+                            currentLevel,
+                            game.worker,
+                            game.boxes,
+                            game.movesMade,
+                            movesUndone,
+                            scoreHolder.totalScore
+                        );
+                    } else {
+                        saveCustomGame(
+                            inputValue,
+                            level.name,
+                            game.worker,
+                            game.boxes,
+                            game.movesMade,
+                            movesUndone
+                        );
+                    }
                 }
             );
         }
     );
     bReadGame.addEventListener('click', () => {
-            createSideMenu(
-                false, true, false, true,
-                readGames(),
-                (save, index) => save['name'],
-                (save) => {
-                    let saveData = JSON.parse(save['data']);
-                    scoreHolder.score = saveData['score'];
-
-                    level = getLevelByLevelNumber(saveData['currentLevel'])['level'];
-                    game = new Game(
-                        context,
-                        canvasImage,
-                        {
-                            'board': level['board'],
-                            'worker': saveData['worker'],
-                            'boxes': saveData['boxes']
-                        },
-                        onVictory,
-                        saveData['movesMade'],
-                        saveData['movesUndone']
-                    );
-                    sTotalScore.innerText = scoreHolder.score;
-                }
-            );
+            if(gamemode == gamemodes.LEVELS) {
+                createSideMenu(
+                    false, true, false, true,
+                    readGames(),
+                    (save, index) => save['name'],
+                    (save) => {
+                        let saveData = JSON.parse(save['data']);
+                        scoreHolder.score = saveData['score'];
+    
+                        level = getLevelByLevelNumber(saveData['currentLevel']);
+                        game = new Game(
+                            context,
+                            canvasImage,
+                            {
+                                'board': level['level']['board'],
+                                'worker': saveData['worker'],
+                                'boxes': saveData['boxes']
+                            },
+                            onVictory,
+                            saveData['movesMade'],
+                            saveData['movesUndone']
+                        );
+                        sTotalScore.innerText = scoreHolder.score;
+                    }
+                );
+            } else {
+                createSideMenu(
+                    false, true, false, true,
+                    readCustomGames(),
+                    (save, index) => save['name'],
+                    (save) => {
+                        let saveData = JSON.parse(save['data']);
+    
+                        level = getCustomLevel(saveData['levelName']);
+                        game = new Game(
+                            context,
+                            canvasImage,
+                            {
+                                'board': level['level']['board'],
+                                'worker': saveData['worker'],
+                                'boxes': saveData['boxes']
+                            },
+                            onVictory,
+                            saveData['movesMade'],
+                            saveData['movesUndone']
+                        );
+                    }
+                );
+            }
         }
     );
     bOpenScoreboard.addEventListener('click', () => {
@@ -386,7 +425,7 @@ new LevelProvider(() => {
         iWorker.addEventListener('click', () => levelBuilder.object = 'p');
 
         createSideMenu(
-            true, false, false, false,
+            true, false, true, false,
             getCustomLevelsNames(),
             (levelName, index) => levelName,
             (levelName) => { iSideMenuInput.value = levelName; },
@@ -426,7 +465,7 @@ new LevelProvider(() => {
             getCustomLevelsNames(),
             (levelName, index) => levelName,
             (levelName) => {
-                level = getCustomLevel(levelName)['level'];
+                level = getCustomLevel(levelName);
                 resetGame();
             }
         );
@@ -435,17 +474,17 @@ new LevelProvider(() => {
     // change difficulty level click listeners
     bEasyLevel.addEventListener('click', () => {
         selectedDifficulty = 'easy';
-        level = getLevelByDifficulty('easy')['level'];
+        level = getLevelByDifficulty('easy');
         resetGame();
     });
     bIntermediateLevel.addEventListener('click', () => {
         selectedDifficulty = 'intermediate';
-        level = getLevelByDifficulty('intermediate')['level'];
+        level = getLevelByDifficulty('intermediate');
         resetGame();
     });
     bHardLevel.addEventListener('click', () => {
         selectedDifficulty = 'hard';
-        level = getLevelByDifficulty('hard')['level'];
+        level = getLevelByDifficulty('hard');
         resetGame();
     });
 
