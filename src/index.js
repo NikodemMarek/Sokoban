@@ -18,7 +18,6 @@ new LevelProvider()
             });
             let gamemode = gamemodes.BY_DIFFICULTY;
             
-            // html elements
             let canvas = document.getElementById('c_game_screen');
         
             let menu = document.getElementById('menu');
@@ -161,6 +160,10 @@ new LevelProvider()
                         bCreateLevel.style.display = 'inline';
                         bRemoveLevel.style.display = 'inline';
                         bReadLevel.style.display = 'inline';
+
+                        stopGame(game);
+                        game = undefined;
+                        canvasImage.drawBackground();
                         break;
                 }
             }
@@ -278,7 +281,6 @@ new LevelProvider()
                 startGame(game);
             }
         
-            // reset level button click listener
             bResetLevel.addEventListener('click', () => {
                 if(gamemode == gamemodes.LEVELS) {
                     removeScore(scoreHolder, currentLevel);
@@ -286,9 +288,7 @@ new LevelProvider()
                 }
                 resetGame();
             });
-            // undo move button click listener
             bUndoMove.addEventListener('click', () => { undoMove(game); });
-            // switch game mode, BY_DIFFICULTY -> LEVELS -> CUSTOM -> BY_DIFFICULTY
             bChangeGamemode.addEventListener('click', () => {
                 switch(gamemode) {
                     case gamemodes.BY_DIFFICULTY:
@@ -303,7 +303,6 @@ new LevelProvider()
                 }
             });
         
-            // get new random level
             bRandomLevel.addEventListener('click', () => {
                 level = getLevelByDifficulty(selectedDifficulty);
                 resetGame();
@@ -322,25 +321,27 @@ new LevelProvider()
                         (save) => { iSideMenuInput.value = save['name']; },
                         'Zapisz',
                         (inputValue) => {
-                            if(gamemode == gamemodes.LEVELS) {
-                                saveGame(
-                                    inputValue,
-                                    currentLevel,
-                                    game.worker,
-                                    game.boxes,
-                                    game.movesMade,
-                                    movesUndone,
-                                    scoreHolder.totalScore
-                                );
-                            } else {
-                                saveCustomGame(
-                                    inputValue,
-                                    level.name,
-                                    game.worker,
-                                    game.boxes,
-                                    game.movesMade,
-                                    movesUndone
-                                );
+                            if(typeof game != 'undefined') {
+                                if(gamemode == gamemodes.LEVELS) {
+                                    saveGame(
+                                        inputValue,
+                                        currentLevel,
+                                        game.worker,
+                                        game.boxes,
+                                        game.movesMade,
+                                        movesUndone,
+                                        scoreHolder.totalScore
+                                    );
+                                } else {
+                                    saveCustomGame(
+                                        inputValue,
+                                        level.name,
+                                        game.worker,
+                                        game.boxes,
+                                        game.movesMade,
+                                        movesUndone
+                                    );
+                                }
                             }
                         }
                     );
@@ -473,7 +474,6 @@ new LevelProvider()
                 );
             });
         
-            // change difficulty level click listeners
             bEasyLevel.addEventListener('click', () => {
                 selectedDifficulty = 'easy';
                 level = getLevelByDifficulty('easy');

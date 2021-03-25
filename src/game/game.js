@@ -120,11 +120,15 @@ function victory(game) {
 
 // unpause the game
 export function start(game) {
-    game.isPaused = false;
-    if(typeof game.inputHandler != 'undefined') game.inputHandler.isPaused = false;
+    if(typeof game != 'undefined') {
+        game.isPaused = false;
+        if(typeof game.inputHandler != 'undefined') game.inputHandler.isPaused = false;
+    }
 }
 // pause the game
 export function stop(game) {
-    game.isPaused = true;
-    if(typeof game.inputHandler != 'undefined') game.inputHandler.isPaused = true;
+    if(typeof game != 'undefined') {
+        game.isPaused = true;
+        if(typeof game.inputHandler != 'undefined') game.inputHandler.isPaused = true;
+    }
 }
