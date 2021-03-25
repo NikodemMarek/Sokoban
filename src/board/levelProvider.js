@@ -12,11 +12,25 @@ let byDifficultyMode = {
 let levelsMode = []
 let customLevels = []
 
-export default class BoardProvider {
-    constructor(_callback) {
-        readCustomLevels();
+export default class LevelProvider {
+    constructor() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                readCustomLevels();
 
-        fetch('/assets/levels/levels_difficulty.json')
+                await readLevelsByDifficulty();
+                await readLevelsLevelsByLevelNumber();
+
+                resolve();
+            } catch(error) {
+                reject(error);
+            }
+        });
+    }
+};
+
+export async function readLevelsByDifficulty() {
+    await fetch('/assets/levels/levels_difficulty.json')
             .then(response => response.json())
             .then(levels => {
                 Object.keys(byDifficultyMode).forEach(difficulty => {
@@ -24,20 +38,17 @@ export default class BoardProvider {
                         byDifficultyMode[difficulty].push({ 'name': key, 'data': levels[difficulty][key] })
                     });
                 });
-
-                fetch('/assets/levels/levels_levels_mode.json')
-                    .then(response => response.json())
-                    .then(levels => {
-                        Object.keys(levels).forEach(key => {
-                            levelsMode.push({ 'name': key, 'data': levels[key] });
-                        });
-
-                        _callback();
+            });
+}
+export async function readLevelsLevelsByLevelNumber() {
+    await fetch('/assets/levels/levels_levels_mode.json')
+            .then(response => response.json())
+            .then(levels => {
+                Object.keys(levels).forEach(key => {
+                    levelsMode.push({ 'name': key, 'data': levels[key] });
                 });
             });
-    }
-};
-
+}
 export function readCustomLevels() { customLevels = readLevels() }
 
 function convertToLevel(rawLevel) {
