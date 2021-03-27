@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: module:game</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: module:game</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>module:game<span class="signature">(context, canvasImage, level, onVictory, movesMade, movesUndone)</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description">Przechowuje informacje o rozgrywanej grze.</div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+    <h2>Constructor</h2>
+    
+
+    
+    <h4 class="name" id="module:game"><span class="type-signature"></span>new module:game<span class="signature">(context, canvasImage, level, onVictory, movesMade, movesUndone)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Przypisuje początkowe wartości zmiennym.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>context</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">CanvasRenderingContext2D</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Context w którym będzie rysowana gra</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>canvasImage</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">CanvasImage</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Obiekt <code>canvasImage:CanvasImage</code></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>level</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Level</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Dane planszy</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onVictory</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">index:onVictory</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Funkcja wykonująca się wygranej</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>movesMade</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">Ilość wykonanych ruchów</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>movesUndone</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">Ilość cofniętych ruchów</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="game_game.js.html">game/game.js</a>, <a href="game_game.js.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".draw"><span class="type-signature">(static) </span>draw<span class="signature">(game)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Rysuje obecny stan gry.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>game</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Game</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Obiekt klasy <code>Game</code></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="game_game.js.html">game/game.js</a>, <a href="game_game.js.html#line94">line 94</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".start"><span class="type-signature">(static) </span>start<span class="signature">(game)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Rozpoczyna lub wznawia grę.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>game</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Game</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Obiekt klasy <code>Game</code></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="game_game.js.html">game/game.js</a>, <a href="game_game.js.html#line140">line 140</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".stop"><span class="type-signature">(static) </span>stop<span class="signature">(game)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Zatrzymuje grę.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>game</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Game</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Obiekt klasy <code>Game</code></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="game_game.js.html">game/game.js</a>, <a href="game_game.js.html#line150">line 150</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".undoMove"><span class="type-signature">(static) </span>undoMove<span class="signature">(game)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Cofa grę o jeden ruch do tyłu.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>game</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Game</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Obiekt klasy <code>Game</code></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="game_game.js.html">game/game.js</a>, <a href="game_game.js.html#line109">line 109</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>gameHistory</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">(game, workerMovement)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Aktualizuje grę, jęsli gra nie jest zatrzymana.Na początku sprawdza czy na drodze magazyniera nie stoi pudełko lub ściana, jeśli nie, porusza magazyniera o podaną odległość.Jeśli na drodze magazyniera stoi pudełko funkcja sprawdza czy można nim poruszyć, jeśli tak, przesuwa magazyniera i pudełko, jeśli nie, nie robi nic.Na końcu sprawdza czy nastąpiła wygrana.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>game</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Game</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Obiekt klasy <code>Game</code></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>workerMovement</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">index:Position</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Ilość jednostek o które ma zostać przesunięty magazynier.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="game_game.js.html">game/game.js</a>, <a href="game_game.js.html#line58">line 58</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~victory"><span class="type-signature">(inner) </span>victory<span class="signature">(game)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Wykonuje się na końcu gry, podczas wygranej.Liczy wynik i rysuje ekran wygranej.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>game</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Game</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Obiekt klasy <code>Game</code></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="game_game.js.html">game/game.js</a>, <a href="game_game.js.html#line125">line 125</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-board.html">board</a></li><li><a href="module-constants.html">constants</a></li><li><a href="module-game.html">game</a></li><li><a href="module-gameHistory.html">gameHistory</a></li><li><a href="module-index.html">index</a></li><li><a href="module-levelBuilder.html">levelBuilder</a></li><li><a href="module-levelProvider.html">levelProvider</a></li><li><a href="module-scoreCounter.html">scoreCounter</a></li><li><a href="module-scoreHolder.html">scoreHolder</a></li></ul><h3>Classes</h3><ul><li><a href="module-board.html">board</a></li><li><a href="module-game.html">game</a></li><li><a href="module-gameHistory.html">gameHistory</a></li><li><a href="module-levelBuilder.html">levelBuilder</a></li><li><a href="module-levelProvider.html">levelProvider</a></li><li><a href="module-scoreHolder.html">scoreHolder</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sat Mar 27 2021 22:44:43 GMT+0100 (czas środkowoeuropejski standardowy)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
