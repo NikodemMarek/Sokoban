@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: game/gameHistory.js</title>
+    <title>JSDoc: Source: objects/box.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: game/gameHistory.js</h1>
+    <h1 class="page-title">Source: objects/box.js</h1>
 
     
 
@@ -27,71 +27,52 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module gameHistory
+ * @module box
  */
 
-import { MOVES_HISTORY } from '/src/constants.js'
-
-/**
- * Dane elementów gry po wykonaniu ruchu.
- * @typedef {{
- *          worker: worker:Worker,
- *          boxes: boxes:Boxes,
- *          movesNumber: number
- *      }} Move
- */
+import { BOARD_DIMENSIONS } from '/src/constants.js'
 
 /**
- * Przetrzymuje historię ruchów dla gry, o maksymalnej długości zdefiniowanej w {@link constants:MOVES_HISTORY}.
+ * Przechowuje informacje o pudełku i pozwala na wykonywanie operacji na nim.
  */
-export default class GameHistory {
+export default class Box {
     /**
-     * Przyjmuje i zapisuje dane po pierwszym ruchu.
-     * @param {worker:Worker} worker - {@link worker:Worker}
-     * @param {boxes:Boxes} boxes - {@link module:objects/boxes:Boxes}
-     * @param {number} movesNumber - Liczba wykonanych ruchów
+     * Przyjmuje i zapisuje do zmiennych informacje o pudełku.
+     * @param {index:Position} position - Pozycja w której znajduje się pudełko
+     * @param {boolean} inPlace - Pudełko jest / nie jest na celu
      */
-    constructor(worker, boxes, movesNumber) {
-        this.movesHistory = [
-            JSON.stringify({
-                'worker': worker,
-                'boxes': boxes,
-                'moves': movesNumber
-            })
-        ];
+    constructor(position, inPlace = false) {
+        this.position = position
+        this.inPlace = inPlace
     }
 };
 
 /**
- * Konwertuje dane o ruchu do formy tekstowej i dodaje go do historii ruchów.
- * Jeśli długość historii jest większa niż dozwolona długość, usuwa najstarszy, zapisany ruch.
- * @see constants:MOVES_HISTORY
- * @param {GameHistory} gameHistory - {@link GameHistory}
- * @param {worker:Worker} worker - {@link worker:Worker}
- * @param {boxes:Boxes} boxes - {@link boxes:Boxes}
- * @param {number} movesNumber - Liczba wykonanych ruchów
+ * Rysuje pudełko na {@link index:context}.
+ * @param {Box} box - {@link Box}
+ * @param {CanvasImage} canvasImage - {@link canvasImage:CanvasImage}
  */
-export function addMove(gameHistory, worker, boxes, movesNumber) {
-    if(gameHistory.movesHistory.length > MOVES_HISTORY) gameHistory.movesHistory.shift();
-
-    gameHistory.movesHistory.push(
-        JSON.stringify({
-            'worker': worker,
-            'boxes': boxes,
-            'moves': movesNumber
-        })
-    );
-}
+export function draw(box, canvasImage) { canvasImage.drawBox(box.position) }
 
 /**
- * Usuwa ostatni zapisany ruch z historii i zwraca jego dane.
- * @see Move
- * @param {GameHistory} gameHistory - {@link GameHistory}
- * @returns {Move} Dane ostatniego, dodanego ruchu
+ * Porusza pudełko o ilość jednostek przekazanych do funkcji.
+ * @param {Box} box - {@link Box}
+ * @param {index:Position} move - Ilość jednostek o które zostanie przesunięte pudełko
+ * @returns {boolean} Pudełko zostało / nie zostało (na drodze pudełka jest przeszkoda) przesunięte
  */
-export function undoMove(gameHistory) {
-    if(gameHistory.movesHistory.length > 1) return JSON.parse(gameHistory.movesHistory.pop());
-    else return JSON.parse(gameHistory.movesHistory[0]);
+export function move(box, { x = 0, y = 0 } = {}) {
+    if(
+        box.position.x + x >= 0 &amp;&amp;
+        box.position.x + x &lt; BOARD_DIMENSIONS.x
+    ) box.position.x += x;
+    else return false;
+    if(
+        box.position.y + y >= 0 &amp;&amp;
+        box.position.y + y &lt; BOARD_DIMENSIONS.y
+    ) box.position.y += y;
+    else return false;
+
+    return true;
 }</code></pre>
         </article>
     </section>

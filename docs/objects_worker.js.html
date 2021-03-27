@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: game/gameHistory.js</title>
+    <title>JSDoc: Source: objects/worker.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: game/gameHistory.js</h1>
+    <h1 class="page-title">Source: objects/worker.js</h1>
 
     
 
@@ -27,71 +27,39 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module gameHistory
+ * @module worker
  */
 
-import { MOVES_HISTORY } from '/src/constants.js'
-
-/**
- * Dane elementów gry po wykonaniu ruchu.
- * @typedef {{
- *          worker: worker:Worker,
- *          boxes: boxes:Boxes,
- *          movesNumber: number
- *      }} Move
- */
+import { BOARD_DIMENSIONS } from '/src/constants.js'
 
 /**
- * Przetrzymuje historię ruchów dla gry, o maksymalnej długości zdefiniowanej w {@link constants:MOVES_HISTORY}.
+ * Przechowuje informacje o magazynierze i pozwala na wykonywanie na nim operacji.
  */
-export default class GameHistory {
+export default class Worker {
     /**
-     * Przyjmuje i zapisuje dane po pierwszym ruchu.
-     * @param {worker:Worker} worker - {@link worker:Worker}
-     * @param {boxes:Boxes} boxes - {@link module:objects/boxes:Boxes}
-     * @param {number} movesNumber - Liczba wykonanych ruchów
+     * Przyjmuje i zapisuje do zmiennej początkową pozycje magazyniera.
+     * @param {index:Position} position - Pozycja początkowa magazyniera
      */
-    constructor(worker, boxes, movesNumber) {
-        this.movesHistory = [
-            JSON.stringify({
-                'worker': worker,
-                'boxes': boxes,
-                'moves': movesNumber
-            })
-        ];
+    constructor(position) {
+        this.position = position;
     }
 };
 
 /**
- * Konwertuje dane o ruchu do formy tekstowej i dodaje go do historii ruchów.
- * Jeśli długość historii jest większa niż dozwolona długość, usuwa najstarszy, zapisany ruch.
- * @see constants:MOVES_HISTORY
- * @param {GameHistory} gameHistory - {@link GameHistory}
- * @param {worker:Worker} worker - {@link worker:Worker}
- * @param {boxes:Boxes} boxes - {@link boxes:Boxes}
- * @param {number} movesNumber - Liczba wykonanych ruchów
+ * Rysuje magazyniera na planszy.
+ * @param {Worker} worker - {@link worker:Worker}
+ * @param {canvasImage:CanvasImage} canvasImage - {@link canvasImage:CanvasImage}
  */
-export function addMove(gameHistory, worker, boxes, movesNumber) {
-    if(gameHistory.movesHistory.length > MOVES_HISTORY) gameHistory.movesHistory.shift();
-
-    gameHistory.movesHistory.push(
-        JSON.stringify({
-            'worker': worker,
-            'boxes': boxes,
-            'moves': movesNumber
-        })
-    );
-}
+export function draw(worker, canvasImage) { canvasImage.drawWorker(worker.position) }
 
 /**
- * Usuwa ostatni zapisany ruch z historii i zwraca jego dane.
- * @see Move
- * @param {GameHistory} gameHistory - {@link GameHistory}
- * @returns {Move} Dane ostatniego, dodanego ruchu
+ * Sprawdza czy magazynier może poruszyć się o daną liczbę jednostek i jeśli może, porusza go.
+ * @param {Worker} worker - {@link Worker}
+ * @param {index:Position} direction - Liczba jednostek o które ma zostać poruszony magazynier
  */
-export function undoMove(gameHistory) {
-    if(gameHistory.movesHistory.length > 1) return JSON.parse(gameHistory.movesHistory.pop());
-    else return JSON.parse(gameHistory.movesHistory[0]);
+export function move(worker, { x = 0, y = 0 } = {}) {
+    if(worker.position.x + x >= 0 &amp;&amp; worker.position.x + x &lt; BOARD_DIMENSIONS.x) worker.position.x += x;
+    if(worker.position.y + y >= 0 &amp;&amp; worker.position.y + y &lt; BOARD_DIMENSIONS.y) worker.position.y += y;
 }</code></pre>
         </article>
     </section>
