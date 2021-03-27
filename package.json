@@ -4,7 +4,8 @@
   "description": "Sokoban game implemented in js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "jsdoc -c jsdoc.json"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/NikodemMarek/Sokoban/issues"
   },
-  "homepage": "https://github.com/NikodemMarek/Sokoban#readme"
+  "homepage": "https://github.com/NikodemMarek/Sokoban#readme",
+  "devDependencies": {
+    "jsdoc": "^3.6.6"
+  }
 }

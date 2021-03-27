@@ -3,7 +3,7 @@
 
   
 
-Implementacja gry logicznej Sokoban w języku JavaScript.
+Implementacja gry logicznej Sokoban w języku JavaScript, stworzona na konkurs Motorola Science Cup.
 
   
 
@@ -46,3 +46,6 @@ Implementacja gry logicznej Sokoban w języku JavaScript.
 
 ## Uruchamianie
 Grę można uruchomić lokalnie za pomocą rozszerzenia LiveServer lub zagrać w nią na stronie http://sokoban.s3.warszawa.pl.
+
+## Więcej informacji
+Dokumentacja projektu znajduje się w docs\index.html
