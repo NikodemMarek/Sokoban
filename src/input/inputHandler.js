@@ -1,6 +1,17 @@
+/**
+ * @module inputHandler
+ */
+
 import { update, draw } from '/src/game/game.js'
 
+/**
+ * Pozwala na wykrycie kliknięcia przycisku na klawiaturze.
+ */
 export default class InputHandler {
+    /**
+     * Przyjmuje {@link game:Game}, która będzie aktualizowana po naciśnięciu wasd lub klawiszy strzałek.
+     * @param {game:Game} game - {@link game:Game}
+     */
     constructor(game) {
         this.isPaused = true;
 

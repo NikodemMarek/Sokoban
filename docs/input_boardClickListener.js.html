@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: board/scoreHolder.js</title>
+    <title>JSDoc: Source: input/boardClickListener.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: board/scoreHolder.js</h1>
+    <h1 class="page-title">Source: input/boardClickListener.js</h1>
 
     
 
@@ -27,56 +27,52 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module scoreHolder
+ * @module boardClickListener
  */
 
+import { draw, update } from '/src/board/levelBuilder.js';
+import { OBJECT_SIZE } from '/src/constants.js'
+
 /**
- * Klasa przechowuje wyniki z każdego poziomu w 2 trybie gry.
+ * Pozwala na wykrycie kliknięć na planszę.
  */
-export default class ScoreHolder {
+export default class BoardClickListener {
     /**
-     * Konstruktor tworzy tablice na wyniki i ustawia początkowy całkowity wynik na 0.
+     * Przyjmuje {@link levelBuilder:LevelBuilder}, który będzie aktualizowany po naciśnięciu na planszę.
+     * @param {levelBuilder:LevelBuilder} levelBuilder - {@link levelBuilder:LevelBuilder}
      */
-    constructor() {
-        this.scores = [];
-        this.totalScore = 0;
+    constructor(levelBuilder) {
+        this.isPaused = false;
+
+        let canvas = document.getElementById('c_game_screen');
+
+        let clicked = false;
+        canvas.addEventListener('mousedown', (event) => {
+            clicked = true;
+            onEvent(levelBuilder, event);
+        });
+        canvas.addEventListener('mouseup', (event) => clicked = false);
+
+        canvas.addEventListener('mousemove', (event) => { if(clicked) onEvent(levelBuilder, event); });
     }
-}
+};
 
 /**
- * Funkcja dodaje nowy wynik uzyskany z poziomu, do tablicy winików.
- * @param {ScoreHolder} scoreHolder - Obiekt klasy {@link ScoreHolder}
- * @param {number} levelNumber - Numer poziomu na którym został zdobyty wynik
- * @param {number} score - Uzyskany wynik
- * @returns {number} Całkowity wynik zdobyty na wszystkich poziomach
+ * Wykonuje update i draw na danym {@link levelBuilder:LevelBuilder}, po kliknięciu na context.
+ * @see levelBuilder:LevelBuilder
+ * @param {levelBuilder:LevelBuilder} levelBuilder - {@link levelBuilder:LevelBuilder}
+ * @param {MouseEvent} event - Zdarzenie kliknięcia
  */
-export function pushScore(scoreHolder, levelNumber, score) {
-    scoreHolder.totalScore += score;
+function onEvent(levelBuilder, event) {
+    if(!levelBuilder.isPaused) {
+        let clickPosition = {
+            'x': ~~(event.offsetX / OBJECT_SIZE),
+            'y': ~~(event.offsetY / OBJECT_SIZE)
+        }
 
-    scoreHolder.scores.push(
-        JSON.stringify({
-            'levelNumber': levelNumber,
-            'score': score
-        })
-    );
-
-    return scoreHolder.totalScore;
-}
-
-/**
- * Funkcja usuwa wynik z tabeli wyników.
- * @param {ScoreHolder} scoreHolder - Obiekt klasy {@link ScoreHolder}
- * @param {number} levelNumber - Numer poziomu którego wynik zostanie usunięty
- * @returns {number} Całkowity wynik uzyskany ze wszystkich poziomów, bez usuniętego wyniku
- */
-export function removeScore(scoreHolder, levelNumber) {
-    if(scoreHolder.scores.length > levelNumber) {
-        let toRemove = JSON.parse(scoreHolder.scores[levelNumber]);
-        scoreHolder.totalScore -= toRemove['score'];
+        update(levelBuilder, clickPosition);
+        draw(levelBuilder);
     }
-    scoreHolder.scores.splice(levelNumber, 1);
-
-    return scoreHolder.totalScore;
 }</code></pre>
         </article>
     </section>

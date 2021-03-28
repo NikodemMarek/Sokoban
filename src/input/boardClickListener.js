@@ -1,7 +1,18 @@
+/**
+ * @module boardClickListener
+ */
+
 import { draw, update } from '/src/board/levelBuilder.js';
 import { OBJECT_SIZE } from '/src/constants.js'
 
+/**
+ * Pozwala na wykrycie kliknięć na planszę.
+ */
 export default class BoardClickListener {
+    /**
+     * Przyjmuje {@link levelBuilder:LevelBuilder}, który będzie aktualizowany po naciśnięciu na planszę.
+     * @param {levelBuilder:LevelBuilder} levelBuilder - {@link levelBuilder:LevelBuilder}
+     */
     constructor(levelBuilder) {
         this.isPaused = false;
 
@@ -18,6 +29,12 @@ export default class BoardClickListener {
     }
 };
 
+/**
+ * Wykonuje update i draw na danym {@link levelBuilder:LevelBuilder}, po kliknięciu na context.
+ * @see levelBuilder:LevelBuilder
+ * @param {levelBuilder:LevelBuilder} levelBuilder - {@link levelBuilder:LevelBuilder}
+ * @param {MouseEvent} event - Zdarzenie kliknięcia
+ */
 function onEvent(levelBuilder, event) {
     if(!levelBuilder.isPaused) {
         let clickPosition = {
