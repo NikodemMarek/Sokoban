@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: module:scoreHolder</title>
+    <title>JSDoc: Module: scoreboard</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: module:scoreHolder</h1>
+    <h1 class="page-title">Module: scoreboard</h1>
 
     
 
@@ -28,9 +28,8 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>module:scoreHolder<span class="signature">()</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Klasa przechowuje wyniki z każdego poziomu w 2 trybie gry.</div>
+            
         
     
 </header>
@@ -39,22 +38,13 @@
     <div class="container-overview">
     
         
+            <div class="description">Zawiera funkcje pozwalające na zapisywanie i wczytywanie wyników z localStorage.</div>
+        
 
-    
-    <h2>Constructor</h2>
-    
-
-    
-    <h4 class="name" id="module:scoreHolder"><span class="type-signature"></span>new module:scoreHolder<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
+        
+            
 
 
-
-<div class="description">
-    Konstruktor tworzy tablice na wyniki i ustawia początkowy całkowity wynik na 0.
-</div>
 
 
 
@@ -97,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="board_scoreHolder.js.html">board/scoreHolder.js</a>, <a href="board_scoreHolder.js.html#line8">line 8</a>
+        <a href="storage_scoreboard.js.html">storage/scoreboard.js</a>, <a href="storage_scoreboard.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -127,6 +117,7 @@
 
 
 
+        
     
     </div>
 
@@ -153,7 +144,7 @@
     
 
     
-    <h4 class="name" id=".pushScore"><span class="type-signature">(static) </span>pushScore<span class="signature">(scoreHolder, levelNumber, score)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id=".readScoreboard"><span class="type-signature">(static) </span>readScoreboard<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;{name: string, score: number}>}</span></h4>
     
 
     
@@ -161,7 +152,117 @@
 
 
 <div class="description">
-    Funkcja dodaje nowy wynik uzyskany z poziomu, do tablicy winików.
+    Wczytuje wyniki z localStorage i sortuje je od najwyższego do najniższego.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="storage_scoreboard.js.html">storage/scoreboard.js</a>, <a href="storage_scoreboard.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Posortowana tablica wyników
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;{name: string, score: number}></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".updateScoreboard"><span class="type-signature">(static) </span>updateScoreboard<span class="signature">(name, score)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Jeśli liczba zapisanych wyników jest mniejsza niż max zdefiniowany w <code>constants:SCOREBOARD_LENGTH</code>, zapisuje wynik do local storage.Jeśli jest większa, sprawdza czy nowy wynik jest większy niż którykolwiek z zapisanych, jeśli tak, usuwa go i zapisuje nowy wynik.
 </div>
 
 
@@ -197,13 +298,13 @@
 
         <tr>
             
-                <td class="name"><code>scoreHolder</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">ScoreHolder</span>
+<span class="param-type">string</span>
 
 
             
@@ -213,30 +314,7 @@
 
             
 
-            <td class="description last">Obiekt klasy <code>ScoreHolder</code></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>levelNumber</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Numer poziomu na którym został zdobyty wynik</td>
+            <td class="description last">Nazwa wyniku</td>
         </tr>
 
     
@@ -259,7 +337,7 @@
 
             
 
-            <td class="description last">Uzyskany wynik</td>
+            <td class="description last">Całkowity wynik zdobyty podczas gry</td>
         </tr>
 
     
@@ -300,7 +378,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="board_scoreHolder.js.html">board/scoreHolder.js</a>, <a href="board_scoreHolder.js.html#line25">line 25</a>
+        <a href="storage_scoreboard.js.html">storage/scoreboard.js</a>, <a href="storage_scoreboard.js.html#line33">line 33</a>
     </li></ul></dd>
     
 
@@ -325,210 +403,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Całkowity wynik zdobyty na wszystkich poziomach
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id=".removeScore"><span class="type-signature">(static) </span>removeScore<span class="signature">(scoreHolder, levelNumber)</span><span class="type-signature"> &rarr; {number}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Funkcja usuwa wynik z tabeli wyników.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>scoreHolder</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">ScoreHolder</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Obiekt klasy <code>ScoreHolder</code></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>levelNumber</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Numer poziomu którego wynik zostanie usunięty</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="board_scoreHolder.js.html">board/scoreHolder.js</a>, <a href="board_scoreHolder.js.html#line44">line 44</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Całkowity wynik uzyskany ze wszystkich poziomów, bez usuniętego wyniku
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">number</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 

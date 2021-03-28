@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: scoreCounter</title>
+    <title>JSDoc: Source: storage/scoreboard.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,52 +17,63 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: scoreCounter</h1>
+    <h1 class="page-title">Source: storage/scoreboard.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Zawiera funkcje pozwalające na zapisywanie i wczytywanie wyników z localStorage.
+ * @module scoreboard
+ */
 
-<article>
-    <div class="container-overview">
-    
-        
+import { SCOREBOARD_PREFIX, SCOREBOARD_LENGTH } from '/src/constants.js'
 
-        
-    
-    </div>
+/**
+ * Wczytuje wyniki z localStorage i sortuje je od najwyższego do najniższego.
+ * @returns {Array.&lt;{ name: string, score: number }>} Posortowana tablica wyników
+ */
+export function readScoreboard() {
+    let scores = [];
 
-    
+    Object.keys(localStorage)
+        .filter(key => key.startsWith(SCOREBOARD_PREFIX))
+        .forEach(key => {
+            scores.push({
+                'name': key.replace(SCOREBOARD_PREFIX, ''),
+                'score': Number(localStorage.getItem(key))
+            });
+        });
 
-    
+    return scores.sort((a, b) => a['score'] >= b['score'] ? -1: 1);
+}
 
-    
+/**
+ * Jeśli liczba zapisanych wyników jest mniejsza niż max zdefiniowany w {@link constants:SCOREBOARD_LENGTH}, zapisuje wynik do local storage.
+ * Jeśli jest większa, sprawdza czy nowy wynik jest większy niż którykolwiek z zapisanych, jeśli tak, usuwa go i zapisuje nowy wynik.
+ * @param {string} name - Nazwa wyniku
+ * @param {number} score - Całkowity wynik zdobyty podczas gry
+ */
+export function updateScoreboard(name, score) {
+    let scores = readScoreboard();
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    if(scores.length &lt; SCOREBOARD_LENGTH) localStorage.setItem(SCOREBOARD_PREFIX + name, score);
+    else {
+        for(let i = 0; i &lt; scores.length; i ++) {
+            if(scores[i]['score'] &lt; score) {
+                localStorage.setItem(SCOREBOARD_PREFIX + name, score);
+                localStorage.removeItem(SCOREBOARD_PREFIX + scores.pop()['name']);
+                break;
+            }
+        }
+    }
+}</code></pre>
+        </article>
+    </section>
 
 
 
