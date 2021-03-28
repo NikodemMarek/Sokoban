@@ -309,13 +309,6 @@ let currentLevel = 0;
 let scoreHolder = new ScoreHolder();
 
 /**
- * Cofnięte ruchy w obecnie rozgrywanym poziomie.
- * @name module:index#movesUndone
- * @type {number}
- */
-let movesUndone = 0;
-
-/**
  * Dane obecnie rozgrywanego poziomu.
  * @name module:index#level
  * @type {{
@@ -641,7 +634,7 @@ function onLevelsRead() {
                                 game.worker,
                                 game.boxes,
                                 game.movesMade,
-                                movesUndone,
+                                game.movesUndone,
                                 scoreHolder.totalScore
                             );
                         } else {
@@ -651,7 +644,7 @@ function onLevelsRead() {
                                 game.worker,
                                 game.boxes,
                                 game.movesMade,
-                                movesUndone
+                                game.movesUndone
                             );
                         }
                     }
