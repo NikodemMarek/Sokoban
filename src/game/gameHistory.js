@@ -6,21 +6,23 @@ import { MOVES_HISTORY } from '/src/constants.js'
 
 /**
  * Dane elementów gry po wykonaniu ruchu.
+ * @name module:gameHistory#Move
  * @typedef {{
  *          worker: worker:Worker,
  *          boxes: boxes:Boxes,
  *          movesNumber: number
- *      }} Move
+ *      }} module:gameHistory#Move
  */
 
 /**
- * Przetrzymuje historię ruchów dla gry, o maksymalnej długości zdefiniowanej w {@link constants:MOVES_HISTORY}.
+ * Przetrzymuje historię ruchów dla gry, o maksymalnej długości zdefiniowanej w {@link module:constants#MOVES_HISTORY MOVES_HISTORY}.
+ * @name module:gameHistory#GameHistory
  */
 export default class GameHistory {
     /**
      * Przyjmuje i zapisuje dane po pierwszym ruchu.
-     * @param {worker:Worker} worker - {@link worker:Worker}
-     * @param {boxes:Boxes} boxes - {@link module:objects/boxes:Boxes}
+     * @param {module:worker#Worker} worker - {@link module:worker#Worker Worker}
+     * @param {module:boxes#Boxes} boxes - {@link module:boxes#Boxes Boxes}
      * @param {number} movesNumber - Liczba wykonanych ruchów
      */
     constructor(worker, boxes, movesNumber) {
@@ -37,10 +39,12 @@ export default class GameHistory {
 /**
  * Konwertuje dane o ruchu do formy tekstowej i dodaje go do historii ruchów.
  * Jeśli długość historii jest większa niż dozwolona długość, usuwa najstarszy, zapisany ruch.
- * @see constants:MOVES_HISTORY
- * @param {GameHistory} gameHistory - {@link GameHistory}
- * @param {worker:Worker} worker - {@link worker:Worker}
- * @param {boxes:Boxes} boxes - {@link boxes:Boxes}
+ * @name module:gameHistory#addMove
+ * @function
+ * @see module:constants#MOVES_HISTORY
+ * @param {module:gameHistory#GameHistory} gameHistory - {@link module:gameHistory#GameHistory GameHistory}
+ * @param {module:worker#Worker} worker - {@link module:worker#Worker Worker}
+ * @param {module:boxes#Boxes} boxes - {@link module:boxes#Boxes Boxes}
  * @param {number} movesNumber - Liczba wykonanych ruchów
  */
 export function addMove(gameHistory, worker, boxes, movesNumber) {
@@ -57,9 +61,11 @@ export function addMove(gameHistory, worker, boxes, movesNumber) {
 
 /**
  * Usuwa ostatni zapisany ruch z historii i zwraca jego dane.
- * @see Move
- * @param {GameHistory} gameHistory - {@link GameHistory}
- * @returns {Move} Dane ostatniego, dodanego ruchu
+ * @see module:gameHistory#Move
+ * @name module:gameHistory#undoMove
+ * @function
+ * @param {module:gameHistory#GameHistory} gameHistory - {@link module:gameHistory#GameHistory GameHistory}
+ * @returns {module:gameHistory#Move} Dane ostatniego, dodanego ruchu
  */
 export function undoMove(gameHistory) {
     if(gameHistory.movesHistory.length > 1) return JSON.parse(gameHistory.movesHistory.pop());

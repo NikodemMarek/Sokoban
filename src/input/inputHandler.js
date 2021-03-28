@@ -6,11 +6,12 @@ import { update, draw } from '/src/game/game.js'
 
 /**
  * Pozwala na wykrycie kliknięcia przycisku na klawiaturze.
+ * @name module:inputHandler#InputHandler
  */
 export default class InputHandler {
     /**
-     * Przyjmuje {@link game:Game}, która będzie aktualizowana po naciśnięciu wasd lub klawiszy strzałek.
-     * @param {game:Game} game - {@link game:Game}
+     * Przyjmuje {@link module:game#Game Game}, która będzie aktualizowana po naciśnięciu wasd lub klawiszy strzałek.
+     * @param {module:game#Game} game - {@link module:game#Game Game}
      */
     constructor(game) {
         this.isPaused = true;
@@ -22,27 +23,22 @@ export default class InputHandler {
                 switch (event.key) {
                     case 'ArrowLeft':
                     case 'a':
-                        // move left
                         workerMovement.x = -1
                         break;
                     case 'ArrowRight':
                     case 'd':
-                        // move right
                         workerMovement.x = 1
                         break;
                     case 'ArrowUp':
                     case 'w':
-                        // move up
                         workerMovement.y = -1
                         break;
                     case 'ArrowDown':
                     case 's':
-                        // move down
                         workerMovement.y = 1
                         break;
                 }
 
-                // update and draw all objects
                 update(game, workerMovement);
                 draw(game);
             }

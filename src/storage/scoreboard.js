@@ -7,6 +7,8 @@ import { SCOREBOARD_PREFIX, SCOREBOARD_LENGTH } from '/src/constants.js'
 
 /**
  * Wczytuje wyniki z localStorage i sortuje je od najwyższego do najniższego.
+ * @name module:scoreboard#readScoreboard
+ * @function
  * @returns {Array.<{ name: string, score: number }>} Posortowana tablica wyników
  */
 export function readScoreboard() {
@@ -25,8 +27,10 @@ export function readScoreboard() {
 }
 
 /**
- * Jeśli liczba zapisanych wyników jest mniejsza niż max zdefiniowany w {@link constants:SCOREBOARD_LENGTH}, zapisuje wynik do local storage.
+ * Jeśli liczba zapisanych wyników jest mniejsza niż max zdefiniowany w {@link module:constants#SCOREBOARD_LENGTH SCOREBOARD_LENGTH}, zapisuje wynik do local storage.
  * Jeśli jest większa, sprawdza czy nowy wynik jest większy niż którykolwiek z zapisanych, jeśli tak, usuwa go i zapisuje nowy wynik.
+ * @name module:scoreboard#updateScoreboard
+ * @function
  * @param {string} name - Nazwa wyniku
  * @param {number} score - Całkowity wynik zdobyty podczas gry
  */

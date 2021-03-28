@@ -144,123 +144,6 @@
     
 
     
-    <h4 class="name" id=".readLevels"><span class="type-signature">(static) </span>readLevels<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;{name: string, data: string}>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Wczytuje zapisane poziomy z localStorage.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="storage_levelSaver.js.html">storage/levelSaver.js</a>, <a href="storage_levelSaver.js.html#line72">line 72</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li>saveLevel</li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Lista wczytanych poziomów
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;{name: string, data: string}></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id=".removeLevel"><span class="type-signature">(static) </span>removeLevel<span class="signature">(levelName)</span><span class="type-signature"></span></h4>
     
 
@@ -362,7 +245,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="storage_levelSaver.js.html">storage/levelSaver.js</a>, <a href="storage_levelSaver.js.html#line24">line 24</a>
+        <a href="storage_levelSaver.js.html">storage/levelSaver.js</a>, <a href="storage_levelSaver.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -398,7 +281,7 @@
     
 
     
-    <h4 class="name" id=".saveLevel"><span class="type-signature">(static) </span>saveLevel<span class="signature">(levelName, board, boxes, worker)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="convertToRawLevel"><span class="type-signature"></span>convertToRawLevel<span class="signature">(board, boxes, worker)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -406,7 +289,511 @@
 
 
 <div class="description">
-    Zamienia dane o stworzonym poziomie na tekst i zapisuej je do localStorage.Dane są zapisywane z kluczem zaczynającym się od tekstu zdefiniowanego w <code>constants:CUSTOM_LEVEL_PREFIX</code>, a kończącym się nazwą poziomu.
+    Zamienia poziom z postaci <code>levelProvider:Level</code>, do postaci tekstu.Elementy na planszy są zakodowane w sposób: e - pusty element, w - ściana, t - cel bez pudełka, h - cel z pudełkiem, b - pudełko nie na celu, w - magazynier
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>board</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-board.html#Board">module:board#Board</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><a href="module-board.html#Board"><code>Board</code></a></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>boxes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-boxes.html#Boxes">module:boxes#Boxes</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><a href="module-boxes.html#Boxes"><code>Boxes</code></a></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>worker</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-worker.html#Worker">module:worker#Worker</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><a href="module-worker.html#Worker"><code>Worker</code></a></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="storage_levelSaver.js.html">storage/levelSaver.js</a>, <a href="storage_levelSaver.js.html#line30">line 30</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Poziom w postaci tekstu
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="readLevels"><span class="type-signature"></span>readLevels<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;{name: string, data: string}>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Wczytuje zapisane poziomy z localStorage.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="storage_levelSaver.js.html">storage/levelSaver.js</a>, <a href="storage_levelSaver.js.html#line73">line 73</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>saveLevel</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Lista wczytanych poziomów
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;{name: string, data: string}></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="replaceAt"><span class="type-signature"></span>replaceAt<span class="signature">(index, replacement)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Zastępuje znak w tekście podanym znakiem i zwraca zmieniony tekst.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Miejsce w tekście które ma zostać zastąpione</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>replacement</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Znak który ma się pojawić w tekście</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="storage_levelSaver.js.html">storage/levelSaver.js</a>, <a href="storage_levelSaver.js.html#line61">line 61</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Tekst z zamienionym znakiem
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="saveLevel"><span class="type-signature"></span>saveLevel<span class="signature">(levelName, board, boxes, worker)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Zamienia dane o stworzonym poziomie na tekst i zapisuej je do localStorage.Dane są zapisywane z kluczem zaczynającym się od tekstu zdefiniowanego w <a href="module-constants.html#CUSTOM_LEVEL_PREFIX"><code>CUSTOM_LEVEL_PREFIX</code></a>, a kończącym się nazwą poziomu.
 </div>
 
 
@@ -471,7 +858,7 @@
             <td class="type">
             
                 
-<span class="param-type">board:Board</span>
+<span class="param-type"><a href="module-board.html#Board">module:board#Board</a></span>
 
 
             
@@ -481,7 +868,7 @@
 
             
 
-            <td class="description last"><code>board:Board</code></td>
+            <td class="description last"><a href="module-board.html#Board"><code>Board</code></a></td>
         </tr>
 
     
@@ -494,7 +881,7 @@
             <td class="type">
             
                 
-<span class="param-type">boxes:Boxes</span>
+<span class="param-type"><a href="module-boxes.html#Boxes">module:boxes#Boxes</a></span>
 
 
             
@@ -504,7 +891,7 @@
 
             
 
-            <td class="description last"><code>boxes:Boxes</code></td>
+            <td class="description last"><a href="module-boxes.html#Boxes"><code>Boxes</code></a></td>
         </tr>
 
     
@@ -517,7 +904,7 @@
             <td class="type">
             
                 
-<span class="param-type">worker:Worker</span>
+<span class="param-type"><a href="module-worker.html#Worker">module:worker#Worker</a></span>
 
 
             
@@ -527,7 +914,7 @@
 
             
 
-            <td class="description last"><code>worker:Worker</code></td>
+            <td class="description last"><a href="module-worker.html#Worker"><code>Worker</code></a></td>
         </tr>
 
     
@@ -568,7 +955,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="storage_levelSaver.js.html">storage/levelSaver.js</a>, <a href="storage_levelSaver.js.html#line17">line 17</a>
+        <a href="storage_levelSaver.js.html">storage/levelSaver.js</a>, <a href="storage_levelSaver.js.html#line8">line 8</a>
     </li></ul></dd>
     
 
@@ -578,7 +965,7 @@
     <dt class="tag-see">See:</dt>
     <dd class="tag-see">
         <ul>
-            <li>levelBuilder:LevelBuilder</li>
+            <li><a href="module-levelBuilder.html#LevelBuilder">module:levelBuilder#LevelBuilder</a></li>
         </ul>
     </dd>
     
@@ -606,211 +993,6 @@
 
 
         
-            
-
-    
-
-    
-    <h4 class="name" id="~convertToRawLevel"><span class="type-signature">(inner) </span>convertToRawLevel<span class="signature">(board, boxes, worker)</span><span class="type-signature"> &rarr; {string}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Zamienia poziom z postaci <code>levelProvider:Level</code>, do postaci tekstu.Elementy na planszy są zakodowane w sposób: e - pusty element, w - ściana, t - cel bez pudełka, h - cel z pudełkiem, b - pudełko nie na celu, w - magazynier
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>board</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">board:Board</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><code>board:Board</code></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>boxes</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boxes:Boxes</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><code>boxes:Boxes</code></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>worker</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">worker:Worker</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><code>worker:Worker</code></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="storage_levelSaver.js.html">storage/levelSaver.js</a>, <a href="storage_levelSaver.js.html#line36">line 36</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Poziom w postaci tekstu
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
     
 
     
@@ -832,7 +1014,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun Mar 28 2021 18:58:29 GMT+0200 (czas środkowoeuropejski letni)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun Mar 28 2021 22:07:22 GMT+0200 (czas środkowoeuropejski letni)
 </footer>
 
 <script> prettyPrint(); </script>

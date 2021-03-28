@@ -30,8 +30,6 @@
     
         <h2><span class="attribs"><span class="type-signature"></span></span>module:levelProvider<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h2>
         
-            <div class="class-description">Klasa która po włączeniu strony wczytuje poziomy.</div>
-        
     
 </header>
 
@@ -40,8 +38,6 @@
     
         
 
-    
-    <h2>Constructor</h2>
     
 
     
@@ -53,7 +49,7 @@
 
 
 <div class="description">
-    Konstruktor zwraca Promise który wczytuje poziomy.Poziomy do 1 i 2 trybu gry są wczytywane z assets\levels, a do 3 trybu z localStorage.
+    Zwraca Promise który wczytuje poziomy.Poziomy do 1 i 2 trybu gry są wczytywane z assets\levels, a do 3 trybu z localStorage.
 </div>
 
 
@@ -97,7 +93,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line65">line 65</a>
+        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line76">line 76</a>
     </li></ul></dd>
     
 
@@ -169,7 +165,7 @@
 
         
             
-<h4 class="name" id="~byDifficultyMode"><span class="type-signature">(inner) </span>byDifficultyMode<span class="type-signature"> :Array.&lt;{string: Array.&lt;{name: string, data: string}>, string: Array.&lt;{name: string, data: string}>, string: Array.&lt;{name: string, data: string}>}></span></h4>
+<h4 class="name" id="byDifficultyMode"><span class="type-signature"></span>byDifficultyMode<span class="type-signature"> :Array.&lt;{string: Array.&lt;{name: string, data: string}>, string: Array.&lt;{name: string, data: string}>, string: Array.&lt;{name: string, data: string}>}></span></h4>
 
 
 
@@ -223,7 +219,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line32">line 32</a>
+        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line21">line 21</a>
     </li></ul></dd>
     
 
@@ -233,7 +229,7 @@
     <dt class="tag-see">See:</dt>
     <dd class="tag-see">
         <ul>
-            <li>readLevelsByDifficulty</li>
+            <li><a href="module-levelProvider.html#readLevelsByDifficulty">module:levelProvider#readLevelsByDifficulty</a></li>
         </ul>
     </dd>
     
@@ -248,7 +244,7 @@
 
         
             
-<h4 class="name" id="~customLevels"><span class="type-signature">(inner) </span>customLevels<span class="type-signature"> :Array.&lt;{name: string, data: string}></span></h4>
+<h4 class="name" id="customLevels"><span class="type-signature"></span>customLevels<span class="type-signature"> :Array.&lt;{name: string, data: string}></span></h4>
 
 
 
@@ -302,7 +298,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line60">line 60</a>
+        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line52">line 52</a>
     </li></ul></dd>
     
 
@@ -312,7 +308,7 @@
     <dt class="tag-see">See:</dt>
     <dd class="tag-see">
         <ul>
-            <li>readCustomLevels</li>
+            <li><a href="module-levelProvider.html#readCustomLevels">module:levelProvider#readCustomLevels</a></li>
         </ul>
     </dd>
     
@@ -327,7 +323,69 @@
 
         
             
-<h4 class="name" id="~levelsMode"><span class="type-signature">(inner) </span>levelsMode<span class="type-signature"> :Array.&lt;{name: string, data: string}></span></h4>
+<h4 class="name" id="LevelProvider"><span class="type-signature"></span>LevelProvider<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Po włączeniu strony wczytuje poziomy.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line66">line 66</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="levelsMode"><span class="type-signature"></span>levelsMode<span class="type-signature"> :Array.&lt;{name: string, data: string}></span></h4>
 
 
 
@@ -381,7 +439,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line48">line 48</a>
+        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line39">line 39</a>
     </li></ul></dd>
     
 
@@ -391,7 +449,7 @@
     <dt class="tag-see">See:</dt>
     <dd class="tag-see">
         <ul>
-            <li>readLevelsLevelsByLevelNumber</li>
+            <li><a href="module-levelProvider.html#readLevelsLevelsByLevelNumber">module:levelProvider#readLevelsLevelsByLevelNumber</a></li>
         </ul>
     </dd>
     
@@ -416,7 +474,7 @@
     
 
     
-    <h4 class="name" id=".getCustomLevel"><span class="type-signature">(static) </span>getCustomLevel<span class="signature">(levelName)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="convertToLevel"><span class="type-signature"></span>convertToLevel<span class="signature">(rawLevel)</span><span class="type-signature"> &rarr; {<a href="module-levelProvider.html#Level">module:levelProvider#Level</a>}</span></h4>
     
 
     
@@ -424,7 +482,166 @@
 
 
 <div class="description">
-    Funkcja zwraca poziom o podanej nazwie, z 3 trybu gry.
+    Przyjmuje poziom w postaci tekstu i konwertuje go na <a href="module-levelProvider.html#Level"><code>Level</code></a>.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>rawLevel</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Poziom w postaci tekstu</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line130">line 130</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Poziom po konwersji
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="module-levelProvider.html#Level">module:levelProvider#Level</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getCustomLevel"><span class="type-signature"></span>getCustomLevel<span class="signature">(levelName)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Zwraca poziom o podanej nazwie, z 3 trybu gry.
 </div>
 
 
@@ -517,7 +734,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line211">line 211</a>
+        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line208">line 208</a>
     </li></ul></dd>
     
 
@@ -575,7 +792,7 @@
     
 
     
-    <h4 class="name" id=".getCustomLevelsNames"><span class="type-signature">(static) </span>getCustomLevelsNames<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
+    <h4 class="name" id="getCustomLevelsNames"><span class="type-signature"></span>getCustomLevelsNames<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
     
 
     
@@ -583,7 +800,7 @@
 
 
 <div class="description">
-    Funkcja zwraca nazwy wczytanych poziomów z 3 trybu gry.
+    Zwraca nazwy wczytanych poziomów z 3 trybu gry.
 </div>
 
 
@@ -681,7 +898,7 @@
     
 
     
-    <h4 class="name" id=".getLevelByDifficulty"><span class="type-signature">(static) </span>getLevelByDifficulty<span class="signature">(difficulty)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="getLevelByDifficulty"><span class="type-signature"></span>getLevelByDifficulty<span class="signature">(difficulty)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -689,7 +906,7 @@
 
 
 <div class="description">
-    Funkcja zwraca losowy poziom o podanym poziomie trudności, z 1 trybu gry.
+    Zwraca losowy poziom o podanym poziomie trudności, z 1 trybu gry.
 </div>
 
 
@@ -782,7 +999,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line175">line 175</a>
+        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line178">line 178</a>
     </li></ul></dd>
     
 
@@ -840,7 +1057,7 @@
     
 
     
-    <h4 class="name" id=".getLevelByLevelNumber"><span class="type-signature">(static) </span>getLevelByLevelNumber<span class="signature">(levelNumber)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="getLevelByLevelNumber"><span class="type-signature"></span>getLevelByLevelNumber<span class="signature">(levelNumber)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -848,7 +1065,7 @@
 
 
 <div class="description">
-    Funkcja zwraca poziom o podanym numerze, z 2 trybu gry.
+    Zwraca poziom o podanym numerze, z 2 trybu gry.
 </div>
 
 
@@ -999,7 +1216,7 @@
     
 
     
-    <h4 class="name" id=".readCustomLevels"><span class="type-signature">(static) </span>readCustomLevels<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="readCustomLevels"><span class="type-signature"></span>readCustomLevels<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -1007,7 +1224,7 @@
 
 
 <div class="description">
-    Funkcja wczytuje poziomy z localStorage do 3 trybu gry i zapisuje je do tablicy <code>customLevels</code>.
+    Wczytuje poziomy z localStorage do 3 trybu gry i zapisuje je do tablicy <a href="module-levelProvider.html#customLevels"><code>customLevels</code></a>.
 </div>
 
 
@@ -1051,7 +1268,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line117">line 117</a>
+        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line122">line 122</a>
     </li></ul></dd>
     
 
@@ -1061,7 +1278,7 @@
     <dt class="tag-see">See:</dt>
     <dd class="tag-see">
         <ul>
-            <li>{levelSaver:readLevels}</li>
+            <li><a href="module-levelSaver.html#readLevels">module:levelSaver#readLevels</a></li>
         </ul>
     </dd>
     
@@ -1094,7 +1311,7 @@
     
 
     
-    <h4 class="name" id=".readLevelsByDifficulty"><span class="type-signature">(static) </span>readLevelsByDifficulty<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="readLevelsByDifficulty"><span class="type-signature"></span>readLevelsByDifficulty<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -1102,7 +1319,7 @@
 
 
 <div class="description">
-    Funkcja wczytuje poziomy z assets\levels\levels_levels_mode.json do 1 trybu gry i zapisuje je do tablicy <code>byDifficultyMode</code>.
+    Wczytuje poziomy z assets\levels\levels_levels_mode.json do 1 trybu gry i zapisuje je do tablicy <a href="module-levelProvider.html#byDifficultyMode"><code>byDifficultyMode</code></a>.
 </div>
 
 
@@ -1146,7 +1363,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line90">line 90</a>
+        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line92">line 92</a>
     </li></ul></dd>
     
 
@@ -1182,7 +1399,7 @@
     
 
     
-    <h4 class="name" id=".readLevelsLevelsByLevelNumber"><span class="type-signature">(static) </span>readLevelsLevelsByLevelNumber<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="readLevelsLevelsByLevelNumber"><span class="type-signature"></span>readLevelsLevelsByLevelNumber<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -1190,7 +1407,7 @@
 
 
 <div class="description">
-    Funkcja wczytuje poziomy z assets\levels\levels_difficulty.json do 2 trybu gry i zapisuje je do tablicy <code>levelsMode</code>.
+    Wczytuje poziomy z assets\levels\levels_difficulty.json do 2 trybu gry i zapisuje je do tablicy <a href="module-levelProvider.html#levelsMode"><code>levelsMode</code></a>.
 </div>
 
 
@@ -1234,7 +1451,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line104">line 104</a>
+        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line108">line 108</a>
     </li></ul></dd>
     
 
@@ -1259,165 +1476,6 @@
 
 
 
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~convertToLevel"><span class="type-signature">(inner) </span>convertToLevel<span class="signature">(rawLevel)</span><span class="type-signature"> &rarr; {Level}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Funkcja przyjmuje poziom w postaci tekstu i konwertuje go na <code>Level</code>.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>rawLevel</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Poziom w postaci tekstu</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="board_levelProvider.js.html">board/levelProvider.js</a>, <a href="board_levelProvider.js.html#line124">line 124</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Poziom po konwersji
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Level</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -1431,13 +1489,13 @@
 
         
                 
-<h4 class="name" id="~Level">Level</h4>
+<h4 class="name" id="Level">Level</h4>
 
 
 
 
 <div class="description">
-    Format poziomu używany przez klasę <code>game#Game</code>.
+    Format poziomu używany przez klasę <a href="module-game.html#Game"><code>Game</code></a>.
 </div>
 
 
@@ -1521,7 +1579,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun Mar 28 2021 18:58:29 GMT+0200 (czas środkowoeuropejski letni)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun Mar 28 2021 22:07:22 GMT+0200 (czas środkowoeuropejski letni)
 </footer>
 
 <script> prettyPrint(); </script>

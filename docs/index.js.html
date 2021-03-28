@@ -42,31 +42,33 @@ import { saveLevel, removeLevel } from '/src/storage/levelSaver.js'
 
 /**
  * Pozycja na planszy, wymiary są podane w ilości elementów od boku planszy.
- * @typedef {{ x: number, y: number }} Position
+ * @name module:index#Position
+ * @typedef {{ x: number, y: number }} module:index#Position
  */
 
 /**
- * Funkcja formatująca dane z dowolnej postaci do tekstu.
- * @name FormatData
+ * Formatuje dane z dowolnej postaci do tekstu.
+ * @name module:index#FormatData
  * @function
  * @param {*} data - Dane do sformatowania
  * @param {number} index - Numer obecnie formatowanych danych
  */
 /**
- * Funkcja wykonująca się po naciśnięciu przycisku z listy w bocznym menu.
- * @name OnSideMenuButtonClick
+ * Wykonuje się po naciśnięciu przycisku z listy w bocznym menu.
+ * @name module:index#OnSideMenuButtonClick
  * @function
  * @param {*} data - Dane kryjące się za naciśniętym przyciskiem
  */
 /**
- * Funkcja wykonująca się po naciśnięciu przycisku potwierdzenia w bocznym menu.
- * @name OnSideMenuConfirm
+ * Wykonująca się po naciśnięciu przycisku potwierdzenia w bocznym menu.
+ * @name module:index#OnSideMenuConfirm
  * @function
  * @param {string} inputValue - Tekst wpisany do pola tekstowego
  */
 
 /**
  * Enum z identyfikatorami stworzonych trybów gry.
+ * @name module:index#gamemodes
  * @readonly
  * @enum {number}
  */
@@ -77,124 +79,147 @@ const gamemodes = Object.freeze({
 });
 /**
  * Obecny tryb gry.
+ * @name module:index#gamemode
  * @type {number}
  */
 let gamemode = gamemodes.BY_DIFFICULTY;
 
 /**
  * Canvas w którym jest rysowana gra.
+ * @name module:index#canvas
  * @type {HTMLCanvasElement}
  */
 let canvas = document.getElementById('c_game_screen');
 
 /**
  * Główne menu z boku ekranu.
+ * @name module:index#menu
  * @type {HTMLDivElement}
  */
 let menu = document.getElementById('menu');
 
 /**
  * Pojemnik na boczne menu.
+ * @name module:index#sideMenu
  * @type {HTMLDivElement}
  */
 let sideMenu = document.getElementById('side_menu');
 /**
  * Pojemnik na formę do wpisywania w bocznym menu.
+ * @name module:index#sideMenuForm
  * @type {HTMLDivElement}
  */
 let sideMenuForm = document.getElementById('side_menu_form');
 /**
  * Pole tekstowe w bocznym menu.
+ * @name module:index#iSideMenuInput
  * @type {HTMLInputElement}
  */
 let iSideMenuInput = document.getElementById('i_side_menu_input');
 /**
  * Przycisk potwierdzający wybór, pod polem tekstowym w bocznym menu.
+ * @name module:index#bSideMenuConfirm
  * @type {HTMLButtonElement}
  */
 let bSideMenuConfirm = document.getElementById('b_side_menu_confirm');
 /**
  * Przycisk zamykający boczne menu, na samym dole bocznego menu.
+ * @name module:index#bSideMenuCancel
  * @type {HTMLButtonElement}
  */
 let bSideMenuCancel = document.getElementById('b_side_menu_cancel');
 /**
  * Lista przycisków pojawiająca się po otwarciu bocznego menu.
+ * @name module:index#sideMenuList
  * @type {HTMLDivElement}
  */
 let sideMenuList = document.getElementById('side_menu_list');
 
 /**
  * Menu z elementami gry do wyboru, w trybie tworzenia poziomu.
+ * @name module:index#gameObjects
  * @type {HTMLDivElement}
  */
 let gameObjects = document.getElementById('game_objects');
 
 /**
  * Pusty element, usuwający wszystko w trybie tworzenia poziomu.
+ * @name module:index#iEmpty
  * @type {HTMLImageElement}
  */
 let iEmpty = document.getElementById('i_empty');
 /**
  * Ściana możliwa do postawienia trybie tworzenia poziomu.
+ * @name module:index#iWall
  * @type {HTMLImageElement}
  */
 let iWall = document.getElementById('i_wall');
 /**
  * Cel możliwy do postawienia trybie tworzenia poziomu.
+ * @name module:index#iTarget
  * @type {HTMLImageElement}
  */
 let iTarget = document.getElementById('i_target');
 /**
  * Pudełko możliwe do postawienia trybie tworzenia poziomu.
+ * @name module:index#iBox
  * @type {HTMLImageElement}
  */
 let iBox = document.getElementById('i_box');
 /**
  * Magazynier możliwy do postawienia trybie tworzenia poziomu.
+ * @name module:index#iWorker
  * @type {HTMLImageElement}
  */
 let iWorker = document.getElementById('i_worker');
 
 /**
  * Całkowity wynik zdobyty w 2 trybie gry.
+ * @name module:index#sTotalScore
  * @type {HTMLSpanElement}
  */
 let sTotalScore = document.getElementById('s_total_score');
 /**
  * Podpis całkowitego wyniku zdobytyego w 2 trybie gry.
+ * @name module:index#sTotalScoreLabel
  * @type {HTMLSpanElement}
  */
 let sTotalScoreLabel = document.getElementById('s_total_score_label');
 /**
  * Ilości ruchów zrobionych przez magazyniera.
+ * @name module:index#sMovesNumber
  * @type {HTMLSpanElement}
  */
 let sMovesNumber = document.getElementById('s_moves_number');
 /**
  * Podpis ilości ruchów zrobionych przez magazyniera.
+ * @name module:index#sMovesNumberLabel
  * @type {HTMLSpanElement}
  */
 let sMovesNumberLabel = document.getElementById('s_moves_number_label');
 
 /**
  * Przycisk resetujący obecnie rozgrywany poziom.
+ * @name module:index#bResetLevel
  * @type {HTMLButtonElement}
  */
 let bResetLevel = document.getElementById('b_reset_level');
 /**
  * Przycisk cofający ruch.
+ * @name module:index#bUndoMove
  * @type {HTMLButtonElement}
  */
 let bUndoMove = document.getElementById('b_undo_move');
 /**
  * Przycisk zmieniający tryb gry na kolejny.
+ * @name module:index#bChangeGamemode
  * @type {HTMLButtonElement}
  */
 let bChangeGamemode = document.getElementById('b_change_gamemode');
 
 /**
  * Przycisk zmieniający poziom na losowy, z wybranego poziomu trudności, w 1 trybie gry.
+ * @name module:index#bRandomLevel
  * @type {HTMLButtonElement}
  */
 let bRandomLevel = document.getElementById('b_random_level');
@@ -202,105 +227,125 @@ let bRandomLevel = document.getElementById('b_random_level');
 /**
  * Przycisk zmieniający poziom na koolejny, w 2 trybie gry.
  * Pojawia się tylko, jeśli obecnie rozgrywany poziom zostanie wygrany.
+ * @name module:index#bNextLevel
  * @type {HTMLButtonElement}
  */
 let bNextLevel = document.getElementById('b_next_level');
 /**
  * Przycisk zapisujący obecnie rozgrywany poziom, w 2 i 3 trybie gry.
+ * @name module:index#bSaveGame
  * @type {HTMLButtonElement}
  */
 let bSaveGame = document.getElementById('b_save_game');
 /**
  * Przycisk wczytujący zapisane gry, w 2 i 3 trybie gry.
+ * @name module:index#bReadGame
  * @type {HTMLButtonElement}
  */
 let bReadGame = document.getElementById('b_read_game');
 /**
  * Przycisk otwierający ranking, w 2 trybie gry.
+ * @name module:index#bOpenScoreboard
  * @type {HTMLButtonElement}
  */
 let bOpenScoreboard = document.getElementById('b_open_scoreboard');
 
 /**
  * Przycisk włączający tworzenie poziomu, w 3 trybie gry.
+ * @name module:index#bCreateLevel
  * @type {HTMLButtonElement}
  */
 let bCreateLevel = document.getElementById('b_create_level');
 /**
  * Przycisk otwierający menu pozwalające na usuwanie poziomu, w 3 trybie gry.
+ * @name module:index#bRemoveLevel
  * @type {HTMLButtonElement}
  */
 let bRemoveLevel = document.getElementById('b_remove_level');
 /**
  * Przycisk wczytujący zapisany poziom, w 3 trybie gry.
+ * @name module:index#bReadLevel
  * @type {HTMLButtonElement}
  */
 let bReadLevel = document.getElementById('b_read_level');
 
 /**
  * Menu z wyborem poziomu trudności, w 1 trybie gry.
+ * @name module:index#byDifficultyModeMenu
  * @type {HTMLDivElement}
  */
 let byDifficultyModeMenu = document.getElementById('by_difficulty_mode');
 /**
  * Przycisk zmieniający poziom trudności na łatwy, w 1 trybie gry.
+ * @name module:index#bEasyLevel
  * @type {HTMLButtonElement}
  */
 let bEasyLevel = document.getElementById('easy_level');
 /**
  * Przycisk zmieniający poziom trudności na średniozaawansowany, w 1 trybie gry.
+ * @name module:index#bIntermediateLevel
  * @type {HTMLButtonElement}
  */
 let bIntermediateLevel = document.getElementById('intermediate_level');
 /**
  * Przycisk zmieniający poziom trudności na trudny, w 1 trybie gry.
+ * @name module:index#bHardLevel
  * @type {HTMLButtonElement}
  */
 let bHardLevel = document.getElementById('hard_level');
 
 /**
  * Menu z poziomami dostępnymi w 2 trybie gry.
+ * @name module:index#levelsModeMenu
  * @type {HTMLDivElement}
  */
 let levelsModeMenu = document.getElementById('levels_mode');
 
 /**
  * Context w którym renderowana jest gra.
+ * @name module:index#context
  * @type {CanvasRenderingContext2D}
  */
 let context = canvas.getContext('2d');
 
 /**
  * Obiekt klasy pozwalającej na ryzowanie obrazów w contexcie.
- * @type {CanvasImage}
+ * @name module:index#canvasImage
+ * @type {module:canvasImage#CanvasImage}
  */
 let canvasImage = new CanvasImage(context);
 
 /**
  * Obecnie wybrany poziom trudności, w 1 trybie gry.
+ * @name module:index#selectedDifficulty
  * @type {string}
  */
 let selectedDifficulty = 'easy';
 /**
  * Obecnie rozgrywany poziom, w 2 trybie gry.
+ * @name module:index#currentLevel
  * @type {string}
  */
 let currentLevel = 0;
 
 /**
  * Obiekt przechowywujący obecny wynik, w 2 poziomie trudności.
- * @type {ScoreHolder}
+ * @name module:index#scoreHolder
+ * @name module:index#
+ * @type {module:scoreHolder#ScoreHolder}
  */
 let scoreHolder = new ScoreHolder();
 
 /**
  * Cofnięte ruchy w obecnie rozgrywanym poziomie.
+ * @name module:index#movesUndone
  * @type {number}
  */
 let movesUndone = 0;
 
 /**
  * Dane obecnie rozgrywanego poziomu.
+ * @name module:index#level
  * @type {{
  *      name: string,
  *      level: levelProvider:Level
@@ -309,18 +354,21 @@ let movesUndone = 0;
 let level
 /**
  * Obecnie działająca gra.
- * @type {Game}
+ * @name module:index#game
+ * @type {module:game#Game}
  */
 let game
 
 /**
  * Obecnie działający kreator poziomów.
- * @type {LevelBuilder}
+ * @name module:index#levelBuilder
+ * @type {module:levelBuilder#LevelBuilder}
  */
 let levelBuilder
 
 /**
  * Tablica kolorów dla menu poziomów, w 2 trybie.
+ * @name module:index#levelsColors
  * @type {Array.&lt;string>}
  */
 let levelsColors = [
@@ -332,6 +380,8 @@ let levelsColors = [
 
 /**
  * Funkcja która ukrywa z wszystkie niepotrzebne elementy na ekranie i pokazuje te które są potrzebne na wybranym trybie gry.
+ * @name module:index#setGamemode
+ * @function
  * @param {number} gamemodeToSet - Tryb gry który zostanie ustawiony
  */
 function setGamemode(gamemodeToSet) {
@@ -419,8 +469,10 @@ function setGamemode(gamemodeToSet) {
  * Funkcja która zostaje wykonana po wygraniu poziomu.
  * Liczy wynik i dodaje go do całkowitego wyniku, w 2 trybie gry.
  * Pokazuje przycisk następnego poziomu.
- * @see {@link game:victory}
- * @see {@link scoreHolder:ScoreHolder}
+ * @see {@link module:game#victory}
+ * @see {@link module:scoreHolder#ScoreHolder}
+ * @name module:index#onVictory
+ * @function
  * @param {number} movesMade - Ruchy wykonane przez magazyniera w obecnej grze
  * @param {number} movesUndone - Ruchy cofnięte przez gracza podczas rozgrywki
  * @returns {number} Wynik uzyskany przez gracza w obecnej grze
@@ -437,7 +489,9 @@ function onVictory(movesMade, movesUndone) {
 
 /**
  * Funkcja resetuje grę.
- * @see {@link game:Game}
+ * @see {@link module:game#Game}
+ * @name module:index#resetGame
+ * @function
  */
 function resetGame() {
     stopGame(game);
@@ -449,15 +503,17 @@ function resetGame() {
 
 /**
  * Funkcja tworzy menu boczne.
+ * @name module:index#createSideMenu
+ * @function
  * @param {boolean} isInput - Pokazanie pola tekstowego i przycisku potwierdzenia na górze menu
  * @param {boolean} pauseGame - Zatrzymanie gry po pokazaniu menu i wznowienie jej po zamknięciu menu
  * @param {boolean} pauseLevelBuilder - Zatrzymanie kreatora poziomów po zamknięciu menu
  * @param {boolean} closeOnButtonClick - Zamknięcie menu po naciśnięciu przycisku z listy
  * @param {Array.&lt;*>} listData - Dane które zostaną wyświetlone w liście
- * @param {FormatData} dataFormat - Funkcja formatująca dane do wyświetlenia w liście
- * @param {OnSideMenuButtonClick} onButtonClick - Funkcja wykonująca się po naciśnięciu przycisku z listy
+ * @param {module:index#FormatData} dataFormat - Funkcja formatująca dane do wyświetlenia w liście
+ * @param {module:index#OnSideMenuButtonClick} onButtonClick - Funkcja wykonująca się po naciśnięciu przycisku z listy
  * @param {string} confirmButtonLabel - Podpis przycisku potwierdzenia
- * @param {OnSideMenuConfirm} onConfirm - Funkcja wykonująca się po naciśnięciu przycisku potwierdzenia
+ * @param {module:index#OnSideMenuConfirm} onConfirm - Funkcja wykonująca się po naciśnięciu przycisku potwierdzenia
  */
 function createSideMenu(
     isInput,
@@ -538,6 +594,8 @@ function createSideMenu(
 
 /**
  * Funkcja która wykonuje się po wejściu na stronę i załadowaniu poziomów.
+ * @name module:index#init
+ * @function
  */
 function init() {
     level = getLevelByDifficulty(selectedDifficulty);
@@ -559,6 +617,8 @@ function init() {
 
 /**
  * Funkcja która wykonuje po wejściu na stronę, załadowaniu poziomów i utworzeniu menu urzytkownika.
+ * @name module:index#onLevelsRead
+ * @function
  */
 function onLevelsRead() {
     bResetLevel.addEventListener('click', () => {
@@ -775,7 +835,7 @@ function onLevelsRead() {
 
 /**
  * Konstruktor wczytujący levele zapisane w /assets/levels.
- * @see {@link levelProvider:LevelProvider}
+ * @see {@link module:levelProvider#LevelProvider LevelProvider}
  * @return {Promise} Promise który wczytuje levele.
  */
 new LevelProvider()
@@ -796,7 +856,7 @@ new LevelProvider()
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun Mar 28 2021 18:58:29 GMT+0200 (czas środkowoeuropejski letni)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun Mar 28 2021 22:07:22 GMT+0200 (czas środkowoeuropejski letni)
 </footer>
 
 <script> prettyPrint(); </script>

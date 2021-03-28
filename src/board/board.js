@@ -6,11 +6,12 @@ import { BOARD_DIMENSIONS } from "/src/constants.js";
 
 /**
  * Klasa przechowywuje planszę i canvasImage, ułatwia operacje na planszy.
+ * @name module:board#Board
  */
 export default class Board {
     /**
-     * Konstruktor przyjmuje i zapisuje {@link board:Board} oraz {@link index:canvasImage} do zmiennych.
-     * @param {CanvasImage} canvasImage - CanvasImage którego będzie używać plansza
+     * Konstruktor przyjmuje i zapisuje tablicę z planszą oraz {@link module:canvasImage#CanvasImage CanvasImage} do zmiennych.
+     * @param {module:canvasImage#CanvasImage} canvasImage - CanvasImage którego będzie używać plansza
      * @param {Array.<Array.<string>>} board - Plansza na której odbywa się gra
      */
     constructor(canvasImage, board) {
@@ -21,8 +22,10 @@ export default class Board {
 
 /**
  * Funkcja zmienia element planszy w wybranym miejscu na podany element
- * @param {Array.<Array.<string>>} board - Objekt klasy {@link Board}
- * @param {index:Position} position - Pozycja na której zostanie zamieniony element
+ * @name module:board#setElement
+ * @function
+ * @param {module:board#Board} board - {@link module:board#Board Board}
+ * @param {module:index#Position} position - Pozycja na której zostanie zamieniony element
  * @param {string} element - Element który zostanie postawiony na planszy
  */
 export function setElement(board, position, element) {
@@ -34,7 +37,9 @@ export function setElement(board, position, element) {
 
 /**
  * Funkcja rysuje elementy na planszy.
- * @param {Array.<Array.<string>>} board - Objekt klasy {@link Board}
+ * @name module:board#draw
+ * @function
+ * @param {module:board#Board} board - {@link module:board#Board Board}
  */
 export function draw(board) {
     for(const [y, row] of board.board.entries()) {
@@ -53,8 +58,10 @@ export function draw(board) {
 
 /**
  * Funkcja sprawdza czy w danym punkcie na planszy jest ściana.
- * @param {Array.<Array.<string>>} board - Objekt klasy {@link Board}
- * @param {index:Position} position - Pozycja do sprawdzenia
+ * @name module:board#isWall
+ * @function
+ * @param {module:board#Board} board - {@link module:board#Board Board}
+ * @param {module:index#Position} position - Pozycja do sprawdzenia
  */
 export function isWall(board, position) {
     if(
@@ -65,8 +72,10 @@ export function isWall(board, position) {
 }
 /**
  * Funkcja sprawdza czy w danym punkcie na planszy jest cel.
- * @param {Array.<Array.<string>>} board - Objekt klasy {@link Board}
- * @param {index:Position} position - Pozycja do sprawdzenia
+ * @name module:board#isTarget
+ * @function
+ * @param {module:board#Board} board - {@link module:board#Board Board}
+ * @param {module:index#Position} position - Pozycja do sprawdzenia
  */
 export function isTarget(board, position) {
     if(

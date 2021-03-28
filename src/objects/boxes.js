@@ -7,13 +7,14 @@ import { draw as drawBox, move as moveBox } from '/src/objects/box.js'
 
 /**
  * Przechowuje informacje o wszystkich pudełkach w grze.
- * @see box:Box
+ * @see module:box#Box
+ * @name module:boxes#Boxes
  */
 export default class Boxes {
     /**
      * Przyjmuje tablicę pudełek i zapisuje ją do zmiennej, lub tworzy nową pustą tablicę pudełek.
-     * @see box:Box
-     * @param {Array.<box:Box>} boxes - Tablica pudełek
+     * @see module:box#Box
+     * @param {Array.<module:box#Box>} boxes - Tablica pudełek
      */
     constructor(boxes) {
         boxes == null ? this.boxes = []: this.boxes = boxes
@@ -22,21 +23,27 @@ export default class Boxes {
 
 /**
  * Rysuje wszystkie pudełka na planszy.
- * @param {Boxes} boxes - {@link Boxes}
- * @param {canvasImage:CanvasImage} canvasImage - {@link canvasImage:CanvasImage}
+ * @name module:boxes#draw
+ * @function
+ * @param {module:boxes#Boxes} boxes - {@link module:boxes#Boxes Boxes}
+ * @param {module:canvasImage#CanvasImage} canvasImage - {@link module:canvasImage#CanvasImage CanvasImage}
  */
 export function draw(boxes, canvasImage) { boxes.boxes.forEach(box => drawBox(box, canvasImage)) }
 
 /**
  * Dodaje pudełko na planszę.
- * @param {Boxes} boxes - {@link Boxes}
- * @param {box:Box} box - {@link box:Box}
+ * @name module:boxes#addBox
+ * @function
+ * @param {module:boxes#Boxes} boxes - {@link module:boxes#Boxes Boxes}
+ * @param {module:box#Box} box - {@link nodule:box#Box Box}
  */
 export function addBox(boxes, box) { boxes.boxes.push(box) }
 /**
  * Usuwa pudełko z planszy.
- * @param {Boxes} boxes - {@link Boxes}
- * @param {index:Position} position - pozycja w której znajduje się pudełko
+ * @name module:boxes#removeBox
+ * @function
+ * @param {module:boxes#Boxes} boxes - {@link module:boxes#Boxes Boxes}
+ * @param {module:index#Position} position - pozycja w której znajduje się pudełko
  */
 export function removeBox(boxes, position) {
     boxes.boxes.forEach((box, index) => {
@@ -46,9 +53,11 @@ export function removeBox(boxes, position) {
 
 /**
  * Sprawdza czy w podanej pozycji znajduje się pudełko.
- * @see box:Box
- * @param {Boxes} boxes - {@link Boxes}
- * @param {index:Position} position - Pozycja do sprawdzenia
+ * @see module:box#Box
+ * @name module:boxes#isBox
+ * @function
+ * @param {module:boxes#Boxes} boxes - {@link module:boxes#Boxes Boxes}
+ * @param {module:index#Position} position - Pozycja do sprawdzenia
  * @returns {boolean} Pudełko jest / nie jest w danej pozycji
  */
 export function isBox(boxes, position) {
@@ -67,11 +76,13 @@ export function isBox(boxes, position) {
 /**
  * Sprawdza czy pudełkiem z danej pozycji można poruszyć o podaną liczbę jednostek (czy na drodze stoi inne pudełko lub ściana).
  * Jeśli może, porusza pudełko i zwraca true, jeśli nie, zwraca false.
- * @see box:Box
- * @param {board:Board} board - {@link board:Board}
- * @param {Boxes} boxes - {@link Boxes}
- * @param {index:Position} startPosition - Pozycja w której znajduje się pudełko, które zostanie poruszone
- * @param {index:Position} direction - Ilość jednostek, o które zostanie przesunięte pudełko
+ * @see module:box#Box
+ * @name module:boxes#move
+ * @function
+ * @param {board:Board} board - {@link module:board#Board Board}
+ * @param {module:boxes#Boxes} boxes - {@link module:boxes#Boxes Boxes}
+ * @param {module:index#Position} startPosition - Pozycja w której znajduje się pudełko, które zostanie poruszone
+ * @param {module:index#Position} direction - Ilość jednostek, o które zostanie przesunięte pudełko
  * @returns {boolean} Pudełko zostało / nie zostało (na drodze stoi inne pudełko lub ściana) przesunięte
  */
 export function move(board, boxes, startPosition, direction) {
@@ -93,11 +104,13 @@ export function move(board, boxes, startPosition, direction) {
 /**
  * sprawdza czy pudełko w podanej pozycji może być przesunięte o podaną liczbę jednostek i jeśli tak, przesuwa je, oraz zwraca true, jeśli nie zwraca false.
  * Jeśli pudełko zostało przesunięte sprawdza czy pudełko znalazło się na celu.
- * @see box:Box
- * @param {board:Board} board - {@link board:Board}
- * @param {Boxes} boxes - {@link Boxes}
- * @param {index:Position} startPosition - Pozycja w której znajduje się pudełko, które zostanie prezsunięte
- * @param {indes:Position} direction - Liczba jednostek, o które zostanie przesunięte pudełko
+ * @see module:box#Box
+ * @name module:boxes#moveTo
+ * @function
+ * @param {board:Board} board - {@link module:board#Board Board}
+ * @param {module:boxes#Boxes} boxes - {@link module:boxes#Boxes Boxes}
+ * @param {module:index#Position} startPosition - Pozycja w której znajduje się pudełko, które zostanie prezsunięte
+ * @param {module:indes#Position} direction - Liczba jednostek, o które zostanie przesunięte pudełko
  * @returns {boolean} Pudełko zostało przesunięte / nie zostało przesunięte
  */
 export function moveTo(board, boxes, startPosition, direction) {
@@ -116,7 +129,9 @@ export function moveTo(board, boxes, startPosition, direction) {
 
 /**
  * Sprawdza czy pudełka są na polach z celami i zwraca true lub false.
- * @param {Boxes} boxes - {@link Boxes}
+ * @name module:boxes#isVictory
+ * @function
+ * @param {module:boxes#Boxes} boxes - {@link module:boxes#Boxes Boxes}
  * @returns {boolean} Pudełka są / nie są w wygrywającej pozycji
  */
 export function isVictory(boxes) {

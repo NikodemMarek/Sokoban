@@ -5,11 +5,12 @@
 import { OBJECT_SIZE, BOARD_SIZE } from '/src/constants.js'
 
 /**
- * Pozwala na rysowanie obrazów w {@link index:context}.
+ * Pozwala na rysowanie obrazów w {@link module:index#context context}.
+ * @name module:canvasImage#CanvasImage
  */
 export default class CanvasImage {
     /**
-     * Przyjmuje i zapisuje do zmiennej {@link index:context}.
+     * Przyjmuje i zapisuje do zmiennej {@link module:index#context context}.
      * Wczytuje obrazy elementów w grze.
      * @param {CanvasRenderingContext2D} context - Context w którym będą rysowane elementy
      */
@@ -29,6 +30,8 @@ export default class CanvasImage {
 
     /**
      * Rysuje tło na całej planszy.
+     * @name module:canvasImage#drawBackground
+     * @method
      */
     drawBackground() {
         this.context.drawImage(
@@ -40,7 +43,9 @@ export default class CanvasImage {
 
     /**
      * Rysuje magazyniera w danej pozycji na planszy.
-     * @param {index:Position} position - Pozycja w której będzie narysowany magazynier
+     * @name module:canvasImage#drawWorker
+     * @method
+     * @param {module:index#Position} position - Pozycja w której będzie narysowany magazynier
      */
     drawWorker(position) {
         this.context.drawImage(
@@ -51,7 +56,9 @@ export default class CanvasImage {
     }
     /**
      * Rysuje pudełko w danej pozycji na planszy.
-     * @param {index:Position} position - Pozycja w której będzie narysowane pudełko
+     * @name module:canvasImage#drawBox
+     * @method
+     * @param {module:index#Position} position - Pozycja w której będzie narysowane pudełko
      */
     drawBox(position) {
         this.context.drawImage(
@@ -63,7 +70,9 @@ export default class CanvasImage {
 
     /**
      * Rysuje ścianę w danej pozycji na planszy.
-     * @param {index:Position} position - Pozycja w której będzie narysowana ściana
+     * @name module:canvasImage#drawWall
+     * @method
+     * @param {module:index#Position} position - Pozycja w której będzie narysowana ściana
      */
     drawWall(position) {
         this.context.drawImage(
@@ -74,7 +83,9 @@ export default class CanvasImage {
     }
     /**
      * Rysuje cel w danej pozycji na planszy.
-     * @param {index:Position} position - Pozycja w której będzie narysowany cel
+     * @name module:canvasImage#drawTarget
+     * @method
+     * @param {module:index#Position} position - Pozycja w której będzie narysowany cel
      */
     drawTarget(position) {
         this.context.drawImage(
@@ -86,6 +97,8 @@ export default class CanvasImage {
 
     /**
      * Rysuje ekran wygranej na całej planszy.
+     * @name module:canvasImage#drawVictoryScreen
+     * @method
      */
     drawVictoryScreen() {
         this.context.drawImage(

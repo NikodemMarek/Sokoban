@@ -10,17 +10,17 @@ import { isWall, draw as drawBoard } from '/src/board/board.js'
 import GameHistory, { addMove, undoMove as undoMoveInHistory } from './gameHistory.js'
 import Board from '/src/board/board.js'
 
-
 /**
  * Przechowuje informacje o rozgrywanej grze.
+ * @name module:game#Game
  */
 export default class Game {
     /**
      * Przypisuje początkowe wartości zmiennym.
      * @param {CanvasRenderingContext2D} context - Context w którym będzie rysowana gra
-     * @param {CanvasImage} canvasImage - Obiekt {@link canvasImage:CanvasImage}
-     * @param {Level} level - Dane planszy
-     * @param {index:onVictory} onVictory - Funkcja wykonująca się wygranej
+     * @param {module:canvasImage#CanvasImage} canvasImage - {@link module:canvasImage#CanvasImage CanvasImage}
+     * @param {module:levelProvider#Level} level - Dane planszy
+     * @param {module:index#onVictory} onVictory - Funkcja wykonująca się wygranej
      * @param {number} movesMade - Ilość wykonanych ruchów
      * @param {number} movesUndone - Ilość cofniętych ruchów
      */
@@ -52,8 +52,10 @@ export default class Game {
  * Na początku sprawdza czy na drodze magazyniera nie stoi pudełko lub ściana, jeśli nie, porusza magazyniera o podaną odległość.
  * Jeśli na drodze magazyniera stoi pudełko funkcja sprawdza czy można nim poruszyć, jeśli tak, przesuwa magazyniera i pudełko, jeśli nie, nie robi nic.
  * Na końcu sprawdza czy nastąpiła wygrana.
- * @param {Game} game - Obiekt klasy {@link Game}
- * @param {index:Position} workerMovement - Ilość jednostek o które ma zostać przesunięty magazynier.
+ * @name module:game#update
+ * @function
+ * @param {module:game#Game} game - {@link module:game#Game Game}
+ * @param {module:index#Position} workerMovement - Ilość jednostek o które ma zostać przesunięty magazynier.
  */
 export function update(game, workerMovement) {
     if (!game.isPaused) {
@@ -89,7 +91,9 @@ export function update(game, workerMovement) {
 }
 /**
  * Rysuje obecny stan gry.
- * @param {Game} game - Obiekt klasy {@link Game}
+ * @name module:game#draw
+ * @function
+ * @param {module:game#Game} game - {@link module:game#Game Game}
  */
 export function draw(game) {
     if(!game.isPaused) {
@@ -104,7 +108,9 @@ export function draw(game) {
 /**
  * Cofa grę o jeden ruch do tyłu.
  * @see gameHistory
- * @param {Game} game - Obiekt klasy {@link Game}
+ * @name module:game#undoMove
+ * @function
+ * @param {module:game#Game} game - {@link module:game#Game Game}
  */
 export function undoMove(game) {
     game.movesUndone ++;
@@ -120,7 +126,9 @@ export function undoMove(game) {
 /**
  * Wykonuje się na końcu gry, podczas wygranej.
  * Liczy wynik i rysuje ekran wygranej.
- * @param {Game} game - Obiekt klasy {@link Game}
+ * @name module:game#victory
+ * @function
+ * @param {module:game#Game} game - {@link module:game#Game Game}
  */
 function victory(game) {
     stop(game);
@@ -135,7 +143,9 @@ function victory(game) {
 
 /**
  * Rozpoczyna lub wznawia grę.
- * @param {Game} game - Obiekt klasy {@link Game}
+ * @name module:game#start
+ * @function
+ * @param {module:game#Game} game - {@link module:game#Game Game}
  */
 export function start(game) {
     if(typeof game != 'undefined') {
@@ -145,7 +155,9 @@ export function start(game) {
 }
 /**
  * Zatrzymuje grę.
- * @param {Game} game - Obiekt klasy {@link Game}
+ * @name module:game#stop
+ * @function
+ * @param {module:game#Game} game - {@link module:game#Game Game}
  */
 export function stop(game) {
     if(typeof game != 'undefined') {

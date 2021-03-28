@@ -4,6 +4,7 @@
 
 /**
  * Klasa przechowuje wyniki z każdego poziomu w 2 trybie gry.
+ * @name module:scoreHolder#ScoreHolder
  */
 export default class ScoreHolder {
     /**
@@ -16,8 +17,10 @@ export default class ScoreHolder {
 }
 
 /**
- * Funkcja dodaje nowy wynik uzyskany z poziomu, do tablicy winików.
- * @param {ScoreHolder} scoreHolder - Obiekt klasy {@link ScoreHolder}
+ * Dodaje nowy wynik uzyskany z poziomu, do tablicy winików.
+ * @name module:scoreHolder#pushScore
+ * @function
+ * @param {module:scoreHolder#ScoreHolder} scoreHolder - {@link module:scoreHolder#ScoreHolder ScoreHolder}
  * @param {number} levelNumber - Numer poziomu na którym został zdobyty wynik
  * @param {number} score - Uzyskany wynik
  * @returns {number} Całkowity wynik zdobyty na wszystkich poziomach
@@ -36,8 +39,10 @@ export function pushScore(scoreHolder, levelNumber, score) {
 }
 
 /**
- * Funkcja usuwa wynik z tabeli wyników.
- * @param {ScoreHolder} scoreHolder - Obiekt klasy {@link ScoreHolder}
+ * Usuwa wynik z tabeli wyników.
+ * @name module:scoreHolder#removeScore
+ * @function
+ * @param {module:scoreHolder#ScoreHolder} scoreHolder - {@link module:scoreHolder#ScoreHolder ScoreHolder}
  * @param {number} levelNumber - Numer poziomu którego wynik zostanie usunięty
  * @returns {number} Całkowity wynik uzyskany ze wszystkich poziomów, bez usuniętego wyniku
  */

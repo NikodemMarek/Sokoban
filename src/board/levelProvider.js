@@ -9,18 +9,20 @@ import { BOARD_DIMENSIONS } from '/src/constants.js'
 import { readLevels } from '/src/storage/levelSaver.js'
 
 /**
- * Format poziomu używany przez klasę {@link game#Game}.
+ * Format poziomu używany przez klasę {@link module:game#Game Game}.
+ * @name module:levelProvider#Level
  * @typedef {{
- *          board: board:Board,
- *          worker: worker:Worker,
- *          boxes: boxes:Boxes
- *      }} Level
+ *          board: module:board#Board,
+ *          worker: module:worker#Worker,
+ *          boxes: module:boxes#Boxes
+ *      }} module:levelProvider#Level
  */
 
 /**
  * Wczytane poziomy z trybu 1, w postaci tekstu, podzielone na poziomy trudności.
  * Poziomy są wczytywane z assets\levels\levels_difficulty.json.
- * @see readLevelsByDifficulty
+ * @see module:levelProvider#readLevelsByDifficulty
+ * @name module:levelProvider#byDifficultyMode
  * @type {
  *      Array.<{
  *          string: Array.<{ name: string, data: string }>,
@@ -37,7 +39,8 @@ let byDifficultyMode = {
 /**
  * Wczytane poziomy z trybu 2, w postaci tekstu.
  * Poziomy są wczytywane z assets\levels\levels_levels_mode.json.
- * @see readLevelsLevelsByLevelNumber
+ * @see module:levelProvider#readLevelsLevelsByLevelNumber
+ * @name module:levelProvider#levelsMode
  * @type {
  *      Array.<{
  *          name: string,
@@ -49,7 +52,8 @@ let levelsMode = []
 /**
  * Wczytane poziomy stworzone przez gracza z trybu 3, w postaci tekstu.
  * Poziomy są wczytywane z localStorage.
- * @see readCustomLevels
+ * @see module:levelProvider#readCustomLevels
+ * @name module:levelProvider#customLevels
  * @type {
  *      Array.<{
  *          name: string,
@@ -60,11 +64,12 @@ let levelsMode = []
 let customLevels = []
 
 /**
- * Klasa która po włączeniu strony wczytuje poziomy.
+ * Po włączeniu strony wczytuje poziomy.
+ * @name module:levelProvider#LevelProvider
  */
 export default class LevelProvider {
     /**
-     * Konstruktor zwraca Promise który wczytuje poziomy.
+     * Zwraca Promise który wczytuje poziomy.
      * Poziomy do 1 i 2 trybu gry są wczytywane z assets\levels, a do 3 trybu z localStorage.
      * @returns {Promise} Promise wczytujący poziomy
      */
@@ -85,7 +90,9 @@ export default class LevelProvider {
 };
 
 /**
- * Funkcja wczytuje poziomy z assets\levels\levels_levels_mode.json do 1 trybu gry i zapisuje je do tablicy {@link byDifficultyMode}.
+ * Wczytuje poziomy z assets\levels\levels_levels_mode.json do 1 trybu gry i zapisuje je do tablicy {@link module:levelProvider#byDifficultyMode byDifficultyMode}.
+ * @name module:levelProvider#readLevelsByDifficulty
+ * @function
  */
 export async function readLevelsByDifficulty() {
     await fetch('/assets/levels/levels_difficulty.json')
@@ -99,7 +106,9 @@ export async function readLevelsByDifficulty() {
             });
 }
 /**
- * Funkcja wczytuje poziomy z assets\levels\levels_difficulty.json do 2 trybu gry i zapisuje je do tablicy {@link levelsMode}.
+ * Wczytuje poziomy z assets\levels\levels_difficulty.json do 2 trybu gry i zapisuje je do tablicy {@link module:levelProvider#levelsMode levelsMode}.
+ * @name module:levelProvider#readLevelsLevelsByLevelNumber
+ * @function
  */
 export async function readLevelsLevelsByLevelNumber() {
     await fetch('/assets/levels/levels_levels_mode.json')
@@ -111,15 +120,19 @@ export async function readLevelsLevelsByLevelNumber() {
             });
 }
 /**
- * Funkcja wczytuje poziomy z localStorage do 3 trybu gry i zapisuje je do tablicy {@link customLevels}.
- * @see {levelSaver:readLevels}
+ * Wczytuje poziomy z localStorage do 3 trybu gry i zapisuje je do tablicy {@link module:levelProvider#customLevels customLevels}.
+ * @name module:levelProvider#readCustomLevels
+ * @function
+ * @see module:levelSaver#readLevels
  */
 export function readCustomLevels() { customLevels = readLevels() }
 
 /**
- * Funkcja przyjmuje poziom w postaci tekstu i konwertuje go na {@link Level}.
+ * Przyjmuje poziom w postaci tekstu i konwertuje go na {@link module:levelProvider#Level Level}.
+ * @name module:levelProvider#convertToLevel
+ * @function
  * @param {string} rawLevel - Poziom w postaci tekstu
- * @returns {Level} Poziom po konwersji
+ * @returns {module:levelProvider#Level} Poziom po konwersji
  */
 function convertToLevel(rawLevel) {
     let row = 0;
@@ -163,14 +176,11 @@ function convertToLevel(rawLevel) {
 }
 
 /**
- * Funkcja zwraca losowy poziom o podanym poziomie trudności, z 1 trybu gry.
+ * Zwraca losowy poziom o podanym poziomie trudności, z 1 trybu gry.
+ * @name module:levelProvider#getLevelByDifficulty
+ * @function
  * @param {string} difficulty - Poziom trudności
- * @returns {
- *      {
- *          name: string,
- *          level: Level
- *      }
- * } Poziom z nazwą
+ * @returns {{ name: string, level: Level }} Poziom z nazwą
  */
 export function getLevelByDifficulty(difficulty) {
     let level = byDifficultyMode[difficulty][Math.floor(Math.random() * byDifficultyMode[difficulty].length)];
@@ -181,14 +191,11 @@ export function getLevelByDifficulty(difficulty) {
     }
 }
 /**
- * Funkcja zwraca poziom o podanym numerze, z 2 trybu gry.
+ * Zwraca poziom o podanym numerze, z 2 trybu gry.
+ * @name module:levelProvider#getLevelByLevelNumber
+ * @function
  * @param {number} levelNumber - Numer poziomu
- * @returns {
- *      {
- *          name: string,
- *          level: Level
- *      }
- * } Poziom z nazwą
+ * @returns {{ name: string, level: Level }} Poziom z nazwą
  */
 export function getLevelByLevelNumber(levelNumber) {
     let level = levelsMode.length > levelNumber ? levelsMode[levelNumber]: levelsMode[levelsMode.length - 1];
@@ -199,14 +206,11 @@ export function getLevelByLevelNumber(levelNumber) {
     }
 }
 /**
- * Funkcja zwraca poziom o podanej nazwie, z 3 trybu gry.
+ * Zwraca poziom o podanej nazwie, z 3 trybu gry.
+ * @name module:levelProvider#getCustomLevel
+ * @function
  * @param {string} levelName - Nazwa poziomu
- * @returns {
- *      {
- *          name: string,
- *          level: Level
- *      }
- * } Poziom z nazwą
+ * @returns {{ name: string, level: Level }} Poziom z nazwą
  */
 export function getCustomLevel(levelName) {
     let level = customLevels.find(level => level['name'] == levelName);
@@ -218,7 +222,9 @@ export function getCustomLevel(levelName) {
 }
 
 /**
- * Funkcja zwraca nazwy wczytanych poziomów z 3 trybu gry.
+ * Zwraca nazwy wczytanych poziomów z 3 trybu gry.
+ * @name module:levelProvider#getCustomLevelsNames
+ * @function
  * @returns {Array.<string>} 
  */
 export function getCustomLevelsNames() { return customLevels.map(level => level['name']) }
