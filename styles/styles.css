@@ -20,7 +20,6 @@ button {
     outline: none;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 200px;
 }
 
 strong {
@@ -44,14 +43,12 @@ strong {
 #menu {
     width: 210px;
     height: 600px;
-    background-color: gray;
     float: right;
 }
 
 #side_menu_form {
     width: 210px;
     height: 150px;
-    background-color: gray;
     float: right;
 }
 
@@ -67,7 +64,7 @@ strong {
     height: 50px;
     margin: 5px;
     padding-left: 10px;
-    background-color: white;
+    background-color: gainsboro;
     box-sizing: border-box;
     font-size: 20px;
     font-family: "Lucida Console", "Courier New", monospace;
@@ -79,7 +76,6 @@ strong {
 .side_menu {
     width: 210px;
     height: 600px;
-    background-color: gray;
     float: right;
 }
 
@@ -104,8 +100,8 @@ strong {
     margin: 5px;
     height: 50px;
     width: 200px;
-    box-shadow: 2px 2px gainsboro;
-    background-color: white;
+    box-shadow: 2px 2px gray;
+    background-color: gainsboro;
     border: none;
     border-radius: 20px;
     text-align: left;

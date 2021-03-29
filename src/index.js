@@ -413,6 +413,7 @@ function setGamemode(gamemodeToSet) {
             bReadGame.style.display = 'inline';
             bOpenScoreboard.style.display = 'inline';
 
+            currentLevel = 0;
             level = getLevelByLevelNumber(0);
             resetGame();
             break;
@@ -518,8 +519,8 @@ function createSideMenu(
         button.style.backgroundColor = 'gray';
 
         button.addEventListener('mouseenter', () => {
-            button.style.backgroundColor = 'white';
-            button.style.boxShadow = '2px 2px gainsboro';
+            button.style.backgroundColor = 'gainsboro';
+            button.style.boxShadow = '2px 2px gray';
         });
         button.addEventListener('mouseleave', () => {
             button.style.backgroundColor = 'gray';
@@ -729,7 +730,7 @@ function onLevelsRead() {
                 true, true, false, false,
                 readScoreboard(),
                 (score, index) => index + 1 + '. ' + score['name'] + ' - ' + score['score'],
-                (data) => {},
+                (data) => { iSideMenuInput.value = data['name']; },
                 'Nazwa wyniku',
                 'Dodaj wynik',
                 (inputValue) => { updateScoreboard(inputValue, scoreHolder.totalScore); }
