@@ -11,13 +11,21 @@ html {
 body {
     display: table-cell;
     vertical-align: middle;
-    background-color: gainsboro;
+    background-color: white;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+button {
+    font-size: 15px;
+    font-family: "Lucida Console", "Courier New", monospace;
+    outline: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
 }
 
 strong {
     padding-left: 5px;
     font-size: 15px;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 .invisible {
@@ -25,7 +33,7 @@ strong {
 }
 
 #d_game {
-    width: 1100px;
+    width: 1110px;
     height: 650px;
 }
 
@@ -34,57 +42,72 @@ strong {
 }
 
 #menu {
-    width: 200px;
+    width: 210px;
     height: 600px;
     background-color: gray;
     float: right;
 }
 
 #side_menu_form {
-    width: 200px;
+    width: 210px;
     height: 150px;
     background-color: gray;
     float: right;
 }
 
 #side_menu_list {
-    width: 200px;
-    height: 550px;
+    width: 210px;
+    height: 525px;
     overflow-y: scroll;
     overflow: overlay;
 }
 
 .text_input {
-    width: 180px;
-    height: 40px;
-    font-size: 20px;
-    margin: 10px;
-    border: none;
-    background-color: silver;
+    width: 200px;
+    height: 50px;
+    margin: 5px;
+    padding-left: 10px;
+    background-color: white;
     box-sizing: border-box;
+    font-size: 20px;
+    font-family: "Lucida Console", "Courier New", monospace;
+    outline: none;
+    border: none;
+    border-radius: 20px;
 }
 
 .side_menu {
-    width: 200px;
+    width: 210px;
     height: 600px;
     background-color: gray;
     float: right;
 }
 
 .menu_button {
+    margin: 5px;
     height: 50px;
     width: 200px;
     background-color: gray;
     border: none;
+    border-radius: 20px;
     text-align: left;
-    font-size: 15px;
+}
+
+.separator {
+    height: 1px;
+    width: 200px;
+    margin: 5px;
+    background-color: black;
 }
 
 .menu_button:hover {
+    margin: 5px;
     height: 50px;
     width: 200px;
-    background-color: gainsboro;
+    box-shadow: 2px 2px gainsboro;
+    background-color: white;
     border: none;
+    border-radius: 20px;
     text-align: left;
     font-size: 15px;
 }

@@ -17,6 +17,7 @@
         <div id="menu">
             <button id="b_reset_level" class="menu_button">Zresetuj poziom</button>
             <button id="b_undo_move" class="menu_button">Cofnij</button>
+            <div class="separator"></div>
 
             <button id="b_random_level" class="menu_button">Inny poziom</button>
 
@@ -28,23 +29,26 @@
             <button id="b_create_level" class="menu_button invisible">Stwórz poziom</button>
             <button id="b_remove_level" class="menu_button invisible">Usuń poziom</button>
             <button id="b_read_level" class="menu_button invisible">Wczytaj poziom</button>
+            <div class="separator"></div>
 
-            <div style="margin-top: 50px;"></div>
             <button id="b_change_gamemode" class="menu_button">Zmień tryb gry</button>
+            <div class="separator"></div>
 
-            <div style="margin-top: 50px;"></div>
-            <strong id="s_moves_number_label">Liczba ruchów: </strong><strong id="s_moves_number">0</strong>
             <div style="margin-top: 10px;"></div>
-            <strong id="s_total_score_label" class="invisible">Obecny wynik: </strong><strong id="s_total_score" class="invisible">0</strong>
+            <strong id="s_moves_number_label" style="margin-left: 5px;">Liczba ruchów: </strong><strong id="s_moves_number">0</strong>
+            <div style="margin-top: 10px;"></div>
+            <strong id="s_total_score_label" class="invisible" style="margin-left: 5px;">Obecny wynik: </strong><strong id="s_total_score" class="invisible">0</strong>
         </div>
 
         <div id="side_menu" class="side_menu invisible">
             <div id="side_menu_list">
                 <div id="side_menu_form" class="invisible">
-                    <input id="i_side_menu_input" class="text_input" type="text">
+                    <input id="i_side_menu_input" class="text_input" type="text" maxlength="25">
                     <button id="b_side_menu_confirm" class="menu_button"></button>
+                    <div class="separator"></div>
                 </div>
             </div>
+            <div class="separator"></div>
             <button id="b_side_menu_cancel" class="menu_button">Anuluj</button>
         </div>
 

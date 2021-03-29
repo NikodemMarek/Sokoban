@@ -488,6 +488,7 @@ function createSideMenu(
     listData,
     dataFormat,
     onButtonClick,
+    inputHint,
     confirmButtonLabel,
     onConfirm
 ) {
@@ -495,7 +496,13 @@ function createSideMenu(
 
     menu.style.display = 'none';
     sideMenu.style.display = 'inline';
-    if(isInput) sideMenuForm.style.display = 'inline';
+    if(isInput) {
+        sideMenuForm.style.display = 'inline';
+        iSideMenuInput.value = inputHint;
+
+        function onfocus() { if(iSideMenuInput.value == inputHint) iSideMenuInput.value = '' }
+        iSideMenuInput.onfocus = onfocus;
+    }
 
     while(sideMenuList.lastChild.id != 'side_menu_form') sideMenuList.removeChild(sideMenuList.lastChild);
 
@@ -504,11 +511,20 @@ function createSideMenu(
         button.innerText = dataFormat(data, index);
         button.style.width = '200px';
         button.style.height = '50px';
+        button.style.margin = '5px';
         button.style.border = 'none';
+        button.style.borderRadius = '20px';
+        button.style.outline = 'none';
         button.style.backgroundColor = 'gray';
 
-        button.addEventListener('mouseenter', () => { button.style.backgroundColor = 'gainsboro'; });
-        button.addEventListener('mouseleave', () => { button.style.backgroundColor = 'gray'; });
+        button.addEventListener('mouseenter', () => {
+            button.style.backgroundColor = 'white';
+            button.style.boxShadow = '2px 2px gainsboro';
+        });
+        button.addEventListener('mouseleave', () => {
+            button.style.backgroundColor = 'gray';
+            button.style.boxShadow = 'none';
+        });
 
         button.addEventListener('click', () => {
             onButtonClick(data);
@@ -624,6 +640,7 @@ function onLevelsRead() {
                 readGames(),
                 (save, index) => save['name'],
                 (save) => { iSideMenuInput.value = save['name']; },
+                'Nazwa zapisu',
                 'Zapisz',
                 (inputValue) => {
                     if(typeof game != 'undefined') {
@@ -710,6 +727,7 @@ function onLevelsRead() {
                 readScoreboard(),
                 (score, index) => index + 1 + '. ' + score['name'] + ' - ' + score['score'],
                 (data) => {},
+                'Nazwa wyniku',
                 'Dodaj wynik',
                 (inputValue) => { updateScoreboard(inputValue, scoreHolder.totalScore); }
             )
@@ -737,6 +755,7 @@ function onLevelsRead() {
             getCustomLevelsNames(),
             (levelName, index) => levelName,
             (levelName) => { iSideMenuInput.value = levelName; },
+            'Nazwa poziomu',
             'Zapisz poziom',
             (inputValue) => {
                 if(
