@@ -584,11 +584,12 @@ function init() {
 
     for(let i = 1; i <= 20; i ++) {
         let levelButton = document.createElement('button');
+        levelButton.id = 'b' + (i - 1);
         levelButton.innerText = i;
         levelButton.style.width = '45px';
         levelButton.style.height = '45px';
         levelButton.style.border = 'none';
-        levelButton.style.backgroundColor = levelsColors[i - 1];
+        levelButton.style.backgroundColor = i == 1? 'gray': levelsColors[i - 1];
 
         levelsModeMenu.appendChild(levelButton);
     }
@@ -629,9 +630,11 @@ function onLevelsRead() {
         resetGame();
     });
     bNextLevel.addEventListener('click', () => {
+        document.getElementById('b' + currentLevel).style.backgroundColor = levelsColors[currentLevel];
         level = getLevelByLevelNumber(++ currentLevel);
         resetGame();
         bNextLevel.style.display = 'none';
+        document.getElementById('b' + currentLevel).style.backgroundColor = 'gray';
     });
 
     bSaveGame.addEventListener('click', () => {
