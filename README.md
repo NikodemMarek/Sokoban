@@ -45,7 +45,7 @@ Implementacja gry logicznej Sokoban w języku JavaScript, stworzona na konkurs M
 
 
 ## Uruchamianie
-Grę można uruchomić lokalnie za pomocą rozszerzenia LiveServer lub zagrać w nią na stronie [http://sokoban.s3.warszawa.pl](http://sokoban.s3.warszawa.pl).
+Grę można uruchomić lokalnie za pomocą rozszerzenia LiveServer lub zagrać w nią na [https://nikodemmarek.github.io/sokoban/](https://nikodemmarek.github.io/sokoban/).
 
 ## Więcej informacji
 Dokumentacja projektu znajduje się w docs\index.html

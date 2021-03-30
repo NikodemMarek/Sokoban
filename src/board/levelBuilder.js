@@ -3,7 +3,7 @@
  */
 
 import BoardClickListener from '../input/boardClickListener.js'
-import Board, { draw as drawBoard, setElement, isWall, isTarget } from '../board/board.js'
+import Board, { draw as drawBoard, setElement, isWall, isTarget } from './board.js'
 import Boxes, { draw as drawBoxes, addBox, removeBox, isBox } from '../objects/boxes.js'
 import Box from '../objects/box.js'
 import Worker, { draw as drawWorker } from '../objects/worker.js'

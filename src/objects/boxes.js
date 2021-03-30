@@ -4,7 +4,7 @@
 
 import { events, playSound } from '../canvas/sounds.js'
 import { isWall, isTarget } from '../board/board.js'
-import { draw as drawBox, move as moveBox } from '../objects/box.js'
+import { draw as drawBox, move as moveBox } from './box.js'
 
 /**
  * Przechowuje informacje o wszystkich pudełkach w grze.
