@@ -95,7 +95,7 @@ export default class LevelProvider {
  * @function
  */
 export async function readLevelsByDifficulty() {
-    await fetch('/assets/levels/levels_difficulty.json')
+    await fetch('https://nikodemmarek.github.io/sokoban/assets/levels/levels_difficulty.json')
             .then(response => response.json())
             .then(levels => {
                 Object.keys(byDifficultyMode).forEach(difficulty => {
@@ -111,7 +111,7 @@ export async function readLevelsByDifficulty() {
  * @function
  */
 export async function readLevelsLevelsByLevelNumber() {
-    await fetch('/assets/levels/levels_levels_mode.json')
+    await fetch('https://nikodemmarek.github.io/sokoban/assets/levels/levels_levels_mode.json')
             .then(response => response.json())
             .then(levels => {
                 Object.keys(levels).forEach(key => {
