@@ -345,7 +345,7 @@ let levelsColors = [
 ];
 
 /**
- * Funkcja która ukrywa z wszystkie niepotrzebne elementy na ekranie i pokazuje te które są potrzebne na wybranym trybie gry.
+ * Ukrywa z wszystkie niepotrzebne elementy na ekranie i pokazuje te które są potrzebne na wybranym trybie gry.
  * @name module:index#setGamemode
  * @function
  * @param {number} gamemodeToSet - Tryb gry który zostanie ustawiony
@@ -433,7 +433,7 @@ function setGamemode(gamemodeToSet) {
 }
 
 /**
- * Funkcja która zostaje wykonana po wygraniu poziomu.
+ * Zostaje wykonana po wygraniu poziomu.
  * Liczy wynik i dodaje go do całkowitego wyniku, w 2 trybie gry.
  * Pokazuje przycisk następnego poziomu.
  * @see {@link module:game#victory}
@@ -455,7 +455,7 @@ function onVictory(movesMade, movesUndone) {
 }
 
 /**
- * Funkcja resetuje grę.
+ * Resetuje grę.
  * @see {@link module:game#Game}
  * @name module:index#resetGame
  * @function
@@ -469,7 +469,7 @@ function resetGame() {
 }
 
 /**
- * Funkcja tworzy menu boczne.
+ * Tworzy menu boczne.
  * @name module:index#createSideMenu
  * @function
  * @param {boolean} isInput - Pokazanie pola tekstowego i przycisku potwierdzenia na górze menu
@@ -547,28 +547,32 @@ function createSideMenu(
         sideMenuList.appendChild(button);
     });
 
-    if(isInput) {
-        bSideMenuConfirm.innerText = confirmButtonLabel;
-        bSideMenuConfirm.addEventListener('click', () => {
-            if(iSideMenuInput.value != '') onConfirm(iSideMenuInput.value);
-    
-            iSideMenuInput.value = '';
-            menu.style.display = 'inline';
-            sideMenu.style.display = 'none';
-            sideMenuForm.style.display = 'none';
-                
-            gameObjects.style.display = 'none';
+    function onSideMenuConfirm() {
+        if(iSideMenuInput.value != '') onConfirm(iSideMenuInput.value);
 
-            if(pauseGame) startGame(game);
-            if(pauseLevelBuilder) stopLevelBuilder(levelBuilder);
-        });
+        iSideMenuInput.value = '';
+        menu.style.display = 'inline';
+        sideMenu.style.display = 'none';
+        sideMenuForm.style.display = 'none';
+
+        bSideMenuConfirm.removeEventListener('click', onSideMenuConfirm, false);
+        
+        gameObjects.style.display = 'none';
+
+        if(pauseGame) startGame(game);
+        if(pauseLevelBuilder) stopLevelBuilder(levelBuilder);
     }
+
+    bSideMenuConfirm.innerText = confirmButtonLabel;
+    bSideMenuConfirm.addEventListener('click', onSideMenuConfirm);
 
     bSideMenuCancel.addEventListener('click', () => {
         iSideMenuInput.value = '';
         menu.style.display = 'inline';
         sideMenu.style.display = 'none';
         sideMenuForm.style.display = 'none';
+
+        bSideMenuConfirm.removeEventListener('click', onSideMenuConfirm, false);
                 
         gameObjects.style.display = 'none';
 
@@ -578,42 +582,12 @@ function createSideMenu(
 }
 
 /**
- * Funkcja która wykonuje się po wejściu na stronę i załadowaniu poziomów.
+ * Wykonuje się po wejściu na stronę i załadowaniu poziomów.
+ * Tworzy click listenery dla przycisków i pokazuje części menu.
  * @name module:index#init
  * @function
  */
 function init() {
-    level = getLevelByDifficulty(selectedDifficulty);
-    game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level['level'])), onVictory);
-
-    for(let i = 1; i <= 20; i ++) {
-        let levelButton = document.createElement('button');
-        levelButton.id = 'b' + (i - 1);
-        levelButton.innerText = i;
-        levelButton.style.width = '45px';
-        levelButton.style.height = '45px';
-        levelButton.style.border = 'none';
-        levelButton.style.backgroundColor = i == 1? 'gray': levelsColors[i - 1];
-
-        levelsModeMenu.appendChild(levelButton);
-    }
-
-    document.querySelectorAll('.clicky').forEach(element => {
-        element.addEventListener('mouseenter', () => { playSound(events.MENU_BUTTON_CLICK) });
-    });
-    document.querySelectorAll('.clicky').forEach(element => {
-        element.addEventListener('click', () => { playSound(events.MENU_BUTTON_HOVER) });
-    });
-
-    startGame(game);
-}
-
-/**
- * Funkcja która wykonuje po wejściu na stronę, załadowaniu poziomów i utworzeniu menu urzytkownika.
- * @name module:index#onLevelsRead
- * @function
- */
-function onLevelsRead() {
     prepareSounds();
 
     bResetLevel.addEventListener('click', () => {
@@ -829,8 +803,30 @@ function onLevelsRead() {
         level = getLevelByDifficulty('hard');
         resetGame();
     });
+    
+    level = getLevelByDifficulty(selectedDifficulty);
+    game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level['level'])), onVictory);
 
-    init();
+    for(let i = 1; i <= 20; i ++) {
+        let levelButton = document.createElement('button');
+        levelButton.id = 'b' + (i - 1);
+        levelButton.innerText = i;
+        levelButton.style.width = '45px';
+        levelButton.style.height = '45px';
+        levelButton.style.border = 'none';
+        levelButton.style.backgroundColor = i == 1? 'gray': levelsColors[i - 1];
+
+        levelsModeMenu.appendChild(levelButton);
+    }
+
+    document.querySelectorAll('.clicky').forEach(element => {
+        element.addEventListener('mouseenter', () => { playSound(events.MENU_BUTTON_CLICK) });
+    });
+    document.querySelectorAll('.clicky').forEach(element => {
+        element.addEventListener('click', () => { playSound(events.MENU_BUTTON_HOVER) });
+    });
+
+    startGame(game);
 }
 
 /**
@@ -839,5 +835,5 @@ function onLevelsRead() {
  * @return {Promise} Promise który wczytuje levele.
  */
 new LevelProvider()
-        .then(onLevelsRead)
+        .then(init)
         .catch(error => console.log(error));
