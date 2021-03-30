@@ -9,6 +9,7 @@ import { draw as drawBoxes, move as moveBoxes, isVictory } from '/src/objects/bo
 import { isWall, draw as drawBoard } from '/src/board/board.js'
 import GameHistory, { addMove, undoMove as undoMoveInHistory } from './gameHistory.js'
 import Board from '/src/board/board.js'
+import { events, playSound } from '/src/canvas/sounds.js'
 
 /**
  * Przechowuje informacje o rozgrywanej grze.
@@ -77,8 +78,8 @@ export function update(game, workerMovement) {
             moveWorker(game.worker, workerMovement);
 
             if (workerMovement.x != 0 || workerMovement.y != 0) {
+                playSound(events.WORKER_MOVE);
                 document.getElementById('s_moves_number').innerText = ++ game.movesMade;
-
                 addMove(game.gameHistory, game.worker, game.boxes, game.movesMade);
             }
         }
@@ -132,6 +133,7 @@ export function undoMove(game) {
  */
 function victory(game) {
     stop(game);
+    playSound(events.VICTORY);
 
     game.canvasImage.drawVictoryScreen();
 

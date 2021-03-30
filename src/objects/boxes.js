@@ -2,6 +2,7 @@
  * @module boxes
  */
 
+import { events, playSound } from '/src/canvas/sounds.js'
 import { isWall, isTarget } from '/src/board/board.js'
 import { draw as drawBox, move as moveBox } from '/src/objects/box.js'
 
@@ -121,7 +122,12 @@ export function moveTo(board, boxes, startPosition, direction) {
             box.position.x == startPosition.x &&
             box.position.y == startPosition.y
         ) if(!moveBox(box, direction)) canMove = false;
-        else box.inPlace = isTarget(board, box.position);
+        else {
+            let onTarget = isTarget(board, box.position);
+            box.inPlace = onTarget;
+            
+            if(onTarget) playSound(events.BOX_ON_TARGET);
+        }
     });
 
     return canMove;

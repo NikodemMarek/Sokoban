@@ -11,6 +11,7 @@ import CanvasImage from '/src/canvas/canvasImage.js'
 import { readScoreboard, updateScoreboard } from '/src/storage/scoreboard.js'
 import LevelBuilder, { start as startLevelBuilder, stop as stopLevelBuilder } from '/src/board/levelBuilder.js'
 import { saveLevel, removeLevel } from '/src/storage/levelSaver.js'
+import { prepareSounds, playSound, events } from '/src/canvas/sounds.js'
 
 /**
  * Pozycja na planszy, wymiary są podane w ilości elementów od boku planszy.
@@ -519,6 +520,7 @@ function createSideMenu(
         button.style.backgroundColor = 'gray';
 
         button.addEventListener('mouseenter', () => {
+            playSound(events.MENU_BUTTON_HOVER);
             button.style.backgroundColor = 'gainsboro';
             button.style.boxShadow = '2px 2px gray';
         });
@@ -528,6 +530,7 @@ function createSideMenu(
         });
 
         button.addEventListener('click', () => {
+            playSound(events.MENU_BUTTON_CLICK);
             onButtonClick(data);
 
             if(closeOnButtonClick) {
@@ -595,6 +598,13 @@ function init() {
         levelsModeMenu.appendChild(levelButton);
     }
 
+    document.querySelectorAll('.clicky').forEach(element => {
+        element.addEventListener('mouseenter', () => { playSound(events.MENU_BUTTON_CLICK) });
+    });
+    document.querySelectorAll('.clicky').forEach(element => {
+        element.addEventListener('click', () => { playSound(events.MENU_BUTTON_HOVER) });
+    });
+
     startGame(game);
 }
 
@@ -604,6 +614,8 @@ function init() {
  * @function
  */
 function onLevelsRead() {
+    prepareSounds();
+
     bResetLevel.addEventListener('click', () => {
         if(gamemode == gamemodes.LEVELS) {
             removeScore(scoreHolder, currentLevel);
