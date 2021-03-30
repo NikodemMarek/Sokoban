@@ -3,7 +3,7 @@
  * @module scoreboard
  */
 
-import { SCOREBOARD_PREFIX, SCOREBOARD_LENGTH } from '/src/constants.js'
+import { SCOREBOARD_PREFIX, SCOREBOARD_LENGTH } from '../constants.js'
 
 /**
  * Wczytuje wyniki z localStorage i sortuje je od najwyższego do najniższego.

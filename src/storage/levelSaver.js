@@ -3,7 +3,7 @@
  * @module levelSaver
  */
 
-import { BOARD_DIMENSIONS, CUSTOM_LEVEL_PREFIX } from '/src/constants.js'
+import { BOARD_DIMENSIONS, CUSTOM_LEVEL_PREFIX } from '../constants.js'
 
 /**
  * Zamienia dane o stworzonym poziomie na tekst i zapisuej je do localStorage.
