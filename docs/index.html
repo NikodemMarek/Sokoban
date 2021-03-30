@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Sokoban</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Sokoban</h1>
 
     
 
@@ -42,6 +42,58 @@
 
 
 
+    <section>
+        <article><h1>Gra Sokoban</h1>
+<p>Implementacja gry logicznej Sokoban w języku JavaScript, stworzona na konkurs Motorola Science Cup.</p>
+<h2>Rozgrywka</h2>
+<ol>
+<li>Zasady gry</li>
+</ol>
+<ul>
+<li>Gracz porusza się magazynierem po 2-wymiarowej planszy.</li>
+<li>Na planszy są pudełka, które magazynier może przesuwać.</li>
+<li>Magazynier może przesuwać 1 pudełko na raz.</li>
+<li>Celem gry jest przesunięcie wszystkich pudełek na miejsca docelowe.</li>
+<li>Na planszy są przeszkody w postaci ścian, magazynier ani pudełka nie mogą się znaleźć na polu ze ścianą.</li>
+<li>Na podstawie ilości ruchów, jaką wykonał magazynier, przyznawana jest ilość zdobytych punktów.</li>
+<li>Gracz ma możliwość zresetowania poziomu i cofnięcia ruchu.</li>
+<li>Cofnięcie ruchu spowoduje utratę punktów.</li>
+<li>Gracz może wybrać rozgrywkę na 1 z 3 trybów.</li>
+</ul>
+<ol start="2">
+<li>Tryb gry 1</li>
+</ol>
+<ul>
+<li>Gracz ma możliwość wybory 1 z 3 trybów trudności (łatwy,  średnio zaawansowany, trudny).</li>
+<li>Gracz ma możliwość zmienienia wybranego poziomu trudności.</li>
+<li>Po wybraniu trybu losowany jest poziom o wybranym poziomie trudności.</li>
+<li>Gracz może wylosować inny, losowy poziom, o wybranym poziomie trudności.</li>
+</ul>
+<ol start="3">
+<li>Tryb gry 2</li>
+</ol>
+<ul>
+<li>Gracz zaczyna rozgrywkę na pierwszym z 20 poziomów.</li>
+<li>Aby przejść do następnego poziomu, gracz musi wygrać obecny poziom.</li>
+<li>Gracz może zapisać i wczytać grę.</li>
+<li>W każdej chwili gracz może przerwać rozgrywkę i dodać wynik do rankingu.</li>
+<li>W rankingu zapisywanych jest 10 najlepszych wyników.</li>
+</ul>
+<ol start="4">
+<li>Tryb gry 3</li>
+</ol>
+<ul>
+<li>Gracz może stworzyć i zapisać swój własny poziom.</li>
+<li>Gracz może wczytać i zagrać na stworzonym przez siebie poziomie.</li>
+<li>Gracz może usunąć stworzony przez siebie poziom.</li>
+<li>Gracz ma możliwość zapisania i wczytania gry.</li>
+</ul>
+<h2>Uruchamianie</h2>
+<p>Grę można uruchomić lokalnie za pomocą rozszerzenia LiveServer lub zagrać w nią na stronie <a href="http://sokoban.s3.warszawa.pl">http://sokoban.s3.warszawa.pl</a>.</p>
+<h2>Więcej informacji</h2>
+<p>Dokumentacja projektu znajduje się w docs\index.html</p></article>
+    </section>
+
 
 
 
@@ -50,13 +102,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-board.html">board</a></li><li><a href="module-boardClickListener.html">boardClickListener</a></li><li><a href="module-box.html">box</a></li><li><a href="module-boxes.html">boxes</a></li><li><a href="module-canvasImage.html">canvasImage</a></li><li><a href="module-constants.html">constants</a></li><li><a href="module-game.html">game</a></li><li><a href="module-gameHistory.html">gameHistory</a></li><li><a href="module-gameSaver.html">gameSaver</a></li><li><a href="module-index.html">index</a></li><li><a href="module-inputHandler.html">inputHandler</a></li><li><a href="module-levelBuilder.html">levelBuilder</a></li><li><a href="module-levelProvider.html">levelProvider</a></li><li><a href="module-levelSaver.html">levelSaver</a></li><li><a href="module-scoreboard.html">scoreboard</a></li><li><a href="module-scoreCounter.html">scoreCounter</a></li><li><a href="module-scoreHolder.html">scoreHolder</a></li><li><a href="module-worker.html">worker</a></li></ul><h3>Classes</h3><ul><li><a href="module-board.html">board</a></li><li><a href="module-boardClickListener.html">boardClickListener</a></li><li><a href="module-box.html">box</a></li><li><a href="module-boxes.html">boxes</a></li><li><a href="module-canvasImage.html">canvasImage</a></li><li><a href="module-game.html">game</a></li><li><a href="module-gameHistory.html">gameHistory</a></li><li><a href="module-inputHandler.html">inputHandler</a></li><li><a href="module-levelBuilder.html">levelBuilder</a></li><li><a href="module-levelProvider.html">levelProvider</a></li><li><a href="module-scoreHolder.html">scoreHolder</a></li><li><a href="module-worker.html">worker</a></li></ul>
+    <h2><a href="index.html">Sokoban</a></h2><h3>Modules</h3><ul><li><a href="module-board.html">board</a></li><li><a href="module-boardClickListener.html">boardClickListener</a></li><li><a href="module-box.html">box</a></li><li><a href="module-boxes.html">boxes</a></li><li><a href="module-canvasImage.html">canvasImage</a></li><li><a href="module-constants.html">constants</a></li><li><a href="module-game.html">game</a></li><li><a href="module-gameHistory.html">gameHistory</a></li><li><a href="module-gameSaver.html">gameSaver</a></li><li><a href="module-index.html">index</a></li><li><a href="module-inputHandler.html">inputHandler</a></li><li><a href="module-levelBuilder.html">levelBuilder</a></li><li><a href="module-levelProvider.html">levelProvider</a></li><li><a href="module-levelSaver.html">levelSaver</a></li><li><a href="module-scoreboard.html">scoreboard</a></li><li><a href="module-scoreCounter.html">scoreCounter</a></li><li><a href="module-scoreHolder.html">scoreHolder</a></li><li><a href="module-sounds.html">sounds</a></li><li><a href="module-worker.html">worker</a></li></ul><h3>Classes</h3><ul><li><a href="module-board.html">board</a></li><li><a href="module-boardClickListener.html">boardClickListener</a></li><li><a href="module-box.html">box</a></li><li><a href="module-boxes.html">boxes</a></li><li><a href="module-canvasImage.html">canvasImage</a></li><li><a href="module-game.html">game</a></li><li><a href="module-gameHistory.html">gameHistory</a></li><li><a href="module-inputHandler.html">inputHandler</a></li><li><a href="module-levelBuilder.html">levelBuilder</a></li><li><a href="module-levelProvider.html">levelProvider</a></li><li><a href="module-scoreHolder.html">scoreHolder</a></li><li><a href="module-worker.html">worker</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun Mar 28 2021 22:07:22 GMT+0200 (czas środkowoeuropejski letni)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Tue Mar 30 2021 12:13:54 GMT+0200 (czas środkowoeuropejski letni)
 </footer>
 
 <script> prettyPrint(); </script>

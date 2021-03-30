@@ -39,6 +39,7 @@ import CanvasImage from '/src/canvas/canvasImage.js'
 import { readScoreboard, updateScoreboard } from '/src/storage/scoreboard.js'
 import LevelBuilder, { start as startLevelBuilder, stop as stopLevelBuilder } from '/src/board/levelBuilder.js'
 import { saveLevel, removeLevel } from '/src/storage/levelSaver.js'
+import { prepareSounds, playSound, events } from '/src/canvas/sounds.js'
 
 /**
  * Pozycja na planszy, wymiary są podane w ilości elementów od boku planszy.
@@ -337,13 +338,6 @@ let currentLevel = 0;
 let scoreHolder = new ScoreHolder();
 
 /**
- * Cofnięte ruchy w obecnie rozgrywanym poziomie.
- * @name module:index#movesUndone
- * @type {number}
- */
-let movesUndone = 0;
-
-/**
  * Dane obecnie rozgrywanego poziomu.
  * @name module:index#level
  * @type {{
@@ -379,7 +373,7 @@ let levelsColors = [
 ];
 
 /**
- * Funkcja która ukrywa z wszystkie niepotrzebne elementy na ekranie i pokazuje te które są potrzebne na wybranym trybie gry.
+ * Ukrywa z wszystkie niepotrzebne elementy na ekranie i pokazuje te które są potrzebne na wybranym trybie gry.
  * @name module:index#setGamemode
  * @function
  * @param {number} gamemodeToSet - Tryb gry który zostanie ustawiony
@@ -448,6 +442,7 @@ function setGamemode(gamemodeToSet) {
             bReadGame.style.display = 'inline';
             bOpenScoreboard.style.display = 'inline';
 
+            currentLevel = 0;
             level = getLevelByLevelNumber(0);
             resetGame();
             break;
@@ -466,7 +461,7 @@ function setGamemode(gamemodeToSet) {
 }
 
 /**
- * Funkcja która zostaje wykonana po wygraniu poziomu.
+ * Zostaje wykonana po wygraniu poziomu.
  * Liczy wynik i dodaje go do całkowitego wyniku, w 2 trybie gry.
  * Pokazuje przycisk następnego poziomu.
  * @see {@link module:game#victory}
@@ -488,7 +483,7 @@ function onVictory(movesMade, movesUndone) {
 }
 
 /**
- * Funkcja resetuje grę.
+ * Resetuje grę.
  * @see {@link module:game#Game}
  * @name module:index#resetGame
  * @function
@@ -502,7 +497,7 @@ function resetGame() {
 }
 
 /**
- * Funkcja tworzy menu boczne.
+ * Tworzy menu boczne.
  * @name module:index#createSideMenu
  * @function
  * @param {boolean} isInput - Pokazanie pola tekstowego i przycisku potwierdzenia na górze menu
@@ -523,6 +518,7 @@ function createSideMenu(
     listData,
     dataFormat,
     onButtonClick,
+    inputHint,
     confirmButtonLabel,
     onConfirm
 ) {
@@ -530,7 +526,13 @@ function createSideMenu(
 
     menu.style.display = 'none';
     sideMenu.style.display = 'inline';
-    if(isInput) sideMenuForm.style.display = 'inline';
+    if(isInput) {
+        sideMenuForm.style.display = 'inline';
+        iSideMenuInput.value = inputHint;
+
+        function onfocus() { if(iSideMenuInput.value == inputHint) iSideMenuInput.value = '' }
+        iSideMenuInput.onfocus = onfocus;
+    }
 
     while(sideMenuList.lastChild.id != 'side_menu_form') sideMenuList.removeChild(sideMenuList.lastChild);
 
@@ -539,13 +541,24 @@ function createSideMenu(
         button.innerText = dataFormat(data, index);
         button.style.width = '200px';
         button.style.height = '50px';
+        button.style.margin = '5px';
         button.style.border = 'none';
+        button.style.borderRadius = '20px';
+        button.style.outline = 'none';
         button.style.backgroundColor = 'gray';
 
-        button.addEventListener('mouseenter', () => { button.style.backgroundColor = 'gainsboro'; });
-        button.addEventListener('mouseleave', () => { button.style.backgroundColor = 'gray'; });
+        button.addEventListener('mouseenter', () => {
+            playSound(events.MENU_BUTTON_HOVER);
+            button.style.backgroundColor = 'gainsboro';
+            button.style.boxShadow = '2px 2px gray';
+        });
+        button.addEventListener('mouseleave', () => {
+            button.style.backgroundColor = 'gray';
+            button.style.boxShadow = 'none';
+        });
 
         button.addEventListener('click', () => {
+            playSound(events.MENU_BUTTON_CLICK);
             onButtonClick(data);
 
             if(closeOnButtonClick) {
@@ -562,28 +575,32 @@ function createSideMenu(
         sideMenuList.appendChild(button);
     });
 
-    if(isInput) {
-        bSideMenuConfirm.innerText = confirmButtonLabel;
-        bSideMenuConfirm.addEventListener('click', () => {
-            if(iSideMenuInput.value != '') onConfirm(iSideMenuInput.value);
-    
-            iSideMenuInput.value = '';
-            menu.style.display = 'inline';
-            sideMenu.style.display = 'none';
-            sideMenuForm.style.display = 'none';
-                
-            gameObjects.style.display = 'none';
+    function onSideMenuConfirm() {
+        if(iSideMenuInput.value != '') onConfirm(iSideMenuInput.value);
 
-            if(pauseGame) startGame(game);
-            if(pauseLevelBuilder) stopLevelBuilder(levelBuilder);
-        });
+        iSideMenuInput.value = '';
+        menu.style.display = 'inline';
+        sideMenu.style.display = 'none';
+        sideMenuForm.style.display = 'none';
+
+        bSideMenuConfirm.removeEventListener('click', onSideMenuConfirm, false);
+        
+        gameObjects.style.display = 'none';
+
+        if(pauseGame) startGame(game);
+        if(pauseLevelBuilder) stopLevelBuilder(levelBuilder);
     }
+
+    bSideMenuConfirm.innerText = confirmButtonLabel;
+    bSideMenuConfirm.addEventListener('click', onSideMenuConfirm);
 
     bSideMenuCancel.addEventListener('click', () => {
         iSideMenuInput.value = '';
         menu.style.display = 'inline';
         sideMenu.style.display = 'none';
         sideMenuForm.style.display = 'none';
+
+        bSideMenuConfirm.removeEventListener('click', onSideMenuConfirm, false);
                 
         gameObjects.style.display = 'none';
 
@@ -593,34 +610,14 @@ function createSideMenu(
 }
 
 /**
- * Funkcja która wykonuje się po wejściu na stronę i załadowaniu poziomów.
+ * Wykonuje się po wejściu na stronę i załadowaniu poziomów.
+ * Tworzy click listenery dla przycisków i pokazuje części menu.
  * @name module:index#init
  * @function
  */
 function init() {
-    level = getLevelByDifficulty(selectedDifficulty);
-    game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level['level'])), onVictory);
+    prepareSounds();
 
-    for(let i = 1; i &lt;= 20; i ++) {
-        let levelButton = document.createElement('button');
-        levelButton.innerText = i;
-        levelButton.style.width = '45px';
-        levelButton.style.height = '45px';
-        levelButton.style.border = 'none';
-        levelButton.style.backgroundColor = levelsColors[i - 1];
-
-        levelsModeMenu.appendChild(levelButton);
-    }
-
-    startGame(game);
-}
-
-/**
- * Funkcja która wykonuje po wejściu na stronę, załadowaniu poziomów i utworzeniu menu urzytkownika.
- * @name module:index#onLevelsRead
- * @function
- */
-function onLevelsRead() {
     bResetLevel.addEventListener('click', () => {
         if(gamemode == gamemodes.LEVELS) {
             removeScore(scoreHolder, currentLevel);
@@ -648,9 +645,11 @@ function onLevelsRead() {
         resetGame();
     });
     bNextLevel.addEventListener('click', () => {
+        document.getElementById('b' + currentLevel).style.backgroundColor = levelsColors[currentLevel];
         level = getLevelByLevelNumber(++ currentLevel);
         resetGame();
         bNextLevel.style.display = 'none';
+        document.getElementById('b' + currentLevel).style.backgroundColor = 'gray';
     });
 
     bSaveGame.addEventListener('click', () => {
@@ -659,6 +658,7 @@ function onLevelsRead() {
                 readGames(),
                 (save, index) => save['name'],
                 (save) => { iSideMenuInput.value = save['name']; },
+                'Nazwa zapisu',
                 'Zapisz',
                 (inputValue) => {
                     if(typeof game != 'undefined') {
@@ -669,7 +669,7 @@ function onLevelsRead() {
                                 game.worker,
                                 game.boxes,
                                 game.movesMade,
-                                movesUndone,
+                                game.movesUndone,
                                 scoreHolder.totalScore
                             );
                         } else {
@@ -679,7 +679,7 @@ function onLevelsRead() {
                                 game.worker,
                                 game.boxes,
                                 game.movesMade,
-                                movesUndone
+                                game.movesUndone
                             );
                         }
                     }
@@ -744,7 +744,8 @@ function onLevelsRead() {
                 true, true, false, false,
                 readScoreboard(),
                 (score, index) => index + 1 + '. ' + score['name'] + ' - ' + score['score'],
-                (data) => {},
+                (data) => { iSideMenuInput.value = data['name']; },
+                'Nazwa wyniku',
                 'Dodaj wynik',
                 (inputValue) => { updateScoreboard(inputValue, scoreHolder.totalScore); }
             )
@@ -772,6 +773,7 @@ function onLevelsRead() {
             getCustomLevelsNames(),
             (levelName, index) => levelName,
             (levelName) => { iSideMenuInput.value = levelName; },
+            'Nazwa poziomu',
             'Zapisz poziom',
             (inputValue) => {
                 if(
@@ -829,8 +831,30 @@ function onLevelsRead() {
         level = getLevelByDifficulty('hard');
         resetGame();
     });
+    
+    level = getLevelByDifficulty(selectedDifficulty);
+    game = new Game(context, canvasImage, JSON.parse(JSON.stringify(level['level'])), onVictory);
 
-    init();
+    for(let i = 1; i &lt;= 20; i ++) {
+        let levelButton = document.createElement('button');
+        levelButton.id = 'b' + (i - 1);
+        levelButton.innerText = i;
+        levelButton.style.width = '45px';
+        levelButton.style.height = '45px';
+        levelButton.style.border = 'none';
+        levelButton.style.backgroundColor = i == 1? 'gray': levelsColors[i - 1];
+
+        levelsModeMenu.appendChild(levelButton);
+    }
+
+    document.querySelectorAll('.clicky').forEach(element => {
+        element.addEventListener('mouseenter', () => { playSound(events.MENU_BUTTON_CLICK) });
+    });
+    document.querySelectorAll('.clicky').forEach(element => {
+        element.addEventListener('click', () => { playSound(events.MENU_BUTTON_HOVER) });
+    });
+
+    startGame(game);
 }
 
 /**
@@ -839,7 +863,7 @@ function onLevelsRead() {
  * @return {Promise} Promise który wczytuje levele.
  */
 new LevelProvider()
-        .then(onLevelsRead)
+        .then(init)
         .catch(error => console.log(error));</code></pre>
         </article>
     </section>
@@ -850,13 +874,13 @@ new LevelProvider()
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-board.html">board</a></li><li><a href="module-boardClickListener.html">boardClickListener</a></li><li><a href="module-box.html">box</a></li><li><a href="module-boxes.html">boxes</a></li><li><a href="module-canvasImage.html">canvasImage</a></li><li><a href="module-constants.html">constants</a></li><li><a href="module-game.html">game</a></li><li><a href="module-gameHistory.html">gameHistory</a></li><li><a href="module-gameSaver.html">gameSaver</a></li><li><a href="module-index.html">index</a></li><li><a href="module-inputHandler.html">inputHandler</a></li><li><a href="module-levelBuilder.html">levelBuilder</a></li><li><a href="module-levelProvider.html">levelProvider</a></li><li><a href="module-levelSaver.html">levelSaver</a></li><li><a href="module-scoreboard.html">scoreboard</a></li><li><a href="module-scoreCounter.html">scoreCounter</a></li><li><a href="module-scoreHolder.html">scoreHolder</a></li><li><a href="module-worker.html">worker</a></li></ul><h3>Classes</h3><ul><li><a href="module-board.html">board</a></li><li><a href="module-boardClickListener.html">boardClickListener</a></li><li><a href="module-box.html">box</a></li><li><a href="module-boxes.html">boxes</a></li><li><a href="module-canvasImage.html">canvasImage</a></li><li><a href="module-game.html">game</a></li><li><a href="module-gameHistory.html">gameHistory</a></li><li><a href="module-inputHandler.html">inputHandler</a></li><li><a href="module-levelBuilder.html">levelBuilder</a></li><li><a href="module-levelProvider.html">levelProvider</a></li><li><a href="module-scoreHolder.html">scoreHolder</a></li><li><a href="module-worker.html">worker</a></li></ul>
+    <h2><a href="index.html">Sokoban</a></h2><h3>Modules</h3><ul><li><a href="module-board.html">board</a></li><li><a href="module-boardClickListener.html">boardClickListener</a></li><li><a href="module-box.html">box</a></li><li><a href="module-boxes.html">boxes</a></li><li><a href="module-canvasImage.html">canvasImage</a></li><li><a href="module-constants.html">constants</a></li><li><a href="module-game.html">game</a></li><li><a href="module-gameHistory.html">gameHistory</a></li><li><a href="module-gameSaver.html">gameSaver</a></li><li><a href="module-index.html">index</a></li><li><a href="module-inputHandler.html">inputHandler</a></li><li><a href="module-levelBuilder.html">levelBuilder</a></li><li><a href="module-levelProvider.html">levelProvider</a></li><li><a href="module-levelSaver.html">levelSaver</a></li><li><a href="module-scoreboard.html">scoreboard</a></li><li><a href="module-scoreCounter.html">scoreCounter</a></li><li><a href="module-scoreHolder.html">scoreHolder</a></li><li><a href="module-sounds.html">sounds</a></li><li><a href="module-worker.html">worker</a></li></ul><h3>Classes</h3><ul><li><a href="module-board.html">board</a></li><li><a href="module-boardClickListener.html">boardClickListener</a></li><li><a href="module-box.html">box</a></li><li><a href="module-boxes.html">boxes</a></li><li><a href="module-canvasImage.html">canvasImage</a></li><li><a href="module-game.html">game</a></li><li><a href="module-gameHistory.html">gameHistory</a></li><li><a href="module-inputHandler.html">inputHandler</a></li><li><a href="module-levelBuilder.html">levelBuilder</a></li><li><a href="module-levelProvider.html">levelProvider</a></li><li><a href="module-scoreHolder.html">scoreHolder</a></li><li><a href="module-worker.html">worker</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun Mar 28 2021 22:07:22 GMT+0200 (czas środkowoeuropejski letni)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Tue Mar 30 2021 12:13:54 GMT+0200 (czas środkowoeuropejski letni)
 </footer>
 
 <script> prettyPrint(); </script>
