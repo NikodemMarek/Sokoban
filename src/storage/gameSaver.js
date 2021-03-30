@@ -3,7 +3,7 @@
  * @module gameSaver
  */
 
-import { CUSTOM_SAVE_PREFIX, SAVED_GAME_PREFIX } from '/src/constants.js'
+import { CUSTOM_SAVE_PREFIX, SAVED_GAME_PREFIX } from '../constants.js'
 
 /**
  * Funkcja konwertuje dane o grze w trybie 2 do postaci tekstowej i zapisuje je do localStorage.
