@@ -2,7 +2,7 @@
  * @module canvasImage
  */
 
-import { OBJECT_SIZE, BOARD_SIZE } from '/src/constants.js'
+import { OBJECT_SIZE, BOARD_SIZE } from '../constants.js'
 
 /**
  * Pozwala na rysowanie obrazów w {@link module:index#context context}.

@@ -2,8 +2,8 @@
  * @module boardClickListener
  */
 
-import { draw, update } from '/src/board/levelBuilder.js';
-import { OBJECT_SIZE } from '/src/constants.js'
+import { draw, update } from '../board/levelBuilder.js';
+import { OBJECT_SIZE } from '../constants.js'
 
 /**
  * Pozwala na wykrycie kliknięć na planszę.

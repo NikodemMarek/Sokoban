@@ -2,7 +2,7 @@
  * @module box
  */
 
-import { BOARD_DIMENSIONS } from '/src/constants.js'
+import { BOARD_DIMENSIONS } from '../constants.js'
 
 /**
  * Przechowuje informacje o pudełku i pozwala na wykonywanie operacji na nim.

@@ -2,14 +2,14 @@
  * @module game
  */
 
-import InputHandler from '/src/input/inputHandler.js'
-import { draw as drawWorker, move as moveWorker } from '/src/objects/worker.js'
-import { BOARD_SIZE } from '/src/constants.js'
-import { draw as drawBoxes, move as moveBoxes, isVictory } from '/src/objects/boxes.js'
-import { isWall, draw as drawBoard } from '/src/board/board.js'
+import InputHandler from '../input/inputHandler.js'
+import { draw as drawWorker, move as moveWorker } from '../objects/worker.js'
+import { BOARD_SIZE } from '../constants.js'
+import { draw as drawBoxes, move as moveBoxes, isVictory } from '../objects/boxes.js'
+import { isWall, draw as drawBoard } from '../board/board.js'
 import GameHistory, { addMove, undoMove as undoMoveInHistory } from './gameHistory.js'
-import Board from '/src/board/board.js'
-import { events, playSound } from '/src/canvas/sounds.js'
+import Board from '../board/board.js'
+import { events, playSound } from '../canvas/sounds.js'
 
 /**
  * Przechowuje informacje o rozgrywanej grze.

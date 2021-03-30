@@ -2,11 +2,11 @@
  * @module levelProvider
  */
 
-import Worker from '/src/objects/worker.js'
-import Boxes, { addBox } from '/src/objects/boxes.js'
-import Box from '/src/objects/box.js'
-import { BOARD_DIMENSIONS } from '/src/constants.js'
-import { readLevels } from '/src/storage/levelSaver.js'
+import Worker from '../objects/worker.js'
+import Boxes, { addBox } from '../objects/boxes.js'
+import Box from '../objects/box.js'
+import { BOARD_DIMENSIONS } from '../constants.js'
+import { readLevels } from '../storage/levelSaver.js'
 
 /**
  * Format poziomu używany przez klasę {@link module:game#Game Game}.

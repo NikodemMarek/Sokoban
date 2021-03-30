@@ -2,11 +2,11 @@
  * @module levelBuilder
  */
 
-import BoardClickListener from '/src/input/boardClickListener.js'
-import Board, { draw as drawBoard, setElement, isWall, isTarget } from '/src/board/board.js'
-import Boxes, { draw as drawBoxes, addBox, removeBox, isBox } from '/src/objects/boxes.js'
-import Box from '/src/objects/box.js'
-import Worker, { draw as drawWorker } from '/src/objects/worker.js'
+import BoardClickListener from '../input/boardClickListener.js'
+import Board, { draw as drawBoard, setElement, isWall, isTarget } from '../board/board.js'
+import Boxes, { draw as drawBoxes, addBox, removeBox, isBox } from '../objects/boxes.js'
+import Box from '../objects/box.js'
+import Worker, { draw as drawWorker } from '../objects/worker.js'
 
 /**
  * Przechowywuje informacje o obecnie edytowanym poziomie.

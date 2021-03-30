@@ -2,16 +2,16 @@
  * @module index
  */
 
-import Game, { start as startGame, stop as stopGame, undoMove } from '/src/game/game.js'
-import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber, getCustomLevelsNames, getCustomLevel, readCustomLevels } from '/src/board/levelProvider.js'
-import { calculateScore } from '/src/game/scoreCounter.js'
-import ScoreHolder, { pushScore, removeScore } from '/src/board/scoreHolder.js'
-import { saveGame, readGames, readCustomGames, saveCustomGame } from '/src/storage/gameSaver.js'
-import CanvasImage from '/src/canvas/canvasImage.js'
-import { readScoreboard, updateScoreboard } from '/src/storage/scoreboard.js'
-import LevelBuilder, { start as startLevelBuilder, stop as stopLevelBuilder } from '/src/board/levelBuilder.js'
-import { saveLevel, removeLevel } from '/src/storage/levelSaver.js'
-import { prepareSounds, playSound, events } from '/src/canvas/sounds.js'
+import Game, { start as startGame, stop as stopGame, undoMove } from './game/game.js'
+import LevelProvider, { getLevelByDifficulty, getLevelByLevelNumber, getCustomLevelsNames, getCustomLevel, readCustomLevels } from './board/levelProvider.js'
+import { calculateScore } from './game/scoreCounter.js'
+import ScoreHolder, { pushScore, removeScore } from './board/scoreHolder.js'
+import { saveGame, readGames, readCustomGames, saveCustomGame } from './storage/gameSaver.js'
+import CanvasImage from './canvas/canvasImage.js'
+import { readScoreboard, updateScoreboard } from './storage/scoreboard.js'
+import LevelBuilder, { start as startLevelBuilder, stop as stopLevelBuilder } from './board/levelBuilder.js'
+import { saveLevel, removeLevel } from './storage/levelSaver.js'
+import { prepareSounds, playSound, events } from './canvas/sounds.js'
 
 /**
  * Pozycja na planszy, wymiary są podane w ilości elementów od boku planszy.

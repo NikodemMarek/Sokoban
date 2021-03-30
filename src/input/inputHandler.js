@@ -2,7 +2,7 @@
  * @module inputHandler
  */
 
-import { update, draw } from '/src/game/game.js'
+import { update, draw } from '../game/game.js'
 
 /**
  * Pozwala na wykrycie kliknięcia przycisku na klawiaturze.

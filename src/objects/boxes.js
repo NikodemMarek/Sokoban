@@ -2,9 +2,9 @@
  * @module boxes
  */
 
-import { events, playSound } from '/src/canvas/sounds.js'
-import { isWall, isTarget } from '/src/board/board.js'
-import { draw as drawBox, move as moveBox } from '/src/objects/box.js'
+import { events, playSound } from '../canvas/sounds.js'
+import { isWall, isTarget } from '../board/board.js'
+import { draw as drawBox, move as moveBox } from '../objects/box.js'
 
 /**
  * Przechowuje informacje o wszystkich pudełkach w grze.

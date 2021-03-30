@@ -2,7 +2,7 @@
  * @module worker
  */
 
-import { BOARD_DIMENSIONS } from '/src/constants.js'
+import { BOARD_DIMENSIONS } from '../constants.js'
 
 /**
  * Przechowuje informacje o magazynierze i pozwala na wykonywanie na nim operacji.

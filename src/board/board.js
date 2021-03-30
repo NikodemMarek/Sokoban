@@ -2,7 +2,7 @@
  * @module board
  */
 
-import { BOARD_DIMENSIONS } from "/src/constants.js";
+import { BOARD_DIMENSIONS } from "../constants.js";
 
 /**
  * Klasa przechowywuje planszę i canvasImage, ułatwia operacje na planszy.

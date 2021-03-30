@@ -2,7 +2,7 @@
  * @module gameHistory
  */
 
-import { MOVES_HISTORY } from '/src/constants.js'
+import { MOVES_HISTORY } from '../constants.js'
 
 /**
  * Dane elementów gry po wykonaniu ruchu.
